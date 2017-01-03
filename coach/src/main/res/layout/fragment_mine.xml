@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/base_theme"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@drawable/me_background"
+        android:layout_width="match_parent"
+        android:layout_height="165dp">
+
+        <ImageView
+            android:id="@+id/img_class_warn"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/shape_circle_red"
+            />
+          <TextView
+              android:id="@+id/txt_next_month_class"
+              android:clickable="true"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/img_class_warn"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="15dp"
+              android:text="@string/next_month_class"
+              android:textSize="13dp"
+              android:textColor="@color/base_theme"
+
+              />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_avatar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            fresco:placeholderImage="@drawable/big_icon_head"
+            fresco:roundAsCircle="true"
+            android:clickable="true"
+
+            />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_avatar"
+            android:layout_centerHorizontal="true"
+            android:textSize="17dp"
+            android:textColor="@color/white"
+            android:text="David"
+            android:layout_marginTop="15dp"
+            />
+
+
+        <ImageView
+            android:id="@+id/img_center_divider"
+            android:layout_below="@id/txt_name"
+            android:layout_marginTop="22dp"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:src="@color/white"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/txt_attendance_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/txt_name"
+            android:layout_marginTop="22dp"
+            android:layout_toRightOf="@id/img_center_divider"
+            android:layout_marginLeft="40dp"
+            android:textSize="15dp"
+            android:text="80%"
+            />
+
+        <TextView
+            android:id="@+id/txt_star_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/txt_name"
+            android:layout_marginTop="22dp"
+            android:layout_toLeftOf="@id/img_center_divider"
+            android:layout_marginRight="40dp"
+            android:textSize="15dp"
+            android:text="5.0"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_mine_money"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            style="@style/common_img_left_style"
+            android:src="@drawable/icon_money"
+            />
+
+        <TextView
+            style="@style/Common_txt_style"
+            android:text="@string/my_money"
+            />
+
+        <ImageView
+            style="@style/common_divider_style"
+            />
+
+        <ImageView
+            style="@style/common_img_right_style"
+            android:src="@drawable/arrow_right"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_my_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            style="@style/common_img_left_style"
+            android:src="@drawable/icon_yuyue"
+            />
+
+        <TextView
+            style="@style/Common_txt_style"
+            android:text="@string/my_appointment"
+            />
+
+        <ImageView
+            style="@style/common_divider_style"
+            />
+
+        <ImageView
+            style="@style/common_img_right_style"
+            android:src="@drawable/arrow_right"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_message"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            style="@style/common_img_left_style"
+            android:src="@drawable/me_icon_massage"
+            />
+
+        <TextView
+            style="@style/Common_txt_style"
+            android:text="@string/message_center"
+            />
+
+        <ImageView
+            style="@style/common_divider_style"
+            />
+
+        <ImageView
+            style="@style/common_img_right_style"
+            android:src="@drawable/arrow_right"
+            />
+
+        <ImageView
+            android:id="@+id/img_new_message"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="37dp"
+            android:src="@drawable/shape_circle_red"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_my_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            style="@style/common_img_left_style"
+            android:src="@drawable/icon_sign"
+            />
+
+        <TextView
+            style="@style/Common_txt_style"
+            android:text="@string/check_sign"
+            />
+
+        <ImageView
+            style="@style/common_divider_style"
+            />
+
+        <ImageView
+            style="@style/common_img_right_style"
+            android:src="@drawable/arrow_right"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_setting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            style="@style/common_img_left_style"
+            android:src="@drawable/icon_set"
+            />
+
+        <TextView
+            style="@style/Common_txt_style"
+            android:text="@string/set"
+            />
+
+        <ImageView
+            style="@style/common_divider_style"
+            />
+
+        <ImageView
+            style="@style/common_img_right_style"
+            android:src="@drawable/arrow_right"
+            />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

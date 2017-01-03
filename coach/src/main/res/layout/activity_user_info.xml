@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+   <com.leyuan.coach.widget.CommonTitleLayout
+       android:id="@+id/title_layout"
+       android:layout_width="match_parent"
+       android:layout_height="45dp"
+       app:txtTitle="@string/personal_data"
+
+       />
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/avatar"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+     <com.facebook.drawee.view.SimpleDraweeView
+         android:id="@+id/img_avatar"
+         android:layout_width="40dp"
+         android:layout_height="40dp"
+         android:layout_centerVertical="true"
+         android:layout_alignParentRight="true"
+         android:layout_marginRight="15dp"
+         app:placeholderImage="@drawable/big_icon_head"
+         app:roundAsCircle="true"
+
+         />
+
+   </RelativeLayout>
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/name"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_name"
+          style="@style/Common_txt_right_style"
+          android:text="David" />
+
+   </RelativeLayout>
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/gender"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_gender"
+          style="@style/Common_txt_right_style"
+          android:text="woman" />
+
+   </RelativeLayout>
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/level"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_level"
+          style="@style/Common_txt_right_style"
+          android:text="LV2" />
+
+   </RelativeLayout>
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/service_type"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_service_type"
+          style="@style/Common_txt_right_style"
+          android:text="woman" />
+
+   </RelativeLayout>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/birthday"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_birthday"
+          style="@style/Common_txt_right_style"
+          android:text="1990-0-16" />
+
+   </RelativeLayout>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/credentials_number"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_number"
+          style="@style/Common_txt_right_style"
+          android:text="42232" />
+
+   </RelativeLayout>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="50dp"
+       >
+      <TextView
+          style="@style/Common_txt_left_style"
+          android:text="@string/number_phone"
+          />
+
+      <ImageView
+          style="@style/common_left_divider_style"
+          />
+
+      <TextView
+          android:id="@+id/txt_phone"
+          style="@style/Common_txt_right_style"
+          android:text="133333222282" />
+
+   </RelativeLayout>
+
+
+</LinearLayout>

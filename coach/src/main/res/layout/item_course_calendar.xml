@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:id="@+id/layout_root"
+    android:background="@color/white"
+    android:layout_width="152dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_height="41dp">
+    
+    <LinearLayout
+        android:layout_width="114dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:text="12-12  111"
+
+        />
+
+    <TextView
+        android:id="@+id/txt_course_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textSize="13dp"
+        android:textColor="@color/red_origin"
+        android:text="333"
+        />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="0.5dp"
+        android:layout_height="26dp"
+        android:background="@color/common_divider_color"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+android:src="@drawable/icon_calender"
+        />
+</LinearLayout>
+
+</FrameLayout>
