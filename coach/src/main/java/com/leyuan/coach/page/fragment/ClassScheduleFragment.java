@@ -19,12 +19,13 @@ import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.StringConstant;
 import com.leyuan.coach.page.BaseFragment;
+import com.leyuan.coach.page.activity.course.CalendarActivity;
 import com.leyuan.coach.page.activity.course.MapActivity;
-import com.leyuan.coach.page.activity.course.CalendarActivityOld;
 import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -96,9 +97,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     private void initView() {
 
         LinearLayoutManager managerHorizontal = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-//        courseAdapterHorizontal = new CourseAdapterHorizontal(getActivity());
         recyclerHan.setLayoutManager(managerHorizontal);
-//        recyclerHan.setAdapter(courseAdapterHorizontal);
 
         LinearLayoutManager managerVertical = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         courseAdapterVertical = new CourseAdapterVertical(getActivity(), this);
@@ -116,7 +115,6 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
 
-        presenter.getReplaceCourseList();
     }
 
     @Override
@@ -142,7 +140,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
                 bundle.putInt(StringConstant.POSITION, currentPosition);
 //                bundle.putSerializable(StringConstant.ARRAY,myCalendars);
                 bundle.putParcelableArrayList(StringConstant.ARRAY, myCalendars);
-                UiManager.activityJump(getActivity(), bundle, CalendarActivityOld.class, Constant.REQUEST_CALENDAR);
+                UiManager.activityJumpForResult(getActivity(), bundle, CalendarActivity.class, Constant.REQUEST_CALENDAR);
             }
         });
         recyclerHan.setAdapter(courseAdapterHorizontal);
@@ -196,26 +194,26 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Constant.REQUEST_CALENDAR:
-                if (requestCode == Constant.RESULT_CALENDAR) {
-                    int selectPosition = data.getIntExtra(Constant.SELECT_CALENDAR_DAY, 0);
+//        switch (requestCode) {
+//            case Constant.REQUEST_CALENDAR:
+//                if (resultCode == Constant.RESULT_CALENDAR) {
+        int selectPosition = data.getIntExtra(Constant.SELECT_CALENDAR_DAY, 0);
+        LogUtil.i("ClassScheduleFragment", "onActivityResult positionClicked  = " + selectPosition);
+        recyclerHan.scrollToPosition(selectPosition);
 
-                    if (selectPosition > myCalendars.get(0).getDayList().length - 1) {
-                        selectPosition = selectPosition - myCalendars.get(0).getDayList().length;
-                        currentDate = myCalendars.get(1).getTimeMouth() + NumberUtils.intToString(selectPosition);
-                    } else {
-                        currentDate = myCalendars.get(0).getTimeMouth() + NumberUtils.intToString(selectPosition);
-                    }
-                    presenter.getCourseList(currentDate);
-
-                    recyclerHan.smoothScrollToPosition(selectPosition);
-
-
-                }
-
-                break;
+        if (selectPosition > myCalendars.get(0).getDayList().length - 1) {
+            selectPosition = selectPosition - myCalendars.get(0).getDayList().length;
+            currentDate = myCalendars.get(1).getTimeMouth() + NumberUtils.intToString(selectPosition);
+        } else {
+            currentDate = myCalendars.get(0).getTimeMouth() + NumberUtils.intToString(selectPosition);
         }
+
+        presenter.getCourseList(currentDate);
+
+//                }
+//
+//                break;
+//        }
     }
 
     @Override

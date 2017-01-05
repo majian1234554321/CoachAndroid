@@ -3,6 +3,7 @@ package com.leyuan.coach.page.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,18 +17,22 @@ import com.leyuan.commonlibrary.util.MyDateUtils;
  */
 public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapter.ViewHolder> {
 
+    private LayoutInflater mInflater;
     private int fristWeekDay;
     private Context context;
     private int[] dayList;
     private int currentDay = -1;
     private int positionClicked = -1;
-    private CalendarAdapterOld.OnCalendarClickListener listener;
+    private OnCalendarClickListener listener;
 
     public CalendarItemAdapter(Context context, int[] dayList, String month) {
         this.context = context;
         this.dayList = dayList;
         fristWeekDay = MyDateUtils.getFirstWeekDayByMonth(month);
         currentDay = MyDateUtils.getCurrentDay(month);
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     public CalendarItemAdapter(Context context, int[] dayList, String month, int positionClicked) {
@@ -36,6 +41,9 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         fristWeekDay = MyDateUtils.getFirstWeekDayByMonth(month);
         currentDay = MyDateUtils.getCurrentDay(month);
         this.positionClicked = positionClicked;
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     public CalendarItemAdapter(Context context, int[] dayList
@@ -45,13 +53,15 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         this.fristWeekDay = fristWeekDay;
         this.currentDay = currentDay;
         this.positionClicked = positionClicked;
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = View.inflate(context, R.layout.item_calendar_old, null);
+        View view = mInflater.inflate(R.layout.item_calendar_old, parent, false);
         return new CalendarItemAdapter.ViewHolder(view);
     }
 
@@ -124,7 +134,7 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         }
     }
 
-    public void setOnCalendarClickListener(CalendarAdapterOld.OnCalendarClickListener listener) {
+    public void setOnCalendarClickListener(OnCalendarClickListener listener) {
         this.listener = listener;
     }
 

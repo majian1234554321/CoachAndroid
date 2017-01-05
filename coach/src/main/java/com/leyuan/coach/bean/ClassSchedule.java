@@ -11,17 +11,34 @@ public class ClassSchedule implements Parcelable {
     int timetableId; // ID
     String courseName; //  课程名称
     String storeName; //  门店名称
-    String  beginTime; //  开始时间
-    String    endTime; // 结束时间
-    String   address; //  地址
-    String   classRoom; //  教室名称
-    String   city; // 城市
-    String    area; // 区
+    String beginTime; //  开始时间
+    String endTime; // 结束时间
+    String address; //  地址
+    String classRoom; //  教室名称
+    String city; // 城市
+    String area; // 区
     String courseTime;//日期
-    double  lng; // 经度
-    double  lat; // 维度
-    int signStatus;//签到类型(1：未签到，2：已签到，3：迟到，4：旷课)
+    String signTime; //: 签到时间（2016-12-12 12:20）
+    double lng; // 经度
+    double lat; // 维度
+    int signStatus;//签到类型(4：未签到，5：已签到，6：迟到，7：旷课)
     int courseType;//:课程类型(1:正常课程；2：换课，3代课，4其他)
+
+    public String getCourseTime() {
+        return courseTime;
+    }
+
+    public void setCourseTime(String courseTime) {
+        this.courseTime = courseTime;
+    }
+
+    public String getSignTime() {
+        return signTime;
+    }
+
+    public void setSignTime(String signTime) {
+        this.signTime = signTime;
+    }
 
     protected ClassSchedule(Parcel in) {
         timetableId = in.readInt();
@@ -34,6 +51,7 @@ public class ClassSchedule implements Parcelable {
         city = in.readString();
         area = in.readString();
         courseTime = in.readString();
+        signTime = in.readString();
         lng = in.readDouble();
         lat = in.readDouble();
         signStatus = in.readInt();
@@ -173,6 +191,7 @@ public class ClassSchedule implements Parcelable {
         dest.writeString(city);
         dest.writeString(area);
         dest.writeString(courseTime);
+        dest.writeString(signTime);
         dest.writeDouble(lng);
         dest.writeDouble(lat);
         dest.writeInt(signStatus);

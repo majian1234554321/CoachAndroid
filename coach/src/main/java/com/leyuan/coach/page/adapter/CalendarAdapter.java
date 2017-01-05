@@ -3,12 +3,14 @@ package com.leyuan.coach.page.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
+import com.leyuan.coach.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
  */
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
-    private GridLayoutManager gridLayoutManager;
+    private LayoutInflater mInflater;
     private Context context;
     private ArrayList<MyCalendar> myCalendars = new ArrayList<>();
     private OnCalendarClickListener listener;
@@ -26,11 +28,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     public CalendarAdapter(Context context) {
         this.context = context;
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     public CalendarAdapter(Context context, ArrayList<MyCalendar> calendars) {
         this.context = context;
         this.myCalendars.addAll(calendars);
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public CalendarAdapter(Context context, ArrayList<MyCalendar> calendars, int positionClicked) {
@@ -45,8 +52,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                 break;
             }
         }
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        gridLayoutManager = new GridLayoutManager(context, 7);
     }
 
     public void refreshData(ArrayList<MyCalendar> calendars) {
@@ -57,7 +65,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.item_calendar, null);
+        View view = mInflater.inflate(R.layout.item_calendar, parent, false);
         return new ViewHolder(view);
     }
 
@@ -69,7 +77,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         int clickedPosition = monthClickedIndex == position ? monthClickedPosition : -1;
         CalendarItemAdapter adapter = new CalendarItemAdapter(context, calendar.getDayList(),
                 calendar.getTimeMouth(), clickedPosition);
-        adapter.setOnCalendarClickListener(new CalendarAdapterOld.OnCalendarClickListener() {
+        adapter.setOnCalendarClickListener(new CalendarItemAdapter.OnCalendarClickListener() {
             @Override
             public void onClick(int itemPosition) {
 
@@ -77,11 +85,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
                     for (int i = 0; i < position; i++) {
                         itemPosition += myCalendars.get(i).getDayList().length;
                     }
+
+                    LogUtil.i("CalendarActivity", "item positionClicked  = " + itemPosition);
                     listener.onClick(itemPosition);
                 }
             }
         });
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
         holder.recyclerView.setLayoutManager(gridLayoutManager);
         holder.recyclerView.setAdapter(adapter);
 

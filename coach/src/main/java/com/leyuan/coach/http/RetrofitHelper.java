@@ -4,6 +4,7 @@ package com.leyuan.coach.http;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.leyuan.coach.config.UrlConfig;
 import com.leyuan.coach.page.App;
+import com.leyuan.commonlibrary.manager.DeviceManager;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -45,12 +46,15 @@ public class RetrofitHelper {
                         Request.Builder builder = chain.request().newBuilder();
                         if (App.getInstance().isLogin() && App.getInstance().getToken() != null) {
                             builder.addHeader("token", App.getInstance().getToken());
+                        } else {
+                            builder.addHeader("token", "");
                         }
-//                        builder.addHeader("city", URLEncoder.encode(App.city, "UTF-8"));
                         builder.addHeader("lat", String.valueOf(App.lat));
                         builder.addHeader("lng", String.valueOf(App.lon));
                         builder.addHeader("device", "android");
-                        builder.addHeader("register", "923478923184938274");
+                        builder.addHeader("register", App.getInstance().getJPushId());
+                        builder.addHeader("version", App.getInstance().getVersionName());
+                        builder.addHeader("deviceName", DeviceManager.getPhoneBrand());
 
                         Request authorised = builder.build();
                         return chain.proceed(authorised);

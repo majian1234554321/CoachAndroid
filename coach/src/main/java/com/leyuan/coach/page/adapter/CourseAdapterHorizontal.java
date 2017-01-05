@@ -22,9 +22,9 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
     private ArrayList<MyCalendar> myCalendars = new ArrayList();
     private ArrayList<Integer> calendarsFirst = new ArrayList<>();
     private ArrayList<Integer> calendarsSecond = new ArrayList<>();
-    private  OnItemClickListener listener;
+    private OnItemClickListener listener;
 
-    public CourseAdapterHorizontal(Context context, ArrayList<MyCalendar> myCalendars ,OnItemClickListener listener) {
+    public CourseAdapterHorizontal(Context context, ArrayList<MyCalendar> myCalendars, OnItemClickListener listener) {
 
         this.context = context;
         this.myCalendars = myCalendars;
@@ -91,7 +91,7 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
 
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int currentPosition);
     }
 }

@@ -74,13 +74,15 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <application android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+    <application
         android:name=".page.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen">
-        <activity android:name="com.leyuan.coach.page.SplashActivity"
+        <activity
+            android:name="com.leyuan.coach.page.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,26 +90,53 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".page.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".page.activity.account.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".page.activity.mine.UserInfoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".page.activity.course.MapActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".page.activity.course.CalendarActivityOld"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".page.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.account.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.course.MapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.course.CalendarActivityOld"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.course.CalendarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.course.NextMonthClassScheduleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.SignInRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.MessageCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.MessageDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.MyMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.RecentEarningActivity"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".page.activity.mine.WithDrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.WithDrawRecordActivity"
+            android:screenOrientation="portrait" />
 
-
-
-
-
-
-
-
-
+        <activity
+            android:name=".page.activity.mine.WithDrawRecordMoreActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- ********************BaiDuMap************************* -->
@@ -126,7 +155,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -141,19 +170,19 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.leyuan.coach"/>
+                <category android:name="com.leyuan.coach" />
             </intent-filter>
         </service>
 
         <!-- Required SDK核心功能-->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="com.leyuan.coach"/>
+                <category android:name="com.leyuan.coach" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -163,6 +192,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -171,10 +201,11 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false" >
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.leyuan.coach" />
             </intent-filter>
@@ -184,8 +215,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
@@ -215,9 +245,13 @@
         <!-- 发到 Google Play 的APK可以设置为 google-play; -->
         <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
         <!-- 目前这个渠道统计功能的报表还未开放。-->
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
         <!-- Required. AppKey copied from Portal -->
-        <meta-data android:name="JPUSH_APPKEY" android:value="332011f4b4bd1deaa1803a53"/>
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="332011f4b4bd1deaa1803a53" />
 
     </application>
 

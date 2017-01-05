@@ -106,6 +106,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
                 break;
             case R.id.layout_setting:
+                UiManager.activityJump(getActivity(), SettingActivity.class);
                 break;
         }
     }

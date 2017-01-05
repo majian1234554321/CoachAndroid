@@ -27,7 +27,7 @@ public class CurrentCoursePresenter {
         courseModel = new CourseModel();
     }
 
-    public void getCurrentMonthCalendar(){
+    public void getCurrentMonthCalendar() {
 
         courseModel.getCurrentCalendar(new BaseSubscriber<ArrayList<MyCalendar>>(context) {
             @Override
@@ -39,26 +39,26 @@ public class CurrentCoursePresenter {
         });
     }
 
-    public void getCourseList(String courseTime){
+    public void getCourseList(String courseTime) {
         courseModel.getCourseList(new BaseSubscriber<CourseResult>(context) {
             @Override
             public void onNext(CourseResult courseResult) {
 
                 viewListener.onGetCourseList(courseResult);
             }
-        },courseTime);
+        }, courseTime);
     }
 
-    public void signIn(String timetableId){
+    public void signIn(String timetableId) {
         courseModel.signIn(new BaseSubscriber<Object>(context) {
             @Override
             public void onNext(Object o) {
                 viewListener.onSignResult(true);
             }
-        },timetableId);
+        }, timetableId);
     }
 
-    public void getReplaceCourseList(){
+    public void getReplaceCourseList() {
         courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
             public void onNext(ArrayList<ClassSchedule> arrayList) {

@@ -14,12 +14,19 @@ public interface LoginService {
 
     @FormUrlEncoded
     @POST("coachLogin/getCoachUser.json")
-    Observable<BaseBean<UserCoach>> login(@Field("phone") String phone, @Field("code") String code);
+    Observable<BaseBean<UserCoach>> login(@Field("phone") String phone, @Field("code") String code, @Field("version") String version);
 
     @GET("code/createCode.json")
     Observable<BaseBean<String>> getImageIdentify(@Query("mobile") String account);
 
     @GET("coachLogin/sendMsgCode.json")
     Observable<BaseBean<String>> getIdentify(@Query("phone") String phone, @Query("userCode") String code);
+
+    @POST("coachLogin/autoLogin.json")
+    Observable<BaseBean<UserCoach>> autoLogin();
+
+    @POST("coachLogin/logOut.json")
+    Observable<BaseBean<String>> loginOut();
+
 
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">私教</string>
+    <string name="app_name">爱动教练端</string>
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
     <string name="pull_to_refresh_up_label">上拉刷新…</string>
     <string name="pull_to_refresh_release_label">放开以刷新…</string>

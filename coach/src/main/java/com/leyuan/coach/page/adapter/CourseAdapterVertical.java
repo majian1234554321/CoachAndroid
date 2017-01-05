@@ -2,11 +2,12 @@ package com.leyuan.coach.page.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leyuan.coach.R;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  * Created by user on 2016/12/24.
  */
 public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVertical.Viewholder> {
+    private LayoutInflater mInflater;
     private Context context;
     private ArrayList<ClassSchedule> courseArray = new ArrayList<>();
     private OnCourseItemClickListener listener;
@@ -25,6 +27,9 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
     public CourseAdapterVertical(Context context, OnCourseItemClickListener listener) {
         this.context = context;
         this.listener = listener;
+        mInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     public void refreshData(ArrayList<ClassSchedule> courseArray) {
@@ -35,7 +40,8 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.item_course, null);
+        View view = mInflater.from(context).inflate(R.layout.item_course, null, false);
+//        View.inflate(context, R.layout.item_course, parent,false);
         return new Viewholder(view);
     }
 
@@ -59,7 +65,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
 
         switch (course.getSignStatus()) {
-            case 1:
+            case 4:
                 holder.btSignState.setSelected(true);
                 holder.btSignState.setText(context.getString(R.string.to_sign_in));
                 final int id = course.getTimetableId();
@@ -69,17 +75,23 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                         listener.toSignIn(id);
                     }
                 });
-            case 2:
+                break;
+            case 5:
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.singed));
-            case 3:
+                break;
+            case 6:
+
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.beLate));
-            case 4:
+                break;
+            case 7:
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.truant));
+                break;
             default:
                 holder.btSignState.setVisibility(View.GONE);
+                break;
         }
 
         holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
@@ -109,7 +121,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         private TextView txtStoreName;
         private TextView txtCourseAddress;
         private Button btSignState;
-        private FrameLayout layoutRoot;
+        private RelativeLayout layoutRoot;
 
         public Viewholder(View view) {
             super(view);
@@ -119,7 +131,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
             txtStoreName = (TextView) view.findViewById(R.id.txt_store_name);
             txtCourseAddress = (TextView) view.findViewById(R.id.txt_course_address);
             btSignState = (Button) view.findViewById(R.id.bt_sign_state);
-            layoutRoot = (FrameLayout) view.findViewById(R.id.layout_root);
+            layoutRoot = (RelativeLayout) view.findViewById(R.id.layout_root);
         }
     }
 

@@ -8,7 +8,7 @@ public class ToastUtil {
 	private static Toast toast;
 	public static void show(Context context,String txt){
 		if(toast == null){
-			toast = Toast.makeText(context,"",Toast.LENGTH_SHORT);
+			toast = Toast.makeText(context,"",Toast.LENGTH_LONG);
 		}
 		toast.setText(txt);
 		toast.show();

@@ -7,4 +7,5 @@ package com.leyuan.coach.config;
 public class StringConstant {
     public static final String POSITION = "position";
     public static final String ARRAY = "array";
+    public static final String EXTRA = "extra";
 }

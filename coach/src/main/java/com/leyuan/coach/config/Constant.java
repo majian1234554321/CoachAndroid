@@ -18,4 +18,5 @@ public class Constant {
     public static final String CLASS_SCHEDULE = "classSchedule";
     public static final String CURRENT_DATE = "currentDate";
     public static final String MESSAGE_ID = "message_id";
+    public static final String JPUSH_ID = "jpushId";
 }

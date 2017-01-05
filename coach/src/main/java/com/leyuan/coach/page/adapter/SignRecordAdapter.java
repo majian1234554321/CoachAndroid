@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.leyuan.coach.R;
+import com.leyuan.coach.bean.ClassSchedule;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+
+import java.util.ArrayList;
 
 
 /**
@@ -18,6 +21,7 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
 
 
     private Context context;
+    private ArrayList<ClassSchedule> courses = new ArrayList<>();
 
     public SignRecordAdapter(Context context) {
         this.context = context;
@@ -62,6 +66,12 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+    }
+
+    public void refreshData(ArrayList<ClassSchedule> arrayList) {
+        courses.clear();
+        courses.addAll(arrayList);
+        this.notifyDataSetChanged();
     }
 
     class ViewHolder extends UltimateRecyclerviewViewHolder {

@@ -8,25 +8,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leyuan.coach.R;
+import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.SignRecordAdapter;
+import com.leyuan.coach.page.mvp.presenter.SignPresenter;
+import com.leyuan.coach.page.mvp.view.SignViewListener;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
+
+import java.util.ArrayList;
 
 /**
  * Created by user on 2017/1/3.
  */
-public class SignInRecordActivity extends BaseActivity implements View.OnClickListener {
+public class SignInRecordActivity extends BaseActivity implements View.OnClickListener, SignViewListener {
 
     private ImageView imgLeft;
     private TextView txtTitle;
     private ImageView imgChoose;
     private UltimateRecyclerView ultimateList;
     private SignRecordAdapter adapter;
+    private SignPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_record);
+        presenter = new SignPresenter(this, this);
 
         initView();
         initData();
@@ -43,15 +50,15 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         ultimateList.setAdapter(adapter);
 
         ultimateList.setDefaultOnRefreshListener(refreshListener);
+        ultimateList.setLoadMoreView(null);
         ultimateList.reenableLoadmore();
         ultimateList.setOnLoadMoreListener(loadMoreListener);
-
-
 
     }
 
     private void initData() {
         imgLeft.setOnClickListener(this);
+        presenter.getSignInList("2017-01");
 
     }
 
@@ -81,5 +88,10 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
                 break;
 
         }
+    }
+
+    @Override
+    public void onGetSignList(ArrayList<ClassSchedule> arrayList) {
+        adapter.refreshData(arrayList);
     }
 }

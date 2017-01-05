@@ -12,6 +12,7 @@ import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.StringConstant;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.CalendarAdapter;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class CalendarActivity extends BaseActivity {
 
         }
 
+        LogUtil.i("CalendarActivity","input positionClicked  = " +positionClicked);
+
         initView();
         initData();
     }
@@ -59,17 +62,6 @@ public class CalendarActivity extends BaseActivity {
 
         if (myCalendars == null)
             return;
-
-        int temp = -1;
-        int monthClickedIndex = 0;
-        int monthClickedPosition = 0;
-        for (; monthClickedIndex < myCalendars.size(); monthClickedIndex++) {
-            temp += myCalendars.get(monthClickedIndex).getDayList().length;
-            if (positionClicked <= temp) {
-                monthClickedPosition = positionClicked - temp;
-                break;
-            }
-        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new CalendarAdapter(this, myCalendars, positionClicked);

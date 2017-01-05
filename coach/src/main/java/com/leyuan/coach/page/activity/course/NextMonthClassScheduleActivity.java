@@ -24,11 +24,12 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.img_left:
+                finish();
+                break;
             case R.id.confirmed:
-                //TODO implement
                 break;
             case R.id.bt_unconfirmed:
-                //TODO implement
                 break;
         }
     }
