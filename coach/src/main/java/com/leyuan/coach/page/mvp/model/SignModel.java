@@ -27,8 +27,8 @@ public class SignModel {
     }
 
 
-    public void getSignInList(Subscriber<ArrayList<ClassSchedule>> subscriber, String signTime) {
-        service.getSignInList(id, signTime)
+    public void getSignInList(Subscriber<ArrayList<ClassSchedule>> subscriber, String signTime, String page) {
+        service.getSignInList(id, signTime,page)
                 .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
                 .subscribe(subscriber);
     }

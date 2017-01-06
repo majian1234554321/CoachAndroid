@@ -21,6 +21,10 @@ public interface AccountBalanceService {
     @GET("coachInfo/getUserIncome.json")
     Observable<BaseBean<String>> getBalance(@Query("coachId") String coachId);
 
+    @GET("coachInfo/getIncome.json")
+    Observable<BaseBean<String>> getRecentEarnings(@Query("coachId") String coachId);
+
+
     @GET("coachInfo/getPresentRecord.json")
     Observable<BaseBean<ArrayList<WithdrawDetail>>> getWithdrawRecord(@Query("coachId") String coachId, @Query("page") String page);
 
@@ -29,7 +33,7 @@ public interface AccountBalanceService {
 
     @FormUrlEncoded
     @POST("coachInfo/addUserMoney.json")
-    Observable<BaseBean<Object>> withdraw(@Field("coachId") String coachId,@Field("aliId") String aliId,
-                                          @Field("userName") String userName,@Field("money") String money);
+    Observable<BaseBean<Object>> withdraw(@Field("coachId") String coachId, @Field("aliId") String aliId,
+                                          @Field("userName") String userName, @Field("money") String money);
 
 }

@@ -37,14 +37,20 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
 
     private void initView() {
 
-        if (App.getInstance().isLogin()) {
-            UiManager.activityJump(SplashActivity.this, MainActivity.class);
-        } else {
-            UiManager.activityJump(SplashActivity.this, LoginActivity.class);
-        }
+
     }
 
     private void initData() {
+
+        //jump version check
+        if (App.getInstance().isLogin()) {
+            UiManager.activityJump(SplashActivity.this, MainActivity.class);
+            finish();
+        } else {
+            UiManager.activityJump(SplashActivity.this, LoginActivity.class);
+            finish();
+        }
+
 //        versionPresenter.getVersionInfo();
 
 
@@ -88,17 +94,11 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    UiManager.activityJump(SplashActivity.this, LoginActivity.class);
-//                    if (VersionManager.shouldUpdate(versionInfomation.getVersion(), SplashActivity.this)) {
-//                        showUpdateDialog();
-//                        return;
-//                    }
-//
-//                    if (autoLoginSuccess) {
-//                        UiManager.activityJump(SplashActivity.this, MainActivity.class);
-//                    } else {
-//                        UiManager.activityJump(SplashActivity.this, LoginActivity.class);
-//                    }
+                    if (autoLoginSuccess) {
+                        UiManager.activityJump(SplashActivity.this, MainActivity.class);
+                    } else {
+                        UiManager.activityJump(SplashActivity.this, LoginActivity.class);
+                    }
                     finish();
 
                     break;

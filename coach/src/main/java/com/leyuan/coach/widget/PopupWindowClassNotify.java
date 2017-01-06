@@ -12,9 +12,11 @@ import android.widget.PopupWindow;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
-import com.leyuan.coach.page.adapter.PAgerAdapterTakeClass;
+import com.leyuan.coach.page.adapter.PagerAdapterTakeCourse;
 import com.leyuan.coach.page.mvp.presenter.TakeOverClassPresenter;
 import com.leyuan.coach.page.mvp.view.TakeOverClassViewListener;
+import com.leyuan.commonlibrary.util.DialogUtils;
+import com.leyuan.commonlibrary.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
     private Button btRefuse;
     private Button btKnowed;
     private ArrayList<View> views = new ArrayList<>();
-    private PAgerAdapterTakeClass adapter;
+    private PagerAdapterTakeCourse adapter;
 
     private TakeOverClassPresenter presenter;
     private ArrayList<ClassSchedule> arrayList = new ArrayList<>();
@@ -66,28 +68,38 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
         btRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int item = viewPager.getCurrentItem();
-                if (arrayList.isEmpty())
-                    return;
-                if (item > arrayList.size() - 1)
-                    item = arrayList.size() - 1;
-                int id = arrayList.get(item).getTimetableId();
+                DialogUtils.showDialog(context, "", false);
 
-                presenter.takeOverClassRefuse(String.valueOf(id));
+                presenter.takeOverClassRefuse(getCurrentId(), viewPager.getCurrentItem());
             }
         });
 
         btKnowed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DialogUtils.showDialog(context, "", false);
+                presenter.takeOverClassAgree(getCurrentId(), viewPager.getCurrentItem());
             }
         });
 
     }
 
+    private String getCurrentId() {
+        int item = viewPager.getCurrentItem();
+        if (arrayList.isEmpty())
+            return null;
+        if (item > arrayList.size() - 1)
+            item = arrayList.size() - 1;
+        int id = arrayList.get(item).getTimetableId();
+        return String.valueOf(id);
+    }
+
     public void showAtBottom(ArrayList<ClassSchedule> arrayList) {
-        presenter.getReplaceCourseList();
+        this.arrayList.clear();
+        this.arrayList.addAll(arrayList);
+        adapter = new PagerAdapterTakeCourse(context, arrayList);
+        viewPager.setAdapter(adapter);
+
         this.showAtLocation(((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0), Gravity.BOTTOM, 0, 0);
     }
 
@@ -96,17 +108,33 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
     public void onGetRepalceCourseList(ArrayList<ClassSchedule> arrayList) {
         this.arrayList.clear();
         this.arrayList.addAll(arrayList);
-        adapter = new PAgerAdapterTakeClass(context, arrayList);
+        adapter = new PagerAdapterTakeCourse(context, arrayList);
         viewPager.setAdapter(adapter);
     }
 
     @Override
-    public void onAgreeResult(boolean success) {
+    public void onAgreeResult(boolean success, int currentItem) {
+        if (success) {
+            arrayList.remove(currentItem);
+            adapter.refreshData(currentItem);
+            ToastUtil.showLong(context, "已接受");
+            if (arrayList.isEmpty())
+                this.dismiss();
+        }
+        DialogUtils.dismissDialog();
 
     }
 
     @Override
-    public void onRefuseResult(boolean success) {
+    public void onRefuseResult(boolean success, int currentItem) {
+        if (success) {
+            arrayList.remove(currentItem);
+            adapter.refreshData(currentItem);
+            ToastUtil.showLong(context, "已拒绝");
+            if (arrayList.isEmpty())
+                this.dismiss();
+        }
+        DialogUtils.dismissDialog();
 
     }
 }

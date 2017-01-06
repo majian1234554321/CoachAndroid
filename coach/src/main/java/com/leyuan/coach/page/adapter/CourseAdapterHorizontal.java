@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
+import com.leyuan.commonlibrary.util.MyDateUtils;
+import com.leyuan.commonlibrary.util.NumberUtils;
 
 import java.util.ArrayList;
 
@@ -56,12 +58,18 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int finalPosition = position;
         if (position < calendarsFirst.size()) {
-            holder.txt_date.setText(myCalendars.get(0).getTimeMouth() + position);
-            holder.txt_course_number.setText(calendarsFirst.get(position) + "");
+            String time = myCalendars.get(0).getTimeMouth() + "-" + NumberUtils.intToString((position + 1));
+            holder.txt_date.setText(MyDateUtils.formatMonthDayByYearMonth(time)
+                    + " " + MyDateUtils.formatWeekByYearMonth(time));
+
+            holder.txt_course_number.setText(calendarsFirst.get(position) + "节课");
         } else {
             position = position - calendarsFirst.size();
-            holder.txt_date.setText(myCalendars.get(1).getTimeMouth() + position);
-            holder.txt_course_number.setText(calendarsSecond.get(position) + "");
+
+            String time = myCalendars.get(1).getTimeMouth() + "-" + NumberUtils.intToString((position + 1));
+            holder.txt_date.setText(MyDateUtils.formatMonthDayByYearMonth(time)
+                    + " " + MyDateUtils.formatWeekByYearMonth(time));
+            holder.txt_course_number.setText(calendarsSecond.get(position) + "节课");
         }
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {

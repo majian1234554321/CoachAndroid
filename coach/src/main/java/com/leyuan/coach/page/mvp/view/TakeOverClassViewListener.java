@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface TakeOverClassViewListener {
     void onGetRepalceCourseList(ArrayList<ClassSchedule> arrayList);
 
-    void onAgreeResult(boolean success);
+    void onAgreeResult(boolean success, int currentItem);
 
-    void onRefuseResult(boolean success);
+    void onRefuseResult(boolean success, int currentItem);
 }

@@ -27,9 +27,10 @@ import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
+import com.leyuan.coach.widget.PopupWindowClassNotify;
 import com.leyuan.commonlibrary.manager.UiManager;
+import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.MyDateUtils;
-import com.leyuan.commonlibrary.util.NumberUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -57,8 +58,12 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     private CurrentCoursePresenter presenter;
 
-    private ArrayList<MyCalendar> myCalendars;
+    private ArrayList<MyCalendar> myCalendars = new ArrayList<>();
+
     private String currentDate;
+    private int currentCalendarPosition;
+    private int totalCalendarItem;
+    private ArrayList<Integer> calendarCourseNumberArray = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,11 +114,14 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     private void initData() {
 
-        presenter.getCurrentMonthCalendar();
         currentDate = MyDateUtils.getCurrentDay();
-        presenter.getCourseList(currentDate);
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
+
+        DialogUtils.showDialog(getActivity(), "", false);
+        presenter.getCourseList(currentDate);
+        presenter.getCurrentMonthCalendar();
+//        presenter.getReplaceCourseList();
 
     }
 
@@ -121,33 +129,128 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_pre_month:
+                if (currentCalendarPosition <= 0) {
+                    return;
+                }
+                currentCalendarPosition--;
+                refreshPreNextState();
 
                 break;
             case R.id.layout_next_month:
-                break;
+                if (currentCalendarPosition >= totalCalendarItem - 1) {
+                    return;
+                }
+                currentCalendarPosition++;
+                refreshPreNextState();
 
+                break;
         }
+    }
+
+    private void refreshPreNextState() {
+        currentDate = getCurrentDataByPositin(currentCalendarPosition);
+
+        recyclerHan.scrollToPosition(currentCalendarPosition);
+        refreshPreNextView(currentCalendarPosition);
+        presenter.getCourseList(currentDate);
+        DialogUtils.showDialog(getActivity(), "", false);
+    }
+
+    private void refreshPreNextView(int currentCalendarPosition) {
+        if (currentCalendarPosition <= 0) {
+            //no pre style
+            txtPreMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtPreMonthClassNumber.setVisibility(View.GONE);
+        } else {
+            txtPreMonth.setTextColor(getResources().getColor(R.color.black));
+            txtPreMonthClassNumber.setVisibility(View.VISIBLE);
+            txtPreMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition - 1) + "节课");
+            // have pre style
+        }
+
+        if (currentCalendarPosition >= totalCalendarItem - 1) {
+            //no next style
+            txtNextMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtNextMonthClassNumber.setVisibility(View.GONE);
+
+        } else {
+            // have next style
+            txtNextMonth.setTextColor(getResources().getColor(R.color.black));
+            txtNextMonthClassNumber.setVisibility(View.VISIBLE);
+            txtNextMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition + 1) + "节课");
+        }
+    }
+
+    private String getCurrentDataByPositin(int currentCalendarPosition) {
+        String time = "";
+        int temp = 0, monthClickedIndex = 0;
+        for (; monthClickedIndex < myCalendars.size(); monthClickedIndex++) {
+            temp += myCalendars.get(monthClickedIndex).getDayList().length;
+            if (currentCalendarPosition < temp) {
+                time = MyDateUtils.formatYearMonthDay(myCalendars.get(monthClickedIndex).getTimeMouth(),
+                        currentCalendarPosition - temp + myCalendars.get(monthClickedIndex).getDayList().length);
+                break;
+            }
+        }
+        return time;
     }
 
     @Override
     public void onGetCalendar(final ArrayList<MyCalendar> myCalendars) {
-        this.myCalendars = myCalendars;
+
+        DialogUtils.dismissDialog();
+        if (myCalendars == null)
+            return;
+
+        this.myCalendars.clear();
+        this.myCalendars.addAll(myCalendars);
+
         courseAdapterHorizontal = new CourseAdapterHorizontal(getActivity(), myCalendars, new CourseAdapterHorizontal.OnItemClickListener() {
 
             @Override
             public void onItemClick(int currentPosition) {
+
+                currentCalendarPosition = currentPosition;
                 Bundle bundle = new Bundle();
                 bundle.putInt(StringConstant.POSITION, currentPosition);
-//                bundle.putSerializable(StringConstant.ARRAY,myCalendars);
                 bundle.putParcelableArrayList(StringConstant.ARRAY, myCalendars);
-                UiManager.activityJumpForResult(getActivity(), bundle, CalendarActivity.class, Constant.REQUEST_CALENDAR);
+
+                Intent intent = new Intent();
+                intent.putExtras(bundle);
+                intent.setClass(getActivity(), CalendarActivity.class);
+                startActivityForResult(intent, Constant.REQUEST_CALENDAR);
+
             }
         });
         recyclerHan.setAdapter(courseAdapterHorizontal);
+
+        for (MyCalendar calendar : myCalendars) {
+            totalCalendarItem += calendar.getDayList().length;
+
+//            currentCalendarPosition = MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth());
+            for (int i = 0; i < calendar.getDayList().length; i++) {
+                calendarCourseNumberArray.add(calendar.getDayList()[i]);
+            }
+        }
+
+        for (MyCalendar calendar : myCalendars) {
+            if (MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth()) >= 0) {
+                currentCalendarPosition += MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth());
+                break;
+            } else {
+                currentCalendarPosition += calendar.getDayList().length;
+            }
+        }
+
+        recyclerHan.scrollToPosition(currentCalendarPosition);
+        refreshPreNextView(currentCalendarPosition);
     }
 
     @Override
     public void onGetCourseList(CourseResult courseResult) {
+
+        DialogUtils.dismissDialog();
+
         if (courseResult == null) {
             courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
             return;
@@ -165,22 +268,28 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     @Override
     public void toSignIn(int id) {
-
+        DialogUtils.showDialog(getActivity(), "", false);
         presenter.signIn(String.valueOf(id));
     }
 
     @Override
     public void onSignResult(boolean b) {
+        DialogUtils.dismissDialog();
         if (b) {
-            //update view
-
             ToastUtil.show(getActivity(), "签到成功");
         }
     }
 
+    public void getTackoverCourseList() {
+        DialogUtils.showDialog(getActivity(), "", false);
+        presenter.getReplaceCourseList();
+    }
+
     @Override
     public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
-
+        DialogUtils.dismissDialog();
+        if (arrayList != null)
+            new PopupWindowClassNotify(getActivity()).showAtBottom(arrayList);
     }
 
     @Override
@@ -194,32 +303,33 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        switch (requestCode) {
-//            case Constant.REQUEST_CALENDAR:
-//                if (resultCode == Constant.RESULT_CALENDAR) {
-        int selectPosition = data.getIntExtra(Constant.SELECT_CALENDAR_DAY, 0);
-        LogUtil.i("ClassScheduleFragment", "onActivityResult positionClicked  = " + selectPosition);
-        recyclerHan.scrollToPosition(selectPosition);
+        switch (requestCode) {
+            case Constant.REQUEST_CALENDAR:
+                if (resultCode == Constant.RESULT_CALENDAR) {
+                    int selectPosition = data.getIntExtra(Constant.SELECT_CALENDAR_DAY, 0);
+                    LogUtil.i("ClassScheduleFragment", "onActivityResult positionClicked  = " + selectPosition);
+                    currentCalendarPosition = selectPosition;
+                    recyclerHan.scrollToPosition(currentCalendarPosition);
 
-        if (selectPosition > myCalendars.get(0).getDayList().length - 1) {
-            selectPosition = selectPosition - myCalendars.get(0).getDayList().length;
-            currentDate = myCalendars.get(1).getTimeMouth() + NumberUtils.intToString(selectPosition);
-        } else {
-            currentDate = myCalendars.get(0).getTimeMouth() + NumberUtils.intToString(selectPosition);
+                    if (selectPosition > myCalendars.get(0).getDayList().length - 1) {
+                        selectPosition = selectPosition - myCalendars.get(0).getDayList().length;
+                        currentDate = MyDateUtils.formatYearMonthDay(myCalendars.get(1).getTimeMouth(), selectPosition);
+                    } else {
+                        currentDate = MyDateUtils.formatYearMonthDay(myCalendars.get(0).getTimeMouth(), selectPosition);
+                    }
+
+                    presenter.getCourseList(currentDate);
+
+                }
+
+                break;
         }
-
-        presenter.getCourseList(currentDate);
-
-//                }
-//
-//                break;
-//        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        DialogUtils.releaseDialog();
     }
-
 
 }

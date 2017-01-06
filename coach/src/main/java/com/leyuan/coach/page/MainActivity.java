@@ -49,6 +49,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (mFragments.size() == 3) {
+            setTabSelection(0);
+            showFragment(0);
+            ((ClassScheduleFragment) mFragments.get(0)).getTackoverCourseList();
+        }
 
     }
 

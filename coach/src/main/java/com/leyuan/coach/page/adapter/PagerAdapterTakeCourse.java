@@ -19,13 +19,26 @@ import java.util.ArrayList;
 /**
  * Created by user on 2016/12/27.
  */
-public class PAgerAdapterTakeClass extends PagerAdapter {
+public class PagerAdapterTakeCourse extends PagerAdapter {
     private Context context;
-    private ArrayList<ClassSchedule> arrayList;
+    private ArrayList<ClassSchedule> arrayList = new ArrayList<>();
 
-    public PAgerAdapterTakeClass(Context context, ArrayList<ClassSchedule> arrayList) {
+    public PagerAdapterTakeCourse(Context context, ArrayList<ClassSchedule> arrayList) {
         this.context = context;
-        this.arrayList = arrayList;
+        this.arrayList.clear();
+        this.arrayList.addAll(arrayList);
+    }
+
+    public void refreshData(ArrayList<ClassSchedule> arrayList) {
+        this.arrayList.clear();
+        this.arrayList.addAll(arrayList);
+        notifyDataSetChanged();
+    }
+
+
+    public void refreshData(int removeItem) {
+        this.arrayList.remove(removeItem);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -89,4 +102,5 @@ public class PAgerAdapterTakeClass extends PagerAdapter {
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
+
 }

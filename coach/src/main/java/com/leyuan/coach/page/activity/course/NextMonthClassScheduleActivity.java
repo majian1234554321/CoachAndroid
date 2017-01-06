@@ -28,8 +28,12 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
                 finish();
                 break;
             case R.id.confirmed:
+                findViewById(R.id.confirmed).setSelected(true);
+                findViewById(R.id.bt_unconfirmed).setSelected(false);
                 break;
             case R.id.bt_unconfirmed:
+                findViewById(R.id.confirmed).setSelected(false);
+                findViewById(R.id.bt_unconfirmed).setSelected(true);
                 break;
         }
     }

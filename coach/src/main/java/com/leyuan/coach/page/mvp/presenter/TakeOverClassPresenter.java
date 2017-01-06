@@ -22,36 +22,49 @@ public class TakeOverClassPresenter {
     public TakeOverClassPresenter(TakeOverClassViewListener viewListener, Context context) {
         this.viewListener = viewListener;
         this.context = context;
+        courseModel = new CourseModel();
     }
 
-    public void getReplaceCourseList(){
+    public void getReplaceCourseList() {
         courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
             public void onNext(ArrayList<ClassSchedule> arrayList) {
-                viewListener.onGetRepalceCourseList( arrayList);
+                viewListener.onGetRepalceCourseList(arrayList);
             }
         });
     }
 
-    public void takeOverClassAgree( String timetableId) {
+    public void takeOverClassAgree(String timetableId, final int currentItem) {
         courseModel.takeOverClassAgree(new BaseSubscriber<Object>(context) {
             @Override
             public void onNext(Object o) {
-                viewListener.onAgreeResult(true);
+                viewListener.onAgreeResult(true, currentItem);
             }
-        },timetableId);
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onAgreeResult(false, currentItem);
+            }
+        }, timetableId);
 
     }
 
-    public void takeOverClassRefuse( String timetableId) {
+    public void takeOverClassRefuse(String timetableId, final int currentItem) {
         courseModel.takeOverClassRefuse(new BaseSubscriber<Object>(context) {
             @Override
             public void onNext(Object o) {
-                viewListener.onRefuseResult(true);
+                viewListener.onRefuseResult(true, currentItem);
             }
-        },timetableId);
-    }
 
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onRefuseResult(false, currentItem);
+
+            }
+        }, timetableId);
+    }
 
 
 }

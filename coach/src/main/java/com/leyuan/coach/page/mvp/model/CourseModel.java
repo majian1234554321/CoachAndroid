@@ -70,7 +70,7 @@ public class CourseModel {
     }
 
     public void takeOverClassRefuse(Subscriber<Object> subscriber, String timetableId) {
-        takeOverClassConfirm(subscriber, id, timetableId, "7");
+        takeOverClassConfirm(subscriber, id, timetableId, "2");
     }
 
     public void takeOverClassConfirm(Subscriber<Object> subscriber, String timetableId, String status) {

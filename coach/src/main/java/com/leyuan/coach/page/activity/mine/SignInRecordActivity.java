@@ -28,6 +28,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     private UltimateRecyclerView ultimateList;
     private SignRecordAdapter adapter;
     private SignPresenter presenter;
+    private int page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +41,11 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView() {
+
         imgLeft = (ImageView) findViewById(R.id.img_left);
         txtTitle = (TextView) findViewById(R.id.txt_title);
         imgChoose = (ImageView) findViewById(R.id.img_choose);
-        ultimateList = (UltimateRecyclerView) findViewById(R.id.ultimate_list);
+        ultimateList = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateList.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new SignRecordAdapter(this);
@@ -58,21 +60,24 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         imgLeft.setOnClickListener(this);
-        presenter.getSignInList("2017-01");
+        page = 1;
+        presenter.getSignInList("2017-01", page);
 
     }
 
     private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-
+            page = 1;
+            presenter.getSignInList("2017-01", page);
         }
     };
 
     private UltimateRecyclerView.OnLoadMoreListener loadMoreListener = new UltimateRecyclerView.OnLoadMoreListener() {
         @Override
         public void loadMore(int itemsCount, int maxLastVisiblePosition) {
-
+            page++;
+            presenter.getSignInList("2017-01", page);
         }
     };
 
@@ -91,7 +96,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void onGetSignList(ArrayList<ClassSchedule> arrayList) {
+    public void onGetSignList(ArrayList<ClassSchedule> arrayList, int page) {
         adapter.refreshData(arrayList);
     }
 }

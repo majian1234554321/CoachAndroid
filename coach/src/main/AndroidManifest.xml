@@ -137,6 +137,9 @@
         <activity
             android:name=".page.activity.mine.WithDrawRecordMoreActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.SettingActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- ********************BaiDuMap************************* -->

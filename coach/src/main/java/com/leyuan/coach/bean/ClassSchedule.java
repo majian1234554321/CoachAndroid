@@ -197,4 +197,11 @@ public class ClassSchedule implements Parcelable {
         dest.writeInt(signStatus);
         dest.writeInt(courseType);
     }
+
+    public class SignStatus {
+        public static final int UNSING = 4;
+        public static final int SINGED = 5;
+        public static final int BE_LATE = 6;
+        public static final int TRUANT = 7;
+    }
 }

@@ -16,6 +16,6 @@ import rx.Observable;
 public interface SignService {
 
     @GET("course/getSignInList.json")
-    Observable<BaseBean<ArrayList<ClassSchedule>>> getSignInList(@Query("coachId") String coachId, @Query("signTime") String signTime);
+    Observable<BaseBean<ArrayList<ClassSchedule>>> getSignInList(@Query("coachId") String coachId, @Query("signTime") String signTime,@Query("page") String page);
 
 }

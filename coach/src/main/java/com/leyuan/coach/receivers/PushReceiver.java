@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.stetho.common.LogUtil;
-import com.google.gson.Gson;
-import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.MainActivity;
 
@@ -51,18 +49,15 @@ public class PushReceiver extends BroadcastReceiver {
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] notifactionId: " + notifactionId + ",extra = " + value);
 
-//            Bundle bund = new Bundle();
-//            bund.putString(StringConstant.EXTRA, value);
-//            UiManager.activityJump(context, bund, MainActivity.class);
-            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
-            switch (info.getType()) {
-                case 1:
-                    Intent i = new Intent(context, MainActivity.class);
-                    i.putExtras(bundle);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(i);
-                    break;
-            }
+//            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
+//            switch (info.getType()) {
+//                    case 1:
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtras(bundle);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            context.startActivity(i);
+//                    break;
+//            }
 
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

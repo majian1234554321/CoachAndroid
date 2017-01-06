@@ -36,6 +36,12 @@ public class CurrentCoursePresenter {
                 viewListener.onGetCalendar(myCalendars);
 
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetCalendar(null);
+            }
         });
     }
 
@@ -46,6 +52,12 @@ public class CurrentCoursePresenter {
 
                 viewListener.onGetCourseList(courseResult);
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetCalendar(null);
+            }
         }, courseTime);
     }
 
@@ -54,6 +66,12 @@ public class CurrentCoursePresenter {
             @Override
             public void onNext(Object o) {
                 viewListener.onSignResult(true);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onSignResult(false);
             }
         }, timetableId);
     }
@@ -64,6 +82,12 @@ public class CurrentCoursePresenter {
             public void onNext(ArrayList<ClassSchedule> arrayList) {
                 viewListener.onGetReplaceCourseListResult(arrayList);
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetReplaceCourseListResult(null);
             }
         });
     }

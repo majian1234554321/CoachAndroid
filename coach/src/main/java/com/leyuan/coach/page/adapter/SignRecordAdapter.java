@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.ViewHolder> {
 
-
     private Context context;
     private ArrayList<ClassSchedule> courses = new ArrayList<>();
 
@@ -45,7 +44,7 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
 
     @Override
     public int getAdapterItemCount() {
-        return 0;
+        return courses.size();
     }
 
     @Override
@@ -55,7 +54,24 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        ClassSchedule course = courses.get(position);
+        holder.txtCourseName.setText(course.getStoreName() + " " + course.getCourseName());
+        holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
+        holder.txtSignTime.setText("" + course.getSignTime());
+        switch (course.getSignStatus()) {
+            case ClassSchedule.SignStatus.UNSING:
+                holder.txtSignStatus.setText("未签到");
+                break;
+            case ClassSchedule.SignStatus.SINGED:
+                holder.txtSignStatus.setText("已签到");
+                break;
+            case ClassSchedule.SignStatus.BE_LATE:
+                holder.txtSignStatus.setText("迟到");
+                break;
+            case ClassSchedule.SignStatus.TRUANT:
+                holder.txtSignStatus.setText("旷课");
+                break;
+        }
     }
 
     @Override

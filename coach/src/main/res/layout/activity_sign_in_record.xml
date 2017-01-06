@@ -40,15 +40,15 @@
             android:scaleType="centerInside"
             android:src="@drawable/icon_choose" />
 
-
     </RelativeLayout>
 
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:id="@+id/ultimate_list"
+        android:id="@+id/ultimate_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
-        />
+        app:recyclerviewClipToPadding="true"
+        app:recyclerviewDefaultSwipeColor="@color/black"
+        app:recyclerviewEmptyView="@layout/layout_empty"
+        app:recyclerviewScrollbars="none" />
 
 </LinearLayout>

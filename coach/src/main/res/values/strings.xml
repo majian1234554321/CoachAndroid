@@ -1086,6 +1086,8 @@
     <string name="unconfirmed">待确认</string>
     <string name="sysytem_message">系统消息</string>
     <string name="you_have_one_new_message">您有一封信息未查看</string>
+    <string name="next_day">后一天</string>
+    <string name="click_into_map">点击进入地图</string>
 
 
 </resources>

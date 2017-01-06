@@ -50,7 +50,7 @@ public class App extends Application {
         initBaiduLoc();
         Stetho.initializeWithDefaults(this);
         // You can enable debug mode in developing state. You should close debug mode when release.
-//        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }
 

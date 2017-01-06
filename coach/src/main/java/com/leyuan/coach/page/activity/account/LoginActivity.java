@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.bt_login:
                 if (verifyEdit()) {
-                    DialogUtils.showDialog(this,"",false);
+                    DialogUtils.showDialog(this, "", false);
                     presenter.login(mobile, code);
                 }
 
@@ -140,7 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onDestroy() {
         super.onDestroy();
         DialogUtils.releaseDialog();
-        if(timeCount != null)
+        if (timeCount != null)
             timeCount.cancel();
     }
 

@@ -22,15 +22,16 @@ public class SignPresenter {
     public SignPresenter(Context context, SignViewListener listener) {
         this.context = context;
         this.listener = listener;
+        model = new SignModel();
     }
 
-    public void getSignInList(String signTime) {
+    public void getSignInList(String signTime, final int page) {
         model.getSignInList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
             public void onNext(ArrayList<ClassSchedule> arrayList) {
-                listener.onGetSignList(arrayList);
+                listener.onGetSignList(arrayList,page);
             }
-        },signTime);
+        }, signTime, String.valueOf(page));
     }
 
 }

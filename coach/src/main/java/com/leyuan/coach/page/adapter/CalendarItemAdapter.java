@@ -76,6 +76,9 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         holder.layoutRoot.setVisibility(View.VISIBLE);
         final int realPosition = position - fristWeekDay;
         holder.txtDate.setText("" + (1 + realPosition));
+        if (realPosition == currentDay) {
+            holder.txtDate.setText("今天");
+        }
         holder.txtCourseNumber.setText(dayList[realPosition] + "节课");
 
         if (realPosition == positionClicked) {
@@ -103,6 +106,7 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setBackgroundColor(context.getResources().getColor(R.color.red_origin));
                 if (listener != null) {
                     listener.onClick(realPosition);
                 }

@@ -1,4 +1,4 @@
-package com.leyuan.coach.page.fragment;
+package com.leyuan.coach.page.activity.mine;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
