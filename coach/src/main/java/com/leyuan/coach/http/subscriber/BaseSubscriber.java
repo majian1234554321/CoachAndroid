@@ -14,7 +14,7 @@ import rx.Subscriber;
 public abstract class BaseSubscriber<T> extends Subscriber<T> {
 
     private Context context;
-
+    public BaseSubscriber(){}
     public BaseSubscriber(Context context) {
         this.context = context;
     }

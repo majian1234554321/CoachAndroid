@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
+
+    <include layout="@layout/inc_bold_line" />
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="state"
+        android:textColor="@color/main_red"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_id_or_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="培训时间/待支付"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/c9"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="@dimen/left_margin"
+        android:layout_marginRight="@dimen/right_margin"
+        android:background="@color/line_color" >
+    </View>
+
+    <RelativeLayout
+        android:id="@+id/rl_train"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="?selectableItemBackground"
+        android:paddingLeft="@dimen/left_margin"
+        android:paddingRight="@dimen/right_margin">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/dv_goods_cover"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            fresco:actualImageScaleType="centerCrop"
+            android:layout_centerVertical="true"
+            fresco:placeholderImage="@drawable/place_holder_logo"
+            fresco:pressedStateOverlayImage="@color/color_image_press"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阿迪达斯-举重"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:textColor="@color/c3"
+            android:layout_marginTop="21dp"
+            android:layout_toRightOf="@+id/dv_goods_cover"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="爱动"
+            android:textSize="13sp"
+            android:textColor="@color/c9"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_alignLeft="@+id/tv_name"/>
+
+    </RelativeLayout>
+
+    <include layout="@layout/inc_line"/>
+
+    <include layout="@layout/inc_appointment_bottom_state"/>
+</LinearLayout>
