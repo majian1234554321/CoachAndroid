@@ -39,6 +39,11 @@
     <color name="sixsixsix">#666666</color>
     <color name="four_d">#4d4d4d</color>
     <color name="fefefe">#fefefe</color>
-
-
+    <color name="c3">#333333</color>
+    <color name="c9">#999999</color>
+    <color name="text_enabled">#FFFFFFFF</color>
+    <color name="text_disabled">#747474</color>
+    <color name="main_red">#FF5000</color>
+    <color name="line_color">#ebebeb</color>
+    <color name="gray_normal">#666667</color>
 </resources>

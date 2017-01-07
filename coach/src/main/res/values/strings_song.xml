@@ -38,9 +38,9 @@
     <string name="stock_out">超出库存范围</string>
     <string name="input_recommend_code">请输入推荐码</string>
     <string name="add_cart_failed">加入购物车失败</string>
-    <string name="applicant_count">已参加(%1$d/%2$s)</string>
+    <string name="applicant_count">已参加(%1$s/%2$s)</string>
     <string name="course_applicant_count">已参加(%1$s/%2$s)</string>
-    <string name="appoint_time">开始预约时间:%1$s</string>
+    <string name="appoint_time">开始报名时间:%1$s</string>
     <string name="rmb_price">¥ %1$s</string>
     <string name="rmb_price_scope">¥ %1$.2f - ¥ %2$.2f</string>
     <string name="time_with_line">%1$s—%2$s</string>
@@ -66,6 +66,9 @@
     <string name="campaign_status_not_start">即将开始报名</string>
     <string name="campaign_status_not_pay">待支付</string>
     <string name="campaign_status_full">报名人数已满</string>
+    <string name="campaign_status_no_permission">无资格报名</string>
+    <string name="campaign_status_apply_end">报名结束</string>
+
 
     <string name="campaign_detail">活动详情</string>
     <string name="food_material">主要食材: %1$s</string>
@@ -146,4 +149,7 @@
     <string name="dynamicbox_exception_title">Error</string>
     <string name="dynamicbox_exception_message">An error has occurred, retry again</string>
 
+
+    <string name="order_train_time">培训时间：%1$s %2$s</string>
+    <string name="order_pay_time">支付时间：%1$s </string>
 </resources>

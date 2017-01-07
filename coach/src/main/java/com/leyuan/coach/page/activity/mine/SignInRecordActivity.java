@@ -97,6 +97,11 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onGetSignList(ArrayList<ClassSchedule> arrayList, int page) {
-        adapter.refreshData(arrayList);
+        if(page > 1){
+            adapter.addData(arrayList);
+        }else{
+            adapter.refreshData(arrayList);
+        }
+
     }
 }

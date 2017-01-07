@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="campaignTab">
+    <item>免费</item>
+    <item>付费</item>
+    </string-array>
+    <string-array name="appointmentTab">
+        <item>全部</item>
+        <item>已参加</item>
+        <item>待参加</item>
+    </string-array>
+</resources>

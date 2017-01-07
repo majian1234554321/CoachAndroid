@@ -141,6 +141,21 @@
             android:name=".page.activity.mine.SettingActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".page.activity.train.TrainDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.train.AppointmentUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.AppointmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.AppointmentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.train.AppointTrainActivity"
+            android:screenOrientation="portrait" />
 
         <!-- ********************BaiDuMap************************* -->
         <service
@@ -255,6 +270,27 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="332011f4b4bd1deaa1803a53" />
+
+        <!-- ********************AliPay************************* -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"></activity>
+
+        <!-- ********************WeiXinPay************************* -->
+        <activity
+            android:name="com.leyuan.coach.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
 
     </application>
 

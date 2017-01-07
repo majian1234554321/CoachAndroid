@@ -90,6 +90,11 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
         this.notifyDataSetChanged();
     }
 
+    public void addData(ArrayList<ClassSchedule> arrayList) {
+        courses.addAll(arrayList);
+        this.notifyDataSetChanged();
+    }
+
     class ViewHolder extends UltimateRecyclerviewViewHolder {
 
         private TextView txtCourseName;
