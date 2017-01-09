@@ -104,8 +104,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.layout_my_sign_in:
                 UiManager.activityJump(getActivity(), SignInRecordActivity.class);
-
-
                 break;
             case R.id.layout_setting:
                 UiManager.activityJump(getActivity(), SettingActivity.class);

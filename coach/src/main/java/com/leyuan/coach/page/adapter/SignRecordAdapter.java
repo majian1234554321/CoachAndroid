@@ -110,4 +110,6 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
             txtSignStatus = (TextView) view.findViewById(R.id.txt_sign_status);
         }
     }
+
+
 }

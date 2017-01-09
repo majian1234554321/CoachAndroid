@@ -1,10 +1,19 @@
 package com.leyuan.coach.page.activity.mine;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import com.leyuan.coach.R;
 import com.leyuan.coach.page.BaseActivity;
 
 /**
  * Created by user on 2016/12/28.
  */
-public class RecentEarningActivity extends BaseActivity{
+public class RecentEarningActivity extends BaseActivity {
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recent_earning);
+    }
 }

@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="campaignTab">
-    <item>免费</item>
-    <item>付费</item>
+        <item>免费</item>
+        <item>付费</item>
     </string-array>
     <string-array name="appointmentTab">
         <item>全部</item>
         <item>已参加</item>
         <item>待参加</item>
     </string-array>
+
+
+    <integer-array name="google_colors">
+        <item>@color/redd</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+    </integer-array>
+
+    <color name="redd">#FFC93437</color>
+    <color name="blue">#FF375BF1</color>
+    <color name="yellow">#FFF7D23E</color>
+    <color name="green">#FF34A350</color>
+
+
+
 </resources>

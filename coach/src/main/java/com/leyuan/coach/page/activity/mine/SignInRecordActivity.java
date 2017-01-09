@@ -17,6 +17,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by user on 2017/1/3.
  */
@@ -46,16 +47,20 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         txtTitle = (TextView) findViewById(R.id.txt_title);
         imgChoose = (ImageView) findViewById(R.id.img_choose);
         ultimateList = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
+        ultimateList.setHasFixedSize(true);
         ultimateList.setLayoutManager(new LinearLayoutManager(this));
 
+        View view = View.inflate(this, R.layout.custom_bottom_progressbar, null);
         adapter = new SignRecordAdapter(this);
+//        adapter.setCustomLoadMoreView(view);
         ultimateList.setAdapter(adapter);
 
         ultimateList.setDefaultOnRefreshListener(refreshListener);
-        ultimateList.setLoadMoreView(null);
+        ultimateList.setLoadMoreView(view);
         ultimateList.reenableLoadmore();
         ultimateList.setOnLoadMoreListener(loadMoreListener);
 
+//        ultimateList.reenableLoadmore();
     }
 
     private void initData() {
@@ -97,9 +102,10 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onGetSignList(ArrayList<ClassSchedule> arrayList, int page) {
-        if(page > 1){
+//        ultimateList.setRefreshing(false);
+        if (page > 1) {
             adapter.addData(arrayList);
-        }else{
+        } else {
             adapter.refreshData(arrayList);
         }
 

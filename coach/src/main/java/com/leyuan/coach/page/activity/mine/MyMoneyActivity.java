@@ -40,19 +40,19 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_withdraw:
-                UiManager.activityJump(this,WithDrawActivity.class);
+                UiManager.activityJump(this, WithDrawActivity.class);
 
                 break;
             case R.id.layout_recent_earning:
-                UiManager.activityJump(this,RecentEarningActivity.class);
+                UiManager.activityJump(this, RecentEarningActivity.class);
 
                 break;
             case R.id.layout_withdraw_record:
-                UiManager.activityJump(this,WithDrawRecordActivity.class);
+                UiManager.activityJump(this, WithDrawRecordActivity.class);
 
                 break;
             case R.id.layout_more_detail:
-                UiManager.activityJump(this,WithDrawRecordMoreActivity.class);
+                UiManager.activityJump(this, WithDrawRecordMoreActivity.class);
 
                 break;
         }

@@ -28,6 +28,7 @@ import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.coach.widget.PopupWindowClassNotify;
+import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -101,7 +102,8 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     private void initView() {
 
-        LinearLayoutManager managerHorizontal = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManagerNoScroll managerHorizontal = new LinearLayoutManagerNoScroll(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        managerHorizontal.setScrollHorizontalEnabled(false);
         recyclerHan.setLayoutManager(managerHorizontal);
 
         LinearLayoutManager managerVertical = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -319,6 +321,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
                     }
 
                     presenter.getCourseList(currentDate);
+                    refreshPreNextView(currentCalendarPosition);
 
                 }
 
