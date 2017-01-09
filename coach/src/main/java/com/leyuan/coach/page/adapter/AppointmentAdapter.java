@@ -13,7 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.AppointmentBean;
 import com.leyuan.coach.page.activity.mine.AppointmentDetailActivity;
-import com.leyuan.coach.page.activity.train.TrainDetailActivity;
+import com.leyuan.coach.utils.FormatUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     private static final String UN_JOIN= "1";           //待参加
     private static final String CLOSE = "2";            //已关闭
     private static final String JOINED = "3";           //已参加
-
+  //  private static final String
 
     private Context context;
     private List<AppointmentBean> data = new ArrayList<>();
@@ -77,7 +77,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 holder.state.setText(context.getString(R.string.appointment_un_joined));
                 holder.timeTip.setText(String.format(context.getString(R.string.order_train_time),
                         bean.getStartDate(),bean.getStartTime()));
-                holder.tvCancel.setVisibility(View.VISIBLE);
+                holder.tvCancel.setVisibility(FormatUtil.parseDouble(bean.getPayAmount()) == 0 ?
+                        View.VISIBLE : View.GONE);
                 holder.tvConfirm.setVisibility(View.VISIBLE);
                 holder.tvPay.setVisibility(View.GONE);
                 holder.tvDelete.setVisibility(View.GONE);
@@ -134,13 +135,6 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 if(orderHandleListener != null){
                     orderHandleListener.onConfirmJoin(bean.getOrderId());
                 }
-            }
-        });
-
-        holder.trainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TrainDetailActivity.start(context,bean.getCampaignId());
             }
         });
 

@@ -24,5 +24,5 @@ public interface AppointmentViewListener {
      */
     void showEndFooterView();
 
-    void setUpdateOderStatus(BaseBean baseBean);
+    void setUpdateOrderStatus(BaseBean baseBean);
 }

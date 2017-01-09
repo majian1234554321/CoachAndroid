@@ -10,7 +10,7 @@ import android.view.View;
 import com.leyuan.coach.R;
 
 public class BaseFragment extends Fragment {
-    protected int pageSize = 20;
+    protected int pageSize = 5;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

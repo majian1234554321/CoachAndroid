@@ -41,7 +41,6 @@
         android:id="@+id/rl_train"
         android:layout_width="match_parent"
         android:layout_height="84dp"
-        android:background="?selectableItemBackground"
         android:paddingLeft="@dimen/left_margin"
         android:paddingRight="@dimen/right_margin">
 

@@ -3,7 +3,6 @@ package com.leyuan.coach.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,22 +26,7 @@ public class CampaignDetailBean implements Parcelable {
     private String contents;
     private String status = "";
     private String subtitle;
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
+    private String orderId;
 
     public String getCampaignId() {
         return campaignId;
@@ -68,6 +52,14 @@ public class CampaignDetailBean implements Parcelable {
         this.startDate = startDate;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     public String getEndTime() {
         return endTime;
     }
@@ -90,14 +82,6 @@ public class CampaignDetailBean implements Parcelable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContent() {
-        return contents;
-    }
-
-    public void setContent(String content) {
-        this.contents = content;
     }
 
     public String getPlace() {
@@ -172,12 +156,36 @@ public class CampaignDetailBean implements Parcelable {
         this.membersList = membersList;
     }
 
+    public String getContents() {
+        return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override
@@ -190,6 +198,7 @@ public class CampaignDetailBean implements Parcelable {
         dest.writeString(this.campaignId);
         dest.writeString(this.areaName);
         dest.writeString(this.startDate);
+        dest.writeString(this.startTime);
         dest.writeString(this.endTime);
         dest.writeString(this.camImg);
         dest.writeString(this.title);
@@ -201,8 +210,11 @@ public class CampaignDetailBean implements Parcelable {
         dest.writeString(this.price);
         dest.writeString(this.signStartTime);
         dest.writeString(this.signEndTime);
-        dest.writeList(this.membersList);
+        dest.writeTypedList(this.membersList);
+        dest.writeString(this.contents);
         dest.writeString(this.status);
+        dest.writeString(this.subtitle);
+        dest.writeString(this.orderId);
     }
 
     public CampaignDetailBean() {
@@ -212,6 +224,7 @@ public class CampaignDetailBean implements Parcelable {
         this.campaignId = in.readString();
         this.areaName = in.readString();
         this.startDate = in.readString();
+        this.startTime = in.readString();
         this.endTime = in.readString();
         this.camImg = in.readString();
         this.title = in.readString();
@@ -223,12 +236,14 @@ public class CampaignDetailBean implements Parcelable {
         this.price = in.readString();
         this.signStartTime = in.readString();
         this.signEndTime = in.readString();
-        this.membersList = new ArrayList<AppointUserBean>();
-        in.readList(this.membersList, UserCoach.class.getClassLoader());
+        this.membersList = in.createTypedArrayList(AppointUserBean.CREATOR);
+        this.contents = in.readString();
         this.status = in.readString();
+        this.subtitle = in.readString();
+        this.orderId = in.readString();
     }
 
-    public static final Creator<CampaignDetailBean> CREATOR = new Creator<CampaignDetailBean>() {
+    public static final Parcelable.Creator<CampaignDetailBean> CREATOR = new Parcelable.Creator<CampaignDetailBean>() {
         @Override
         public CampaignDetailBean createFromParcel(Parcel source) {
             return new CampaignDetailBean(source);

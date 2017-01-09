@@ -109,7 +109,7 @@ public class AppointmentPresent  {
         appointmentModel.updateAppointmentStatus(new ProgressSubscriber<BaseBean>(context) {
             @Override
             public void onNext(BaseBean baseBean) {
-                appointmentViewListener.setUpdateOderStatus(baseBean);
+                appointmentViewListener.setUpdateOrderStatus(baseBean);
             }
         },oderId,type);
     }

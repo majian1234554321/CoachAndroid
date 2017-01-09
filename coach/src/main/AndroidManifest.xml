@@ -157,6 +157,10 @@
             android:name=".page.activity.train.AppointTrainActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".page.activity.train.AppointSuccessActivity"
+            android:screenOrientation="portrait" />
+
         <!-- ********************BaiDuMap************************* -->
         <service
             android:name="com.baidu.location.f"

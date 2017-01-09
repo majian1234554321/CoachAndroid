@@ -17,6 +17,7 @@ import com.leyuan.coach.R;
 import com.leyuan.coach.bean.CampaignDetailBean;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.activity.mine.AppointmentDetailActivity;
 import com.leyuan.coach.page.adapter.ApplicantAdapter;
 import com.leyuan.coach.page.mvp.presenter.CampaignPresent;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
@@ -24,14 +25,14 @@ import com.leyuan.coach.widget.SwitcherLayout;
 import com.zzhoujay.richtext.RichText;
 
 public class TrainDetailActivity extends BaseActivity implements View.OnClickListener ,TrainDetailViewListener {
-    private static final String STATUS_APPLY = "0";                //马上报名
-    private static final String STATUS_CAMPAIGN_END = "1";         //活动已结束
-    private static final String STATUS_APPLY_END = "2";            //报名结束
-    private static final String STATUS_NOT_START = "3";            //即将开始报名
-    private static final String STATUS_NOT_PAY = "4";              //待支付
-    private static final String STATUS_APPLIED = "5";              //已报名
-    private static final String STATUS_FULL = "6";                 //报名人数已满
-    private static final String STATUS_NO_PERMISSION_APPLY = "7";  //无资格报名
+    public static final String STATUS_APPLY = "0";                //马上报名
+    public static final String STATUS_CAMPAIGN_END = "1";         //活动已结束
+    public static final String STATUS_APPLY_END = "2";            //报名结束
+    public static final String STATUS_NOT_START = "3";            //即将开始报名
+    public static final String STATUS_NOT_PAY = "4";              //待支付
+    public static final String STATUS_APPLIED = "5";              //已报名
+    public static final String STATUS_FULL = "6";                 //报名人数已满
+    public static final String STATUS_NO_PERMISSION_APPLY = "7";  //无资格报名
     private String status;
 
     private SwitcherLayout switcherLayout;
@@ -57,6 +58,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
 
     private int coachId;
     private String campaignId ;
+    private String orderId;
     private ApplicantAdapter applicantAdapter;
     private CampaignDetailBean detailBean;
     private CampaignPresent campaignPresent;
@@ -118,6 +120,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void setListener() {
+        ivBack.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
         tvCount.setOnClickListener(this);
         tvAddress.setOnClickListener(this);
@@ -133,7 +136,13 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
                 AppointmentUserActivity.start(this,detailBean.getMembersList());
                 break;
             case R.id.ll_apply:
-                bottomToTargetActivity();
+                if(STATUS_APPLY.equals(status)){     //预约
+                    Intent i = new Intent(this,AppointTrainActivity.class);
+                    i.putExtra("detailBean",detailBean);
+                    startActivityForResult(i,0);
+                }else if(STATUS_NOT_PAY.equals(status)){
+                    AppointmentDetailActivity.start(this,orderId);
+                }
                 break;
             default:
                 break;
@@ -144,6 +153,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     public void setCampaignDetail(CampaignDetailBean bean) {
         bottomLayout.setVisibility(View.VISIBLE);
         this.detailBean = bean;
+        orderId = detailBean.getOrderId();
         status = bean.getStatus();
         tvTitle.setText(bean.getTitle());
         dvCover.setImageURI(bean.getCamImg());
@@ -159,7 +169,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
                 bean.getAlreadyPerson(),bean.getAllowPerson()));
         tvPrice.setText(String.format(getString(R.string.rmb_price),bean.getPrice()));
         tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),bean.getSignStartTime()));
-        RichText.from(bean.getContent()).into(tvCampaignDesc);
+        RichText.from(bean.getContents()).into(tvCampaignDesc);
         setBottomStatus();
     }
 
@@ -232,14 +242,12 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-
-    private void bottomToTargetActivity(){
-        if(STATUS_APPLY.equals(status)){     //预约
-            AppointTrainActivity.start(this, detailBean);
-        }else if(STATUS_NOT_PAY.equals(status)){
-            //AppointCampaignActivity.start(this, detailBean);
-        }else {
-            //AppointCampaignActivity.start(this, detailBean);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data != null && requestCode == 0){
+            status = data.getStringExtra("status");
+            orderId = data.getStringExtra("orderId");
+            setBottomStatus();
         }
     }
 }

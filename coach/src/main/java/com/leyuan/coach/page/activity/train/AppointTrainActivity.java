@@ -1,6 +1,5 @@
 package com.leyuan.coach.page.activity.train;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,14 +9,19 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.CampaignDetailBean;
+import com.leyuan.coach.bean.PayOrderBean;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.activity.mine.AppointmentDetailActivity;
 import com.leyuan.coach.page.mvp.presenter.CampaignPresent;
+import com.leyuan.coach.page.mvp.view.AppointTrainListener;
+import com.leyuan.coach.pay.AliPay;
 import com.leyuan.coach.pay.PayInterface;
+import com.leyuan.coach.pay.WeiXinPay;
 import com.leyuan.coach.widget.CustomNestRadioGroup;
 import com.leyuan.coach.widget.SimpleTitleBar;
 
-public class AppointTrainActivity extends BaseActivity implements View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener {
+public class AppointTrainActivity extends BaseActivity implements AppointTrainListener, View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener {
     private static final String ALI_PAY = "1";
     private static final String WEI_XIN_PAY = "2";
     private SimpleTitleBar titleBar;
@@ -36,20 +40,15 @@ public class AppointTrainActivity extends BaseActivity implements View.OnClickLi
     private String campaignId;
     private String coachId;
     private String payType;
+    private String orderId;
     private CampaignDetailBean detailBean;
     private CampaignPresent campaignPresent;
-
-    public static void start(Context context, CampaignDetailBean detailBean) {
-        Intent starter = new Intent(context, AppointTrainActivity.class);
-        starter.putExtra("detailBean",detailBean);
-        context.startActivity(starter);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_appoint_train);
-        campaignPresent = new CampaignPresent(this);
+        campaignPresent = new CampaignPresent(this,this);
         coachId = String.valueOf(App.getInstance().getUser().getId());
         if(getIntent() != null){
             detailBean = getIntent().getParcelableExtra("detailBean");
@@ -78,12 +77,14 @@ public class AppointTrainActivity extends BaseActivity implements View.OnClickLi
         tvShop.setText(detailBean.getBrandName());
         tvTime.setText(detailBean.getSignStartTime());
         tvAddress.setText(detailBean.getPlace());
+        tvPrice.setText(detailBean.getPrice());
         campaignId = detailBean.getCampaignId();
         payType = ALI_PAY;
     }
 
     private void setListener() {
         tvPay.setOnClickListener(this);
+        titleBar.setOnClickListener(this);
         radioGroup.setOnCheckedChangeListener(this);
     }
 
@@ -94,11 +95,20 @@ public class AppointTrainActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.tv_pay:
-                campaignPresent.buyCampaign(campaignId,coachId,payType,payListener);
+                campaignPresent.buyCampaign(campaignId,coachId,payType);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void setPayResult(PayOrderBean payOrderBean) {
+        orderId = payOrderBean.getOrderId();
+        String payType = payOrderBean.getPayType();
+        PayInterface payInterface = "1".equals(payType) ? new AliPay(this,payListener)
+                : new WeiXinPay(this,payListener);
+        payInterface.payOrder(payOrderBean);
     }
 
     private PayInterface.PayListener payListener = new PayInterface.PayListener() {
@@ -119,16 +129,24 @@ public class AppointTrainActivity extends BaseActivity implements View.OnClickLi
                     tip = "网络连接出错";
                     break;
                 default:
-                    tip = code +":::"+ object.toString();
+                    tip = "订单支付失败";
                     break;
             }
+            Intent i = new Intent();
+            i.putExtra("status",TrainDetailActivity.STATUS_NOT_PAY);
+            i.putExtra("orderId",orderId);
+            setResult(0,i);
             Toast.makeText(AppointTrainActivity.this,tip,Toast.LENGTH_LONG).show();
+            AppointmentDetailActivity.start(AppointTrainActivity.this,orderId);
         }
 
         @Override
         public void success(String code, Object object) {
-            Toast.makeText(AppointTrainActivity.this,"支付成功啦啦啦啦啦绿",Toast.LENGTH_LONG).show();
-            //startActivity(new Intent(AppointTrainActivity.this,AppointSuccessActivity.class));
+            Intent i = new Intent();
+            i.putExtra("status",TrainDetailActivity.STATUS_APPLIED);
+            setResult(0,i);
+            Toast.makeText(AppointTrainActivity.this,"支付成功,跳转界面",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(AppointTrainActivity.this,AppointSuccessActivity.class));
         }
     };
 
@@ -145,4 +163,5 @@ public class AppointTrainActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
     }
+
 }

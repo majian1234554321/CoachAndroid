@@ -3,6 +3,7 @@ package com.leyuan.coach.page;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class BaseActivity extends AppCompatActivity {
         synchronized (mActivities) {
             mActivities.add(this);
         }
+        Log.w("currActivity : ",getClass().getSimpleName());
     }
 
     @Override

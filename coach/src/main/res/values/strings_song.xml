@@ -152,4 +152,5 @@
 
     <string name="order_train_time">培训时间：%1$s %2$s</string>
     <string name="order_pay_time">支付时间：%1$s </string>
+    <string name="order_no">预约号：%1$s </string>
 </resources>
