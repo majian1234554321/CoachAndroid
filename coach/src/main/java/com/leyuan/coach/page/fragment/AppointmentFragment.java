@@ -29,8 +29,8 @@ import java.util.List;
 
 public class AppointmentFragment extends BaseFragment implements AppointmentViewListener, AppointmentAdapter.OrderHandleListener {
     public static final String ALL = "0";
-    public static final String JOINED = "1";
-    public static final String UN_JOIN = "3";
+    public static final String UN_JOIN = "1";
+    public static final String JOINED = "3";
     public static final String ORDER_CANCEL = "2";
     public static final String ORDER_CONFIRM = "3";
     public static final String ORDER_DELETE = "4";
@@ -63,8 +63,9 @@ public class AppointmentFragment extends BaseFragment implements AppointmentView
         }
         initSwipeRefreshLayout(view);
         initRecyclerView(view);
-        present.commonLoadData(switcherLayout,coachId,type);
+        present.commonLoadData(switcherLayout, coachId, type);
     }
+
 
     private void initSwipeRefreshLayout(View view) {
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
@@ -138,13 +139,17 @@ public class AppointmentFragment extends BaseFragment implements AppointmentView
     }
 
     @Override
-    public void setUpdateOderStatus(BaseBean baseBean) {
+    public void setUpdateOrderStatus(BaseBean baseBean) {
         if(baseBean.getCode() == 1){
             refreshLayout.setRefreshing(true);
             present.pullToRefreshData(refreshLayout,coachId,type);
-            Toast.makeText(getContext(),"操作成功",Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(getContext(),"操作失败",Toast.LENGTH_LONG).show();
         }
+        Toast.makeText(getContext(),baseBean.getMessage(),Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //Toast.makeText(getContext(),"setUserVisibleHint",Toast.LENGTH_LONG).show();
     }
 }

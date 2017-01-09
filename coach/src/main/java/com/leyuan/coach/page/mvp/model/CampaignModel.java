@@ -35,4 +35,10 @@ public class CampaignModel {
                 .compose(RxHelper.<PayOrderBean>transform())
                 .subscribe(subscriber);
     }
+
+    public void changePayType(Subscriber<PayOrderBean> subscriber,String orderId,String peyType){
+        campaignService.changePayType(orderId,peyType)
+                .compose(RxHelper.<PayOrderBean>transform())
+                .subscribe(subscriber);
+    }
 }

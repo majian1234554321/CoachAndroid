@@ -11,27 +11,26 @@ import com.leyuan.coach.http.subscriber.CommonSubscriber;
 import com.leyuan.coach.http.subscriber.ProgressSubscriber;
 import com.leyuan.coach.http.subscriber.RequestMoreSubscriber;
 import com.leyuan.coach.page.mvp.model.CampaignModel;
+import com.leyuan.coach.page.mvp.view.AppointTrainListener;
+import com.leyuan.coach.page.mvp.view.AppointmentDetailViewListener;
 import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
-import com.leyuan.coach.pay.AliPay;
-import com.leyuan.coach.pay.PayInterface;
-import com.leyuan.coach.pay.WeiXinPay;
 import com.leyuan.coach.widget.SwitcherLayout;
 
 import java.util.List;
-
-
-
 
 public class CampaignPresent {
     private Context context;
     private CampaignModel campaignModel;
 
-    private TrainChildViewListener trainViewListener;             //活动列表View层对象
-    private TrainDetailViewListener trainDetailViewListener;      //活动详情View层对象
+    private TrainChildViewListener trainViewListener;             //活动列表
+    private TrainDetailViewListener trainDetailViewListener;      //活动详情
+    private AppointTrainListener appointTrainListener;            //活动预约
+    private AppointmentDetailViewListener appointmentDetailViewListener;    //预约详情
 
-    public CampaignPresent(Context context) {
+    public CampaignPresent(Context context,AppointTrainListener view) {
         this.context = context;
+        this.appointTrainListener = view;
         if(campaignModel == null){
             campaignModel = new CampaignModel();
         }
@@ -48,6 +47,14 @@ public class CampaignPresent {
     public CampaignPresent(Context context, TrainDetailViewListener view) {
         this.context = context;
         this.trainDetailViewListener = view;
+        if(campaignModel == null){
+            campaignModel = new CampaignModel();
+        }
+    }
+
+    public CampaignPresent(Context context, AppointmentDetailViewListener view) {
+        this.context = context;
+        this.appointmentDetailViewListener = view;
         if(campaignModel == null){
             campaignModel = new CampaignModel();
         }
@@ -108,15 +115,21 @@ public class CampaignPresent {
     }
 
 
-   public void buyCampaign(String campaignId,String courseId,String payType ,final PayInterface.PayListener listener){
+   public void buyCampaign(String campaignId,String courseId,String payType){
        campaignModel.buyCampaign(new ProgressSubscriber<PayOrderBean>(context) {
            @Override
            public void onNext(PayOrderBean payOrderBean) {
-               String payType = payOrderBean.getPayType();
-               PayInterface payInterface = "1".equals(payType) ? new AliPay(context,listener)
-                       : new WeiXinPay(context,listener);
-               payInterface.payOrder(payOrderBean);
+               appointTrainListener.setPayResult(payOrderBean);
            }
        },campaignId,courseId,payType);
+    }
+
+    public void changePayType(String orderId,String payType){
+        campaignModel.changePayType(new ProgressSubscriber<PayOrderBean>(context) {
+            @Override
+            public void onNext(PayOrderBean payOrderBean) {
+                appointmentDetailViewListener.setChangePayType(payOrderBean);
+            }
+        },orderId,payType);
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AppointmentDetailBean {
     private Campaign campaign;
-    private PayOption payOption;
+    private PayOrderBean.PayOptionBean payOption;
 
     public Campaign getCampaign() {
         return campaign;
@@ -14,11 +14,11 @@ public class AppointmentDetailBean {
         this.campaign = campaign;
     }
 
-    public PayOption getPayOption() {
+    public PayOrderBean.PayOptionBean getPayOption() {
         return payOption;
     }
 
-    public void setPayOption(PayOption payOption) {
+    public void setPayOption(PayOrderBean.PayOptionBean payOption) {
         this.payOption = payOption;
     }
 
@@ -38,6 +38,7 @@ public class AppointmentDetailBean {
         private String payAmount;
         private String status;
         private String littleTime;
+        private String tickNo;
 
         public String getTitle() {
             return title;
@@ -157,6 +158,14 @@ public class AppointmentDetailBean {
 
         public void setLittleTime(String littleTime) {
             this.littleTime = littleTime;
+        }
+
+        public String getTickNo() {
+            return tickNo;
+        }
+
+        public void setTickNo(String tickNo) {
+            this.tickNo = tickNo;
         }
     }
 

@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:text="共1件商品"
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_pay_tip"

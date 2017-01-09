@@ -39,9 +39,9 @@ public class AppointmentActivity extends BaseActivity implements SmartTabLayout.
         viewPager = (ViewPager) findViewById(R.id.vp_content);
 
         FragmentPagerItems pages = new FragmentPagerItems(this);
-        AppointmentFragment all = new AppointmentFragment();
-        AppointmentFragment joined = new AppointmentFragment();
-        AppointmentFragment unJoined = new AppointmentFragment();
+        final AppointmentFragment all = new AppointmentFragment();
+        final AppointmentFragment joined = new AppointmentFragment();
+        final AppointmentFragment unJoined = new AppointmentFragment();
         pages.add(FragmentPagerItem.of(null, all.getClass(),
                 new Bundler().putString("type", AppointmentFragment.ALL).get()));
         pages.add(FragmentPagerItem.of(null,joined.getClass(),
@@ -61,6 +61,14 @@ public class AppointmentActivity extends BaseActivity implements SmartTabLayout.
                     TextView text = (TextView) tabAt.findViewById(R.id.tv_tab_text);
                     text.setTypeface(i == position ? Typeface.DEFAULT_BOLD :Typeface.DEFAULT);
                 }
+
+               /* if(position == 0){
+                    all.initData();
+                }else if(position == 1){
+                    joined.initData();
+                }else{
+                    unJoined.initData();
+                }*/
             }
         });
 

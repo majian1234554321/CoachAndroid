@@ -22,11 +22,16 @@ public interface CampaignService {
     Observable<BaseBean<List<CampaignBean>>> getCampaigns(@Query("type") String type, @Query("page") int page);
 
     @GET("train/getCampaignDetail.json")
-    Observable<BaseBean<CampaignDetailBean>> getCampaignDetail(@Query("campaignId") String campaignId,@Query("coachId") String coachId);
+    Observable<BaseBean<CampaignDetailBean>> getCampaignDetail(@Query("campaignId") String campaignId,
+                                                               @Query("coachId") String coachId);
 
     @FormUrlEncoded
     @POST("train/addCampaign.json")
     Observable<BaseBean<PayOrderBean>> buyCampaign(@Field("campaignId") String campaignId,
                                                                  @Field("coachId") String coachId,
-                                                                 @Field("payType") String payType);
+                                                                      @Field("payType") String payType);
+
+    @GET("train/getChangePay.json")
+    Observable<BaseBean<PayOrderBean>> changePayType(@Query("orderId") String orderId,
+                                                               @Query("payType") String payType);
 }

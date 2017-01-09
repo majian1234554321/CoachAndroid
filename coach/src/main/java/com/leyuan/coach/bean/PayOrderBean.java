@@ -2,21 +2,13 @@ package com.leyuan.coach.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-/**
- * 提交服务器生成订单实体
- * Created by song on 2016/11/14.
- */
 
 public class PayOrderBean {
-    private String no;
-    private String total;
-    private String pay_type;
-    private String pay_amount;
+    private String orderId;
+    private String payType;
+    private String payAmount;
     private String status;
-    private List<String> item;
-    private PayOptionBean pay_option;
+    private PayOptionBean payOption;
 
 
     /********订单详情************/
@@ -26,9 +18,9 @@ public class PayOrderBean {
     private String created_at;
 
     public static class PayOptionBean {
-        private String pay_string;  //支付宝使用
+        private String payString;
 
-        private String appid;       //微信
+        private String appid;
         private String partnerid;
         private String prepayid;
         @SerializedName("package")
@@ -37,12 +29,13 @@ public class PayOrderBean {
         private String timestamp;
         private String sign;
 
-        public String getPay_string() {
-            return pay_string;
+
+        public String getPayString() {
+            return payString;
         }
 
-        public void setPay_string(String pay_string) {
-            this.pay_string = pay_string;
+        public void setPayString(String payString) {
+            this.payString = payString;
         }
 
         public String getAppid() {
@@ -104,7 +97,7 @@ public class PayOrderBean {
         @Override
         public String toString() {
             return "PayOptionBean{" +
-                    "pay_string='" + pay_string + '\'' +
+                    "payString='" + payString + '\'' +
                     ", appid='" + appid + '\'' +
                     ", partnerid='" + partnerid + '\'' +
                     ", prepayid='" + prepayid + '\'' +
@@ -116,36 +109,36 @@ public class PayOrderBean {
         }
     }
 
-    public String getNo() {
-        return no;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setNo(String no) {
-        this.no = no;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
-        this.total = total;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getPayType() {
-        return pay_type;
+        return payType;
     }
 
-    public void setPay_type(String pay_type) {
-        this.pay_type = pay_type;
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
-    public String getPay_amount() {
-        return pay_amount;
+    public String getPayAmount() {
+        return payAmount;
     }
 
-    public void setPay_amount(String pay_amount) {
-        this.pay_amount = pay_amount;
+    public void setPayAmount(String payAmount) {
+        this.payAmount = payAmount;
+    }
+
+    public PayOptionBean getPayOption() {
+        return payOption;
+    }
+
+    public String getCreated_at() {
+        return created_at;
     }
 
     public String getStatus() {
@@ -156,33 +149,12 @@ public class PayOrderBean {
         this.status = status;
     }
 
-    public List<String> getItem() {
-        return item;
-    }
-
-    public void setItem(List<String> item) {
-        this.item = item;
-    }
-
     public PayOptionBean getpayOption() {
-        return pay_option;
+        return payOption;
     }
 
-    public void setPay_option(PayOptionBean pay_option) {
-        this.pay_option = pay_option;
-    }
-
-    @Override
-    public String toString() {
-        return "PayOrderBean{" +
-                "no='" + no + '\'' +
-                ", total='" + total + '\'' +
-                ", pay_type='" + pay_type + '\'' +
-                ", pay_amount='" + pay_amount + '\'' +
-                ", status='" + status + '\'' +
-                ", item=" + item +
-                ", pay_option=" + pay_option +
-                '}';
+    public void setPayOption(PayOptionBean payOption) {
+        this.payOption = payOption;
     }
 
     public String getCoin() {

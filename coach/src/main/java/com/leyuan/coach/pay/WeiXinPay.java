@@ -2,39 +2,37 @@ package com.leyuan.coach.pay;
 
 import android.content.Context;
 
+import com.leyuan.coach.R;
 import com.leyuan.coach.bean.PayOrderBean;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-/**
- * 微信支付
- */
+
 public class WeiXinPay implements PayInterface {
 	private IWXAPI msgApi;
 	public static PayListener payListener;
 	public static String appId;
 	
 	public WeiXinPay(Context context, PayListener payListener) {
-		//String appId = context.getString(R.string.weixingAppID);
+		String appId = context.getString(R.string.weixingAppID);
 		msgApi = WXAPIFactory.createWXAPI(context, null);
-		//msgApi.registerApp(appId);
+		msgApi.registerApp(appId);
 		this.payListener = payListener;
 	}
 	
 	@Override
-	public void payOrder(Object object) {
-		PayOrderBean payOrderBean = (PayOrderBean) object;
-		if (payOrderBean != null) {
+	public void payOrder(PayOrderBean bean) {
+		if (bean != null) {
 			PayReq payReq = new PayReq();
-			appId = payOrderBean.getpayOption().getAppid();
+			appId = bean.getpayOption().getAppid();
 			payReq.appId = appId;
-			payReq.partnerId = payOrderBean.getpayOption().getPartnerid();
-			payReq.prepayId = payOrderBean.getpayOption().getPrepayid();
-			payReq.nonceStr = payOrderBean.getpayOption().getNoncestr();
-			payReq.timeStamp = payOrderBean.getpayOption().getTimestamp();
-			payReq.packageValue = payOrderBean.getpayOption().get_package();
-			payReq.sign = payOrderBean.getpayOption().getSign();
+			payReq.partnerId = bean.getpayOption().getPartnerid();
+			payReq.prepayId = bean.getpayOption().getPrepayid();
+			payReq.nonceStr = bean.getpayOption().getNoncestr();
+			payReq.timeStamp = bean.getpayOption().getTimestamp();
+			payReq.packageValue = bean.getpayOption().get_package();
+			payReq.sign = bean.getpayOption().getSign();
 			msgApi.registerApp(appId);
 			msgApi.sendReq(payReq);
 		}
