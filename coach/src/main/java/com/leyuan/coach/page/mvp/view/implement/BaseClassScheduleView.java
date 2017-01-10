@@ -1,8 +1,8 @@
-package com.leyuan.coach.page.fragment;
+package com.leyuan.coach.page.mvp.view.implement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,29 +18,21 @@ import com.leyuan.coach.bean.CourseResult;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.StringConstant;
-import com.leyuan.coach.page.BaseFragment;
-import com.leyuan.coach.page.activity.course.CalendarActivity;
-import com.leyuan.coach.page.activity.course.MapActivity;
 import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
-import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
-import com.leyuan.coach.widget.CommonTitleLayout;
-import com.leyuan.coach.widget.PopupWindowClassNotify;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
-import com.leyuan.commonlibrary.manager.UiManager;
-import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.MyDateUtils;
-import com.leyuan.commonlibrary.util.ToastUtil;
 
 import java.util.ArrayList;
 
 /**
- * Created by user on 2016/12/19.
+ * Created by user on 2017/1/9.
  */
-public class ClassScheduleFragment extends BaseFragment implements CourseAdapterVertical.OnCourseItemClickListener, CurrentCourseViewListener, View.OnClickListener {
 
-    private CommonTitleLayout titleLayout;
+public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnCourseItemClickListener, View.OnClickListener {
+    private Context context;
+
     private RecyclerView recyclerHan;
     private LinearLayout layoutPreMonth;
     private ImageView imageView;
@@ -60,22 +52,25 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     private ArrayList<MyCalendar> myCalendars = new ArrayList<>();
 
-    private String currentDate;
     private int currentCalendarPosition;
     private int totalCalendarItem;
     private ArrayList<Integer> calendarCourseNumberArray = new ArrayList<>();
+    private ClassScheduleViewListener listener;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_class_shedule, null);
+    public BaseClassScheduleView(Context context, ClassScheduleViewListener listener) {
+        this.context = context;
+        this.listener = listener;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View createView(LayoutInflater inflater) {
 
-        titleLayout = (CommonTitleLayout) view.findViewById(R.id.title_layout);
+        return createView(inflater, null, false);
+    }
+
+    public View createView(LayoutInflater inflater, ViewGroup container,
+                           boolean attachRoot) {
+        View view = inflater.inflate(R.layout.layout_class_schedule, null, false);
+
         recyclerHan = (RecyclerView) view.findViewById(R.id.recyclerHan);
         layoutPreMonth = (LinearLayout) view.findViewById(R.id.layout_pre_month);
         imageView = (ImageView) view.findViewById(R.id.imageView);
@@ -88,25 +83,24 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         txtSignAll = (TextView) view.findViewById(R.id.txt_sign_all);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
+
+        return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        presenter = new CurrentCoursePresenter(getActivity(), this);
-
+    public void initViewData() {
         initView();
         initData();
     }
 
+
     private void initView() {
 
-        LinearLayoutManagerNoScroll managerHorizontal = new LinearLayoutManagerNoScroll(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManagerNoScroll managerHorizontal = new LinearLayoutManagerNoScroll(context, LinearLayoutManager.HORIZONTAL, false);
         managerHorizontal.setScrollHorizontalEnabled(false);
         recyclerHan.setLayoutManager(managerHorizontal);
 
-        LinearLayoutManager managerVertical = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        courseAdapterVertical = new CourseAdapterVertical(getActivity(), this);
+        LinearLayoutManager managerVertical = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        courseAdapterVertical = new CourseAdapterVertical(context, this);
         recyclerView.setLayoutManager(managerVertical);
         recyclerView.setAdapter(courseAdapterVertical);
 
@@ -114,21 +108,13 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     }
 
     private void initData() {
-
-        currentDate = MyDateUtils.getCurrentDay();
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
-
-        DialogUtils.showDialog(getActivity(), "", false);
-        presenter.getCourseList(currentDate);
-        presenter.getCurrentMonthCalendar();
-//        presenter.getReplaceCourseList();
-
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.layout_pre_month:
                 if (currentCalendarPosition <= 0) {
                     return;
@@ -148,22 +134,30 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         }
     }
 
-    private void refreshPreNextState() {
-        currentDate = getCurrentDataByPositin(currentCalendarPosition);
 
+    @Override
+    public void onRightButtonClick(int id) {
+        listener.onRightButtonClick(id);
+    }
+
+    @Override
+    public void onItemClick(ClassSchedule course) {
+        listener.onItemClick(course);
+    }
+
+
+    private void refreshPreNextState() {
         recyclerHan.scrollToPosition(currentCalendarPosition);
         refreshPreNextView(currentCalendarPosition);
-        presenter.getCourseList(currentDate);
-        DialogUtils.showDialog(getActivity(), "", false);
     }
 
     private void refreshPreNextView(int currentCalendarPosition) {
         if (currentCalendarPosition <= 0) {
             //no pre style
-            txtPreMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtPreMonth.setTextColor(context.getResources().getColor(R.color.text_gray));
             txtPreMonthClassNumber.setVisibility(View.GONE);
         } else {
-            txtPreMonth.setTextColor(getResources().getColor(R.color.black));
+            txtPreMonth.setTextColor(context.getResources().getColor(R.color.black));
             txtPreMonthClassNumber.setVisibility(View.VISIBLE);
             txtPreMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition - 1) + "节课");
             // have pre style
@@ -171,41 +165,34 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
         if (currentCalendarPosition >= totalCalendarItem - 1) {
             //no next style
-            txtNextMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtNextMonth.setTextColor(context.getResources().getColor(R.color.text_gray));
             txtNextMonthClassNumber.setVisibility(View.GONE);
 
         } else {
             // have next style
-            txtNextMonth.setTextColor(getResources().getColor(R.color.black));
+            txtNextMonth.setTextColor(context.getResources().getColor(R.color.black));
             txtNextMonthClassNumber.setVisibility(View.VISIBLE);
             txtNextMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition + 1) + "节课");
         }
     }
 
-    @Override
-    public void onGetCalendar(final ArrayList<MyCalendar> myCalendars) {
-
-        DialogUtils.dismissDialog();
+    public void setCalendarData(final ArrayList<MyCalendar> myCalendars) {
         if (myCalendars == null)
             return;
-
         this.myCalendars.clear();
         this.myCalendars.addAll(myCalendars);
 
-        courseAdapterHorizontal = new CourseAdapterHorizontal(getActivity(), myCalendars, new CourseAdapterHorizontal.OnItemClickListener() {
+        courseAdapterHorizontal = new CourseAdapterHorizontal(context, myCalendars, new CourseAdapterHorizontal.OnItemClickListener() {
 
             @Override
             public void onItemClick(int currentPosition) {
-
                 currentCalendarPosition = currentPosition;
+
                 Bundle bundle = new Bundle();
                 bundle.putInt(StringConstant.POSITION, currentPosition);
                 bundle.putParcelableArrayList(StringConstant.ARRAY, myCalendars);
 
-                Intent intent = new Intent();
-                intent.putExtras(bundle);
-                intent.setClass(getActivity(), CalendarActivity.class);
-                startActivityForResult(intent, Constant.REQUEST_CALENDAR);
+                listener.startActivityForResult(currentCalendarPosition, bundle);
 
             }
         });
@@ -233,11 +220,8 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         refreshPreNextView(currentCalendarPosition);
     }
 
-    @Override
-    public void onGetCourseList(CourseResult courseResult) {
 
-        DialogUtils.dismissDialog();
-
+    public void setCourseList(CourseResult courseResult) {
         if (courseResult == null) {
             courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
             return;
@@ -250,46 +234,9 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         }
 
         courseAdapterVertical.refreshData(courseResult.getCoachList());
-
     }
 
-    @Override
-    public void onRightButtonClick(int id) {
-        DialogUtils.showDialog(getActivity(), "", false);
-        presenter.signIn(String.valueOf(id));
-    }
-
-    @Override
-    public void onSignResult(boolean b) {
-        DialogUtils.dismissDialog();
-        if (b) {
-            ToastUtil.show(getActivity(), "签到成功");
-        }
-    }
-
-    public void getTackoverCourseList() {
-        DialogUtils.showDialog(getActivity(), "", false);
-        presenter.getReplaceCourseList();
-    }
-
-    @Override
-    public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
-        DialogUtils.dismissDialog();
-        if (arrayList != null)
-            new PopupWindowClassNotify(getActivity()).showAtBottom(arrayList);
-    }
-
-    @Override
-    public void onItemClick(ClassSchedule course) {
-        Bundle bunble = new Bundle();
-        bunble.putString(Constant.CURRENT_DATE, currentDate);
-        bunble.putParcelable(Constant.CLASS_SCHEDULE, course);
-        UiManager.activityJump(getActivity(), bunble, MapActivity.class);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void setActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case Constant.REQUEST_CALENDAR:
                 if (resultCode == Constant.RESULT_CALENDAR) {
@@ -301,24 +248,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         }
     }
 
-    private String getCurrentDataByPositin(int currentCalendarPosition) {
-        String time = "";
-        int temp = 0, monthClickedIndex = 0;
-        for (; monthClickedIndex < myCalendars.size(); monthClickedIndex++) {
-            temp += myCalendars.get(monthClickedIndex).getDayList().length;
-            if (currentCalendarPosition < temp) {
-                time = MyDateUtils.formatYearMonthDay(myCalendars.get(monthClickedIndex).getTimeMouth(),
-                        currentCalendarPosition - temp + myCalendars.get(monthClickedIndex).getDayList().length);
-                break;
-            }
-        }
-        return time;
-    }
+    public void destoryView() {
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        DialogUtils.releaseDialog();
     }
-
 }

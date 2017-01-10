@@ -5,4 +5,5 @@ package com.leyuan.coach.page.mvp.view;
  */
 public interface AccoutBalanceViewListener {
     void onGetBalance(String s);
+
 }

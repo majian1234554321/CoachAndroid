@@ -34,4 +34,21 @@ public class UiManager {
         intent.setClass(from.getActivity(), to);
         from.startActivityForResult(intent, requestCode);
     }
+
+    public static void activityJump(Context from, Bundle bundle, Class<?> to, int flag) {
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        intent.setClass(from, to);
+        intent.setFlags(flag);
+        from.startActivity(intent);
+
+    }
+
+    public static void activityJump(Context from, Class<?> to, int flag) {
+        Intent intent = new Intent();
+        intent.setClass(from, to);
+        intent.setFlags(flag);
+        from.startActivity(intent);
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.leyuan.coach.http.api;
 
 import com.leyuan.coach.bean.BaseBean;
+import com.leyuan.coach.bean.RecentEaringResult;
 import com.leyuan.coach.bean.WithdrawDetail;
 
 import java.util.ArrayList;
@@ -35,5 +36,9 @@ public interface AccountBalanceService {
     @POST("coachInfo/addUserMoney.json")
     Observable<BaseBean<Object>> withdraw(@Field("coachId") String coachId, @Field("aliId") String aliId,
                                           @Field("userName") String userName, @Field("money") String money);
+
+
+    @GET("coachInfo/getIncome.json")
+    Observable<BaseBean<RecentEaringResult>> getRecentEarning(@Query("coachId") String id, @Query("cashTime") String cashTime);
 
 }

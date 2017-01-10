@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.stetho.common.LogUtil;
+import com.google.gson.Gson;
+import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.MainActivity;
+import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
+import com.leyuan.coach.page.activity.mine.MessageDetailActivity;
+import com.leyuan.commonlibrary.manager.UiManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,17 +52,30 @@ public class PushReceiver extends BroadcastReceiver {
             String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
 
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] notifactionId: " + notifactionId + ",extra = " + value);
+            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的通知 notifactionId: " + notifactionId + ",extra = " + value);
 
-//            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
-//            switch (info.getType()) {
-//                    case 1:
-            Intent i = new Intent(context, MainActivity.class);
-            i.putExtras(bundle);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            context.startActivity(i);
-//                    break;
-//            }
+            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
+            switch (info.getType()) {
+                case 1:
+                    UiManager.activityJump(context, bundle, MessageDetailActivity.class,
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    break;
+                case 2:
+                    UiManager.activityJump(context, bundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    break;
+                case 3:
+                    UiManager.activityJump(context, bundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    break;
+
+                case 4:
+                    UiManager.activityJump(context, bundle, NextMonthClassScheduleActivity.class,
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    break;
+            }
 
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
