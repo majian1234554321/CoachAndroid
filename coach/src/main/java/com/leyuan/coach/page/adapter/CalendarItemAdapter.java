@@ -133,7 +133,7 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         public ViewHolder(View view) {
             super(view);
             layoutRoot = (LinearLayout) view.findViewById(R.id.layout_root);
-            txtDate = (TextView) view.findViewById(R.id.txt_date);
+            txtDate = (TextView) view.findViewById(R.id.tv_title);
             txtCourseNumber = (TextView) view.findViewById(R.id.txt_course_number);
         }
     }

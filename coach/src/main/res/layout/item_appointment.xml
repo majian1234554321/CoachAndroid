@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground">
+    android:background="@color/white">
 
     <include layout="@layout/inc_bold_line" />
 
@@ -23,10 +23,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="培训时间/待支付"
+        android:text="培训时间"
         android:layout_marginTop="10dp"
         android:textColor="@color/c9"
         android:textSize="13sp" />
+
+   <LinearLayout
+       android:id="@+id/ll_timer"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginTop="10dp"
+       android:gravity="center">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="支付时间:"
+           android:textSize="14sp"
+           android:textColor="@color/main_red"/>
+
+       <cn.iwgang.countdownview.CountdownView
+           android:id="@+id/timer"
+           android:paddingLeft="5dp"
+           android:paddingRight="5dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:isHideTimeBackground="true"
+           app:isShowDay="false"
+           app:isShowHour="true"
+           app:isShowMinute="true"
+           app:isShowSecond="true"
+           app:timeTextSize="14sp"
+           app:isTimeTextBold="false"
+           android:layout_gravity="center"
+           app:isShowMillisecond="false"
+           app:timeTextColor="@color/main_red"
+           app:suffixTextColor="@color/main_red"/>
+   </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -48,10 +82,10 @@
             android:id="@+id/dv_goods_cover"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            fresco:actualImageScaleType="centerCrop"
+            app:actualImageScaleType="centerCrop"
             android:layout_centerVertical="true"
-            fresco:placeholderImage="@drawable/place_holder_logo"
-            fresco:pressedStateOverlayImage="@color/color_image_press"/>
+            app:placeholderImage="@drawable/place_holder_logo"
+            app:pressedStateOverlayImage="@color/color_image_press"/>
 
         <TextView
             android:id="@+id/tv_name"

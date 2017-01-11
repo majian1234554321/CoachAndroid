@@ -1,5 +1,5 @@
 <resources>
-    <string name="weixingAppID">wx365ab323b9269d30</string>
+    <string name="weixingAppID">wxdb60f3e97a338462</string>
     <string name="find_venues">场馆</string>
     <string name="find_people">人</string>
 
@@ -98,6 +98,9 @@
     <string name="delivered">已发货</string>
     <string name="order_finish">已完成</string>
     <string name="order_close">已关闭</string>
+    <string name="order_refunding">退款中</string>
+    <string name="order_refunded">已退款</string>
+
     <string name="un_self_delivery">待自提</string>
     <string name="self_delivered">已自提</string>
     <string name="appointment_joined">已参加</string>

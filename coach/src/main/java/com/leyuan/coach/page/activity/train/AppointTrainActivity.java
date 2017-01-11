@@ -77,7 +77,7 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
         tvShop.setText(detailBean.getBrandName());
         tvTime.setText(detailBean.getSignStartTime());
         tvAddress.setText(detailBean.getPlace());
-        tvPrice.setText(detailBean.getPrice());
+        tvPrice.setText(String.format(getString(R.string.rmb_price),detailBean.getPrice()));
         campaignId = detailBean.getCampaignId();
         payType = ALI_PAY;
     }
@@ -104,11 +104,16 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
 
     @Override
     public void setPayResult(PayOrderBean payOrderBean) {
-        orderId = payOrderBean.getOrderId();
-        String payType = payOrderBean.getPayType();
-        PayInterface payInterface = "1".equals(payType) ? new AliPay(this,payListener)
-                : new WeiXinPay(this,payListener);
-        payInterface.payOrder(payOrderBean);
+        if (Double.parseDouble(payOrderBean.getPayAmount()) > 0) {
+            orderId = payOrderBean.getOrderId();
+            String payType = payOrderBean.getPayType();
+            PayInterface payInterface = "1".equals(payType) ? new AliPay(this, payListener)
+                    : new WeiXinPay(this, payListener);
+            payInterface.payOrder(payOrderBean);
+        } else {
+            Toast.makeText(AppointTrainActivity.this,"预约成功",Toast.LENGTH_LONG).show();
+            AppointSuccessActivity.start(this,detailBean.getSignStartTime());
+        }
     }
 
     private PayInterface.PayListener payListener = new PayInterface.PayListener() {
@@ -145,8 +150,8 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
             Intent i = new Intent();
             i.putExtra("status",TrainDetailActivity.STATUS_APPLIED);
             setResult(0,i);
-            Toast.makeText(AppointTrainActivity.this,"支付成功,跳转界面",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(AppointTrainActivity.this,AppointSuccessActivity.class));
+            Toast.makeText(AppointTrainActivity.this,"支付成功",Toast.LENGTH_LONG).show();
+            AppointSuccessActivity.start(AppointTrainActivity.this,detailBean.getSignStartTime());
         }
     };
 
@@ -163,5 +168,4 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
                 break;
         }
     }
-
 }

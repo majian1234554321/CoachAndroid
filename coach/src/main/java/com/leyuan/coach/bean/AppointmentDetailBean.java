@@ -1,10 +1,8 @@
 package com.leyuan.coach.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 public class AppointmentDetailBean {
     private Campaign campaign;
-    private PayOrderBean.PayOptionBean payOption;
+    private PayOrderBean payOption;
 
     public Campaign getCampaign() {
         return campaign;
@@ -14,11 +12,11 @@ public class AppointmentDetailBean {
         this.campaign = campaign;
     }
 
-    public PayOrderBean.PayOptionBean getPayOption() {
+    public PayOrderBean getPayOption() {
         return payOption;
     }
 
-    public void setPayOption(PayOrderBean.PayOptionBean payOption) {
+    public void setPayOption(PayOrderBean payOption) {
         this.payOption = payOption;
     }
 
@@ -168,84 +166,4 @@ public class AppointmentDetailBean {
             this.tickNo = tickNo;
         }
     }
-
-    public class PayOption {
-
-        private String pay_string;  //支付宝使用
-
-        private String appid;       //微信
-        private String partnerid;
-        private String prepayid;
-        @SerializedName("package")
-        private String _package;
-        private String noncestr;
-        private String timestamp;
-        private String sign;
-
-        public String getPay_string() {
-            return pay_string;
-        }
-
-        public void setPay_string(String pay_string) {
-            this.pay_string = pay_string;
-        }
-
-        public String getAppid() {
-            return appid;
-        }
-
-        public void setAppid(String appid) {
-            this.appid = appid;
-        }
-
-        public String getPartnerid() {
-            return partnerid;
-        }
-
-        public void setPartnerid(String partnerid) {
-            this.partnerid = partnerid;
-        }
-
-        public String getPrepayid() {
-            return prepayid;
-        }
-
-        public void setPrepayid(String prepayid) {
-            this.prepayid = prepayid;
-        }
-
-        public String get_package() {
-            return _package;
-        }
-
-        public void set_package(String _package) {
-            this._package = _package;
-        }
-
-        public String getNoncestr() {
-            return noncestr;
-        }
-
-        public void setNoncestr(String noncestr) {
-            this.noncestr = noncestr;
-        }
-
-        public String getTimestamp() {
-            return timestamp;
-        }
-
-        public void setTimestamp(String timestamp) {
-            this.timestamp = timestamp;
-        }
-
-        public String getSign() {
-            return sign;
-        }
-
-        public void setSign(String sign) {
-            this.sign = sign;
-        }
-    }
-
-
 }

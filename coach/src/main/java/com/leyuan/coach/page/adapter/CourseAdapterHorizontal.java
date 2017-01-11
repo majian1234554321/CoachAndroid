@@ -92,7 +92,7 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txt_date = (TextView) itemView.findViewById(R.id.txt_date);
+            txt_date = (TextView) itemView.findViewById(R.id.tv_title);
             txt_course_number = (TextView) itemView.findViewById(R.id.txt_course_number);
             layout_root = (LinearLayout) itemView.findViewById(R.id.layout_root);
         }

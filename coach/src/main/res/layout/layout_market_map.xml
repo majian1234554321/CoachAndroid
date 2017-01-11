@@ -27,7 +27,7 @@
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:text="111111111111"
-                />
+                android:ellipsize="end"/>
 
 
             <TextView

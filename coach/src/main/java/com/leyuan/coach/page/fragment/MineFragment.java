@@ -15,13 +15,13 @@ import com.leyuan.coach.bean.CoachInfo;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseFragment;
-import com.leyuan.coach.page.activity.mine.SettingActivity;
-import com.leyuan.coach.page.activity.mine.AppointmentActivity;
-import com.leyuan.coach.page.activity.mine.MessageCenterActivity;
 import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
+import com.leyuan.coach.page.activity.mine.MessageCenterActivity;
 import com.leyuan.coach.page.activity.mine.MyMoneyActivity;
+import com.leyuan.coach.page.activity.mine.SettingActivity;
 import com.leyuan.coach.page.activity.mine.SignInRecordActivity;
 import com.leyuan.coach.page.activity.mine.UserInfoActivity;
+import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.mvp.presenter.MinePresenter;
 import com.leyuan.coach.page.mvp.view.MineViewListener;
 import com.leyuan.commonlibrary.manager.UiManager;
@@ -104,8 +104,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.layout_my_sign_in:
                 UiManager.activityJump(getActivity(), SignInRecordActivity.class);
-
-
                 break;
             case R.id.layout_setting:
                 UiManager.activityJump(getActivity(), SettingActivity.class);

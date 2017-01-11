@@ -86,7 +86,7 @@ public class WithDrawRecordAdapter extends RecyclerView.Adapter<WithDrawRecordAd
             super(view);
             layoutRoot = (RelativeLayout) view.findViewById(R.id.layout_root);
             txtType = (TextView) view.findViewById(R.id.txt_type);
-            txtDate = (TextView) view.findViewById(R.id.txt_date);
+            txtDate = (TextView) view.findViewById(R.id.tv_title);
             txtMoney = (TextView) view.findViewById(R.id.txt_money);
         }
     }

@@ -123,7 +123,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         ivBack.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
         tvCount.setOnClickListener(this);
-        tvAddress.setOnClickListener(this);
+        llAddress.setOnClickListener(this);
     }
 
     @Override
@@ -131,6 +131,10 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()){
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.ll_address:
+                TrainMapActivity.start(this,detailBean.getTitle(),detailBean.getBrandName(),
+                        detailBean.getPlace(),detailBean.getLat(),detailBean.getLng());
                 break;
             case R.id.tv_count:
                 AppointmentUserActivity.start(this,detailBean.getMembersList());
@@ -171,16 +175,6 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),bean.getSignStartTime()));
         RichText.from(bean.getContents()).into(tvCampaignDesc);
         setBottomStatus();
-    }
-
-    @Override
-    public void shareCampaign() {
-
-    }
-
-    @Override
-    public void applyCampaign() {
-
     }
 
     private void setBottomStatus(){
