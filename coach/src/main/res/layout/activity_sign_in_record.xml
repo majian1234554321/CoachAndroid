@@ -46,9 +46,12 @@
         android:id="@+id/ultimate_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:recyclerviewClipToPadding="true"
-        app:recyclerviewDefaultSwipeColor="@color/black"
-        app:recyclerviewEmptyView="@layout/layout_empty"
-        app:recyclerviewScrollbars="none" />
+         />
+
+
+    <!--app:recyclerviewClipToPadding="true"-->
+    <!--app:recyclerviewDefaultSwipeColor="@array/google_colors"-->
+    <!--app:recyclerviewFloatingActionView="@layout/floating_view"-->
+    <!--app:recyclerviewScrollbars="vertical"-->
 
 </LinearLayout>

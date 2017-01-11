@@ -1088,6 +1088,11 @@
     <string name="you_have_one_new_message">您有一封信息未查看</string>
     <string name="next_day">后一天</string>
     <string name="click_into_map">点击进入地图</string>
+    <string name="total_earning">总收益</string>
+    <string name="course_earning">课时收益</string>
+    <string name="other_earning">其他收益</string>
+    <string name="course_earning_detail">课时收益明细</string>
+    <string name="other_earning_detail">其他收益明细</string>
 
 
 </resources>

@@ -3,6 +3,7 @@ package com.leyuan.coach.page.activity.course;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.leyuan.coach.R;
 
@@ -11,11 +12,14 @@ import com.leyuan.coach.R;
  */
 public class NextMonthClassScheduleActivity extends Activity implements View.OnClickListener {
 
+    private FrameLayout layoutContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_month_class_schedule);
 
+        layoutContainer = (FrameLayout) findViewById(R.id.layout_container);
         findViewById(R.id.img_left).setOnClickListener(this);
         findViewById(R.id.confirmed).setOnClickListener(this);
         findViewById(R.id.bt_unconfirmed).setOnClickListener(this);

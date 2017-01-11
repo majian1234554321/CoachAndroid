@@ -23,6 +23,11 @@ public class MyDateUtils {
         return DateFormat.format(yearMonthDay, Calendar.getInstance()).toString();
     }
 
+
+    public static String getCurrentMonth() {
+        return DateFormat.format(yearMonth, Calendar.getInstance()).toString();
+    }
+
     public static int getFirstWeekDayByMonth(String month) {
         return getFirstWeekDay(month, yearMonth);
     }
@@ -144,4 +149,5 @@ public class MyDateUtils {
         }
         return -1;
     }
+
 }

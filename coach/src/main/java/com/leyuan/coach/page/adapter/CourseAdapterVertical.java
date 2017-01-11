@@ -72,7 +72,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 holder.btSignState.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.toSignIn(id);
+                        listener.onRightButtonClick(id);
                     }
                 });
                 break;
@@ -102,7 +102,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.turnToMap(course);
+                listener.onItemClick(course);
             }
         });
 
@@ -137,8 +137,8 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     public interface OnCourseItemClickListener {
 
-        void toSignIn(int id);
+        void onRightButtonClick(int id);
 
-        void turnToMap(ClassSchedule course);
+        void onItemClick(ClassSchedule course);
     }
 }

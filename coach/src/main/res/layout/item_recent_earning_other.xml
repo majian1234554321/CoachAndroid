@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/shape_radius_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_other_earning_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="@string/other_earning_detail"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="13dp"
+        android:background="@color/common_divider_color" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerOtherEarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        />
+
+
+</LinearLayout>
+
