@@ -17,9 +17,12 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 public class QRCodeUtil {
-    public static Bitmap creatBarcode(Context context, String contents,
-                                     int desiredWidth, int desiredHeight, boolean displayCode) {
-        Bitmap ruseltBitmap = null;
+    private static int BLACK;
+
+    public static Bitmap createBarcode(Context context, int black,String contents,
+                                       int desiredWidth, int desiredHeight, boolean displayCode) {
+        Bitmap resultBitmap = null;
+        BLACK = black;
         int marginW = 20;
         BarcodeFormat barcodeFormat = BarcodeFormat.CODE_128;
 
@@ -28,21 +31,21 @@ public class QRCodeUtil {
                     desiredWidth, desiredHeight);
             Bitmap codeBitmap = createCodeBitmap(contents, desiredWidth + 2
                     * marginW, desiredHeight, context);
-            ruseltBitmap = mixtureBitmap(barcodeBitmap, codeBitmap, new PointF(
+            resultBitmap = mixtureBitmap(barcodeBitmap, codeBitmap, new PointF(
                     0, desiredHeight));
         } else {
-            ruseltBitmap = encodeAsBitmap(contents, barcodeFormat,
+            resultBitmap = encodeAsBitmap(contents, barcodeFormat,
                     desiredWidth, desiredHeight);
         }
 
-        return ruseltBitmap;
+        return resultBitmap;
     }
 
 
     protected static Bitmap encodeAsBitmap(String contents,
                                            BarcodeFormat format, int desiredWidth, int desiredHeight) {
         final int WHITE = 0xFFFFFFFF;
-        final int BLACK = 0xFF000000;
+        //final int BLACK = 0xFF000000;
 
         MultiFormatWriter writer = new MultiFormatWriter();
         BitMatrix result = null;
@@ -88,8 +91,7 @@ public class QRCodeUtil {
         tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
 
         tv.buildDrawingCache();
-        Bitmap bitmapCode = tv.getDrawingCache();
-        return bitmapCode;
+        return tv.getDrawingCache();
     }
 
 

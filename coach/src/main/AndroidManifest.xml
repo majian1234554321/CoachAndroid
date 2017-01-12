@@ -148,9 +148,6 @@
             android:name=".page.activity.train.AppointmentUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".page.activity.mine.AppointmentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".page.activity.mine.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -159,6 +156,13 @@
 
         <activity
             android:name=".page.activity.train.AppointSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.train.TrainMapActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".page.activity.mine.AppointmentActivity"
             android:screenOrientation="portrait" />
 
         <!-- ********************BaiDuMap************************* -->
@@ -281,12 +285,16 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+        </activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind">
+
+        </activity>
 
         <!-- ********************WeiXinPay************************* -->
         <activity
@@ -294,7 +302,6 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
 
     </application>
 

@@ -27,6 +27,24 @@ public class CampaignDetailBean implements Parcelable {
     private String status = "";
     private String subtitle;
     private String orderId;
+    private String lat;
+    private String lng;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
 
     public String getCampaignId() {
         return campaignId;
@@ -188,6 +206,7 @@ public class CampaignDetailBean implements Parcelable {
         this.orderId = orderId;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -215,6 +234,8 @@ public class CampaignDetailBean implements Parcelable {
         dest.writeString(this.status);
         dest.writeString(this.subtitle);
         dest.writeString(this.orderId);
+        dest.writeString(this.lat);
+        dest.writeString(this.lng);
     }
 
     public CampaignDetailBean() {
@@ -241,6 +262,8 @@ public class CampaignDetailBean implements Parcelable {
         this.status = in.readString();
         this.subtitle = in.readString();
         this.orderId = in.readString();
+        this.lat = in.readString();
+        this.lng = in.readString();
     }
 
     public static final Parcelable.Creator<CampaignDetailBean> CREATOR = new Parcelable.Creator<CampaignDetailBean>() {

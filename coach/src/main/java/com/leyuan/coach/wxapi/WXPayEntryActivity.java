@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.leyuan.coach.R;
 import com.leyuan.coach.pay.PayInterface;
 import com.leyuan.coach.pay.WeiXinPay;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -22,7 +23,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.pay_result);
+        setContentView(R.layout.pay_result);
         api = WXAPIFactory.createWXAPI(this, WeiXinPay.appId);
         api.handleIntent(getIntent(), this);
     }

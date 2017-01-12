@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
     <com.leyuan.coach.widget.SimpleTitleBar
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         app:stb_title="预约成功"/>
@@ -93,9 +94,5 @@
             android:textColor="@color/main_red"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/line_color"/>
+
 </LinearLayout>

@@ -59,8 +59,8 @@ public class PagerAdapterTakeCourse extends PagerAdapter {
 
         ImageView imgCourseType = (ImageView) view.findViewById(R.id.img_course_type);
         TextView txtCourseName = (TextView) view.findViewById(R.id.txt_course_name);
-        TextView txtDate = (TextView) view.findViewById(R.id.txt_date);
-        TextView txtTime = (TextView) view.findViewById(R.id.txt_time);
+        TextView txtDate = (TextView) view.findViewById(R.id.tv_title);
+        TextView txtTime = (TextView) view.findViewById(R.id.tv_sub_title);
         TextView txtStoreName = (TextView) view.findViewById(R.id.txt_store_name);
         TextView txtAddress = (TextView) view.findViewById(R.id.txt_address);
         TextView txtMap = (TextView) view.findViewById(R.id.txt_map);

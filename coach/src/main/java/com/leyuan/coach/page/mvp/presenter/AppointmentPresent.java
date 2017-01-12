@@ -1,7 +1,6 @@
 package com.leyuan.coach.page.mvp.presenter;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 
 import com.leyuan.coach.bean.AppointmentBean;
@@ -59,22 +58,18 @@ public class AppointmentPresent  {
     }
 
 
-    public void pullToRefreshData(final SwipeRefreshLayout swipeRefreshLayout, String coachId, String type) {
+    public void pullToRefreshData(String coachId, String type) {
         appointmentModel.getAppointments(new BaseSubscriber<List<AppointmentBean>>(context) {
             @Override
             public void onNext(List<AppointmentBean> appointmentBeanList) {
                 if(appointmentBeanList != null && !appointmentBeanList.isEmpty()) {
                     appointmentViewListener.updateRecyclerView(appointmentBeanList);
                 }else {
-                    if(swipeRefreshLayout.isRefreshing()){
-                        swipeRefreshLayout.setRefreshing(false);
-                        appointmentViewListener.showEmptyView();
-                    }
+                    appointmentViewListener.showEmptyView();
                 }
             }
         },coachId,type,1);
     }
-
 
     public void requestMoreData(RecyclerView recyclerView, String coachId, String type, final int pageSize, final int page) {
         appointmentModel.getAppointments(new RequestMoreSubscriber<List<AppointmentBean>>(context,recyclerView,pageSize) {
@@ -105,11 +100,28 @@ public class AppointmentPresent  {
         },orderId);
     }
 
+    public void getAppointmentDetail(String orderId) {
+        appointmentModel.getAppointmentDetail(new BaseSubscriber<AppointmentDetailBean>(context) {
+            @Override
+            public void onNext(AppointmentDetailBean appointmentDetailBean) {
+                if(appointmentDetailBean != null && appointmentDetailBean.getCampaign() != null) {
+                    appointmentDetailViewListener.setAppointmentDetail(appointmentDetailBean);
+                }
+            }
+        },orderId);
+    }
+
+
     public void updateOrderStatus(String oderId,String type){
         appointmentModel.updateAppointmentStatus(new ProgressSubscriber<BaseBean>(context) {
             @Override
             public void onNext(BaseBean baseBean) {
-                appointmentViewListener.setUpdateOrderStatus(baseBean);
+                if(appointmentViewListener != null) {
+                    appointmentViewListener.setUpdateOrderStatus(baseBean);
+                }
+                if(appointmentDetailViewListener != null) {
+                    appointmentDetailViewListener.setUpdateOrderStatus(baseBean);
+                }
             }
         },oderId,type);
     }
