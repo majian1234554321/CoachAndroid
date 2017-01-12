@@ -1,4 +1,4 @@
-package com.leyuan.coach.page.mvp.view.implement;
+package com.leyuan.coach.page.mvp.view;
 
 import android.os.Bundle;
 
@@ -13,4 +13,7 @@ public interface ClassScheduleViewListener {
     void onItemClick(ClassSchedule course);
 
     void startActivityForResult(int currentCalendarPosition, Bundle bundle);
+
+    void refreshCourseList(String currentCalendarPosition);
+
 }

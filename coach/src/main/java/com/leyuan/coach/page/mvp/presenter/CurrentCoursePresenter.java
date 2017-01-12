@@ -92,4 +92,19 @@ public class CurrentCoursePresenter {
         });
     }
 
+    public void getSuspendCourseList() {
+        courseModel.getSuspendCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
+            @Override
+            public void onNext(ArrayList<ClassSchedule> arrayList) {
+                viewListener.onGetSuspendCourseList(arrayList);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetSuspendCourseList(null);
+            }
+        });
+    }
+
 }

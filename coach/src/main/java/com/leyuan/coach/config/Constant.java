@@ -5,6 +5,7 @@ package com.leyuan.coach.config;
  */
 
 public class Constant {
+
     public static final String IMAGE_CODE = UrlConfig.BASE_URL + "code/createCode.json?phone=";
 
     public static final String POSITION = "position";

@@ -32,12 +32,36 @@ public class MyDateUtils {
         return getFirstWeekDay(month, yearMonth);
     }
 
+
+    public static MonthIndex compareMonth(String month) {
+
+        try {
+            Date inDate = yearMonthFormat.parse(month);
+            Date date = new Date();
+
+            if (inDate.getYear() < date.getYear()) {
+                return MonthIndex.MONTH_PRE;
+            } else if (inDate.getYear() == date.getYear() && inDate.getMonth() < date.getMonth()) {
+                return MonthIndex.MONTH_PRE;
+            } else if (inDate.getYear() == date.getYear() && inDate.getMonth() == date.getMonth()) {
+                return MonthIndex.MONTH_CURRENT;
+            } else {
+                return MonthIndex.MONTH_NEXT;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return MonthIndex.MONTH_NEXT;
+    }
+
+
     public static int getCurrentDay(String month) {
         SimpleDateFormat yearMonthFormat = new SimpleDateFormat(yearMonth);
         try {
             Date inDate = yearMonthFormat.parse(month);
             Date date = new Date();
-            if (date.getYear() == inDate.getYear() || date.getMonth() == inDate.getMonth()) {
+            if (date.getYear() == inDate.getYear() && date.getMonth() == inDate.getMonth()) {
                 LogUtil.i("date", "date.getDate , === currentDay :" + date.getDate());
                 return date.getDate() - 1;
 
@@ -72,7 +96,7 @@ public class MyDateUtils {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(yearMonthDayFormat.parse(timeMouth));
-            day = (calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
+            day = (calendar.get(Calendar.MONTH)) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -148,6 +172,10 @@ public class MyDateUtils {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public enum MonthIndex {
+        MONTH_PRE, MONTH_CURRENT, MONTH_NEXT;
     }
 
 }

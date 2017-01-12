@@ -11,8 +11,8 @@ import com.leyuan.coach.R;
  */
 public class RecentEarningCourseViewHolder extends RecyclerView.ViewHolder {
 
-     TextView txtCourseEarningDetail;
-     RecyclerView recyclerCourseEarning;
+    TextView txtCourseEarningDetail;
+    RecyclerView recyclerCourseEarning;
 
     public RecentEarningCourseViewHolder(View view) {
         super(view);

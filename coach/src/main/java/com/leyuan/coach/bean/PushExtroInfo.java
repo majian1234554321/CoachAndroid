@@ -5,7 +5,7 @@ package com.leyuan.coach.bean;
  */
 public class PushExtroInfo {
 
-    int type; //(1是最新消息，2是当月代课通知，3是下月待确认课表)
+    int type; //(1是最新消息，2是当月代课通知，3是下月待确认课表,4 停课通知)
     String backup;
 
     public int getType() {
@@ -23,4 +23,6 @@ public class PushExtroInfo {
     public void setBackup(String backup) {
         this.backup = backup;
     }
+
+
 }

@@ -9,7 +9,7 @@ import android.view.View;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
-import com.leyuan.coach.config.StringConstant;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.CalendarAdapter;
 import com.leyuan.coach.utils.LogUtil;
@@ -36,12 +36,12 @@ public class CalendarActivity extends BaseActivity {
         setContentView(R.layout.activity_calendar);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            positionClicked = bundle.getInt(StringConstant.POSITION);
-            myCalendars = bundle.getParcelableArrayList(StringConstant.ARRAY);
+            positionClicked = bundle.getInt(ConstantString.POSITION);
+            myCalendars = bundle.getParcelableArrayList(ConstantString.ARRAY);
 
         }
 
-        LogUtil.i("CalendarActivity","input positionClicked  = " +positionClicked);
+        LogUtil.i("CalendarActivity", "input positionClicked  = " + positionClicked);
 
         initView();
         initData();

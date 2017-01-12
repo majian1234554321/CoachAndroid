@@ -1,4 +1,4 @@
-package com.leyuan.coach.page.mvp.view.implement;
+package com.leyuan.coach.page.mvp.view.classScheduleView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +17,12 @@ import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.bean.CourseResult;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
-import com.leyuan.coach.config.StringConstant;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
-import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
+import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
+import com.leyuan.coach.utils.CourseDateUtils;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
-import com.leyuan.commonlibrary.util.MyDateUtils;
 
 import java.util.ArrayList;
 
@@ -30,25 +30,23 @@ import java.util.ArrayList;
  * Created by user on 2017/1/9.
  */
 
-public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnCourseItemClickListener, View.OnClickListener {
+public abstract class BaseClassScheduleView implements View.OnClickListener {
     private Context context;
 
-    private RecyclerView recyclerHan;
-    private LinearLayout layoutPreMonth;
-    private ImageView imageView;
-    private TextView txtPreMonth;
-    private TextView txtPreMonthClassNumber;
-    private LinearLayout layoutNextMonth;
-    private TextView txtSignAll;
-    private TextView txtNextMonth;
-    private TextView txtNextMonthClassNumber;
-    private TextView txtClassNumber;
-    private RecyclerView recyclerView;
+    protected RecyclerView recyclerHan;
+    protected LinearLayout layoutPreMonth;
+    protected ImageView imageView;
+    protected TextView txtPreMonth;
+    protected TextView txtPreMonthClassNumber;
+    protected LinearLayout layoutNextMonth;
+    protected TextView txtSignAll;
+    protected TextView txtNextMonth;
+    protected TextView txtNextMonthClassNumber;
+    protected TextView txtClassNumber;
+    protected RecyclerView recyclerView;
 
     private CourseAdapterHorizontal courseAdapterHorizontal;
     private CourseAdapterVertical courseAdapterVertical;
-
-    private CurrentCoursePresenter presenter;
 
     private ArrayList<MyCalendar> myCalendars = new ArrayList<>();
 
@@ -57,9 +55,13 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
     private ArrayList<Integer> calendarCourseNumberArray = new ArrayList<>();
     private ClassScheduleViewListener listener;
 
-    public BaseClassScheduleView(Context context, ClassScheduleViewListener listener) {
+    protected BaseClassScheduleView(Context context, ClassScheduleViewListener listener) {
         this.context = context;
         this.listener = listener;
+    }
+
+    protected BaseClassScheduleView(Context context) {
+        this.context = context;
     }
 
     public View createView(LayoutInflater inflater) {
@@ -69,7 +71,7 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
 
     public View createView(LayoutInflater inflater, ViewGroup container,
                            boolean attachRoot) {
-        View view = inflater.inflate(R.layout.layout_class_schedule, null, false);
+        View view = inflater.inflate(R.layout.layout_class_schedule, container, attachRoot);
 
         recyclerHan = (RecyclerView) view.findViewById(R.id.recyclerHan);
         layoutPreMonth = (LinearLayout) view.findViewById(R.id.layout_pre_month);
@@ -98,9 +100,12 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
         LinearLayoutManagerNoScroll managerHorizontal = new LinearLayoutManagerNoScroll(context, LinearLayoutManager.HORIZONTAL, false);
         managerHorizontal.setScrollHorizontalEnabled(false);
         recyclerHan.setLayoutManager(managerHorizontal);
+        courseAdapterHorizontal = new CourseAdapterHorizontal(context, myCalendars, horizontalItemClickListener);
+        recyclerHan.setAdapter(courseAdapterHorizontal);
+
 
         LinearLayoutManager managerVertical = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        courseAdapterVertical = new CourseAdapterVertical(context, this);
+        courseAdapterVertical = new CourseAdapterVertical(context, verticalItemClickListener);
         recyclerView.setLayoutManager(managerVertical);
         recyclerView.setAdapter(courseAdapterVertical);
 
@@ -108,6 +113,7 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
     }
 
     private void initData() {
+
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
     }
@@ -134,21 +140,39 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
         }
     }
 
+    private CourseAdapterHorizontal.OnItemClickListener horizontalItemClickListener = new CourseAdapterHorizontal.OnItemClickListener() {
 
-    @Override
-    public void onRightButtonClick(int id) {
-        listener.onRightButtonClick(id);
-    }
+        @Override
+        public void onItemClick(int currentPosition) {
+            currentCalendarPosition = currentPosition;
 
-    @Override
-    public void onItemClick(ClassSchedule course) {
-        listener.onItemClick(course);
-    }
+            Bundle bundle = new Bundle();
+            bundle.putInt(ConstantString.POSITION, currentPosition);
+            bundle.putParcelableArrayList(ConstantString.ARRAY, myCalendars);
 
+            listener.startActivityForResult(currentCalendarPosition, bundle);
+
+        }
+    };
+
+    private CourseAdapterVertical.OnCourseItemClickListener verticalItemClickListener = new CourseAdapterVertical.OnCourseItemClickListener() {
+        @Override
+        public void onRightButtonClick(int id) {
+            listener.onRightButtonClick(id);
+        }
+
+        @Override
+        public void onItemClick(ClassSchedule course) {
+            listener.onItemClick(course);
+        }
+    };
 
     private void refreshPreNextState() {
         recyclerHan.scrollToPosition(currentCalendarPosition);
         refreshPreNextView(currentCalendarPosition);
+
+        listener.refreshCourseList(CourseDateUtils.getCalendarDateByPosition(
+                currentCalendarPosition, myCalendars));
     }
 
     private void refreshPreNextView(int currentCalendarPosition) {
@@ -176,45 +200,22 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
         }
     }
 
-    public void setCalendarData(final ArrayList<MyCalendar> myCalendars) {
+    public void setCalendarData(final ArrayList<MyCalendar> myCalendars, int calendarPosition) {
         if (myCalendars == null)
             return;
+        courseAdapterHorizontal.refreshData(myCalendars);
         this.myCalendars.clear();
         this.myCalendars.addAll(myCalendars);
 
-        courseAdapterHorizontal = new CourseAdapterHorizontal(context, myCalendars, new CourseAdapterHorizontal.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(int currentPosition) {
-                currentCalendarPosition = currentPosition;
-
-                Bundle bundle = new Bundle();
-                bundle.putInt(StringConstant.POSITION, currentPosition);
-                bundle.putParcelableArrayList(StringConstant.ARRAY, myCalendars);
-
-                listener.startActivityForResult(currentCalendarPosition, bundle);
-
-            }
-        });
-        recyclerHan.setAdapter(courseAdapterHorizontal);
 
         for (MyCalendar calendar : myCalendars) {
             totalCalendarItem += calendar.getDayList().length;
 
-//            currentCalendarPosition = MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth());
             for (int i = 0; i < calendar.getDayList().length; i++) {
                 calendarCourseNumberArray.add(calendar.getDayList()[i]);
             }
         }
-
-        for (MyCalendar calendar : myCalendars) {
-            if (MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth()) >= 0) {
-                currentCalendarPosition += MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth());
-                break;
-            } else {
-                currentCalendarPosition += calendar.getDayList().length;
-            }
-        }
+        currentCalendarPosition = calendarPosition;
 
         recyclerHan.scrollToPosition(currentCalendarPosition);
         refreshPreNextView(currentCalendarPosition);
@@ -226,12 +227,8 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
             courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
             return;
         }
-        txtClassNumber.setText(courseResult.getDateTime() + " 本月共" + courseResult.getCourseSize() + "节课");
-        if (courseResult.getNormalCou() == 0 && courseResult.getAbnormalCou() == 0) {
-            txtSignAll.setText("注:请于课前15分钟内签到");
-        } else {
-            txtSignAll.setText("正常签到" + courseResult.getNormalCou() + "节 " + "异常签到" + courseResult.getAbnormalCou() + "节");
-        }
+
+        setHintLayout(courseResult);
 
         courseAdapterVertical.refreshData(courseResult.getCoachList());
     }
@@ -248,7 +245,11 @@ public abstract class BaseClassScheduleView implements CourseAdapterVertical.OnC
         }
     }
 
-    public void destoryView() {
+    public void destroyView() {
 
     }
+
+    public abstract void setHintLayout(CourseResult courseResult);
+
+
 }

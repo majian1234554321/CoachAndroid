@@ -1,7 +1,6 @@
 package com.leyuan.coach.page.mvp.model;
 
 import com.leyuan.coach.bean.ClassSchedule;
-import com.leyuan.coach.bean.CourseNextMonthResult;
 import com.leyuan.coach.bean.CourseResult;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.http.RetrofitHelper;
@@ -28,7 +27,6 @@ public class CourseModel {
         if (App.getInstance().isLogin()) {
             id = String.valueOf(App.getInstance().getUser().getId());
         }
-
     }
 
     public void getCurrentCalendar(Subscriber<ArrayList<MyCalendar>> subscriber) {
@@ -52,6 +50,18 @@ public class CourseModel {
     public void getCourseList(Subscriber<CourseResult> subscriber, String id, String courseTime) {
         classService.getCourseList(id, courseTime)
                 .compose(RxHelper.<CourseResult>transform())
+                .subscribe(subscriber);
+    }
+
+    public void getSuspendCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber) {
+        classService.getSuspendCourseList(id)
+                .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
+                .subscribe(subscriber);
+    }
+
+    public void confirmSuspendClass(Subscriber<Object> subscriber, String timetableId) {
+        classService.suspendClassConfirm(id, timetableId)
+                .compose(RxHelper.transform())
                 .subscribe(subscriber);
     }
 
@@ -96,17 +106,17 @@ public class CourseModel {
                 .subscribe(subscriber);
     }
 
-    public void getNextMonthUnconfirmCourseList(Subscriber<CourseNextMonthResult> subscriber, String courseTime) {
+    public void getNextMonthUnconfirmCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
         getNextMonthCourseList(subscriber, id, courseTime, "0");
     }
 
-    public void getNextMonthConfirmedCourseList(Subscriber<CourseNextMonthResult> subscriber, String courseTime) {
+    public void getNextMonthConfirmedCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
         getNextMonthCourseList(subscriber, id, courseTime, "1");
     }
 
-    public void getNextMonthCourseList(Subscriber<CourseNextMonthResult> subscriber, String id, String courseTime, String type) {
+    public void getNextMonthCourseList(Subscriber<CourseResult> subscriber, String id, String courseTime, String type) {
         classService.getNextMonthCourseList(id, courseTime, type)
-                .compose(RxHelper.<CourseNextMonthResult>transform())
+                .compose(RxHelper.<CourseResult>transform())
                 .subscribe(subscriber);
     }
 
@@ -119,6 +129,5 @@ public class CourseModel {
                 .compose(transform())
                 .subscribe(subscriber);
     }
-
 
 }

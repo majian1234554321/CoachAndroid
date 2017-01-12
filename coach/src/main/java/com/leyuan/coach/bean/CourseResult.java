@@ -11,7 +11,54 @@ public class CourseResult {
     int courseSize;// 6（当前月课程数量）
     int normalCou;//正常课程数量
     int abnormalCou; //异常课程数量
+
+    int tdb;//待确认数量
+    int confirm;//:已确认数量
+    String courseDate;//: "2016-12-18",（时间）
+    String courseTime;//: "2016年12月",（日期）
+    int minute;//: 分钟
+
     ArrayList<ClassSchedule> coachList;
+
+    public int getTdb() {
+        return tdb;
+    }
+
+    public void setTdb(int tdb) {
+        this.tdb = tdb;
+    }
+
+    public int getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(int confirm) {
+        this.confirm = confirm;
+    }
+
+    public String getCourseDate() {
+        return courseDate;
+    }
+
+    public void setCourseDate(String courseDate) {
+        this.courseDate = courseDate;
+    }
+
+    public String getCourseTime() {
+        return courseTime;
+    }
+
+    public void setCourseTime(String courseTime) {
+        this.courseTime = courseTime;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
 
     public ArrayList<ClassSchedule> getCoachList() {
         return coachList;

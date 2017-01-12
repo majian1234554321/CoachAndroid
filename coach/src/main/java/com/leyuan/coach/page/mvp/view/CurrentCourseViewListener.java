@@ -19,4 +19,6 @@ public interface CurrentCourseViewListener {
     void onSignResult(boolean b);
 
     void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList);
+
+    void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList);
 }

@@ -57,8 +57,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
+        <Button
+            android:id="@+id/bt_contact"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="@string/contact_governor"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bt_know"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:background="@color/red_origin"
+            android:gravity="center"
+            android:text="@string/i_know_no_problem"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

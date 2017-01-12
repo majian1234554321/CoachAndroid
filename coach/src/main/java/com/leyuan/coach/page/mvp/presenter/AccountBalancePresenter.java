@@ -2,7 +2,7 @@ package com.leyuan.coach.page.mvp.presenter;
 
 import android.content.Context;
 
-import com.leyuan.coach.bean.RecentEaringResult;
+import com.leyuan.coach.bean.RecentEarningResult;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
 import com.leyuan.coach.page.mvp.model.AccountBalanceModel;
 import com.leyuan.coach.page.mvp.view.AccoutBalanceViewListener;
@@ -51,9 +51,9 @@ public class AccountBalancePresenter {
     }
 
     public void getRecentEarning(String cashTime) {
-        model.getRecentEarning(new BaseSubscriber<RecentEaringResult>(context) {
+        model.getRecentEarning(new BaseSubscriber<RecentEarningResult>(context) {
             @Override
-            public void onNext(RecentEaringResult recentEaringResult) {
+            public void onNext(RecentEarningResult recentEaringResult) {
                 if (recentEarningListener != null) {
                     recentEarningListener.onGetRecentEarning(recentEaringResult);
                 }

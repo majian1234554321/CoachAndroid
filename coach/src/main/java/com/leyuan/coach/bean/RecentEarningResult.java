@@ -5,11 +5,13 @@ import java.util.ArrayList;
 /**
  * Created by user on 2017/1/9.
  */
-public class RecentEaringResult {
+public class RecentEarningResult {
     double totalIncome; //: 100 总收益
     double welfareIncome; //: 福利收益
     double classIncome; //课时收益
     String months; //: "2016-12"年月,
+    String incomeDate; // "2017-01-01 00:00:00"
+
     ArrayList<CourseEarning> lists;
     ArrayList<OtherEarning> otherList;
 
@@ -47,6 +49,14 @@ public class RecentEaringResult {
 
     public ArrayList<CourseEarning> getLists() {
         return lists;
+    }
+
+    public String getIncomeDate() {
+        return incomeDate;
+    }
+
+    public void setIncomeDate(String incomeDate) {
+        this.incomeDate = incomeDate;
     }
 
     public void setLists(ArrayList<CourseEarning> lists) {

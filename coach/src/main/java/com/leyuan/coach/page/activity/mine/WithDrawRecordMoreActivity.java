@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.leyuan.coach.R;
-import com.leyuan.coach.bean.WithdrawDetail;
+import com.leyuan.coach.bean.RecentEarningResult;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.adapter.WithDrawRecordAdapter;
+import com.leyuan.coach.page.adapter.EarningDetailAdapter;
 import com.leyuan.coach.page.mvp.presenter.WithDrawRecordPresenter;
 import com.leyuan.coach.page.mvp.view.WithDrawRecordMoreListener;
 import com.leyuan.coach.widget.CommonTitleLayout;
@@ -18,14 +19,14 @@ import java.util.ArrayList;
 /**
  * Created by user on 2016/12/28.
  */
-public class WithDrawRecordMoreActivity extends BaseActivity implements WithDrawRecordMoreListener, WithDrawRecordAdapter.OnItemClickListener {
+public class WithDrawRecordMoreActivity extends BaseActivity implements WithDrawRecordMoreListener, EarningDetailAdapter.OnItemClickListener {
 
 
     private CommonTitleLayout titleLayout;
     private RecyclerView recyclerView;
     private WithDrawRecordPresenter presenter;
-    private WithDrawRecordAdapter adapter;
-    private int page;
+    private EarningDetailAdapter adapter;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        adapter = new WithDrawRecordAdapter(this);
+        adapter = new EarningDetailAdapter(this);
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -52,20 +53,20 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
     }
 
     @Override
-    public void onGetMoreWithDrawRecord(ArrayList<WithdrawDetail> withdrawDetails, int page) {
+    public void onGetMoreWithDrawRecord(ArrayList<RecentEarningResult> earningDetails, int page) {
 
-        if (page == 0) {
-            adapter.refreshData(withdrawDetails);
+        if (page == 1) {
+            adapter.refreshData(earningDetails);
         } else {
-            adapter.addMoreData(withdrawDetails);
+            adapter.addMoreData(earningDetails);
         }
 
     }
 
     @Override
-    public void onClick(WithdrawDetail detail) {
-
-        UiManager.activityJump(this, RecentEarningActivity.class);
-
+    public void onClick(String month) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ConstantString.MONTHS, month);
+        UiManager.activityJump(this, bundle, RecentEarningActivity.class);
     }
 }

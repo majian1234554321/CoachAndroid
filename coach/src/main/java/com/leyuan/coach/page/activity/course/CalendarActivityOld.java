@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
-import com.leyuan.coach.config.StringConstant;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.CalendarAdapterOld;
 import com.leyuan.coach.widget.CommonTitleLayout;
@@ -43,8 +43,8 @@ public class CalendarActivityOld extends BaseActivity {
         setContentView(R.layout.activity_calendar_old);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            positionClicked = bundle.getInt(StringConstant.POSITION);
-            myCalendars = bundle.getParcelableArrayList(StringConstant.ARRAY);
+            positionClicked = bundle.getInt(ConstantString.POSITION);
+            myCalendars = bundle.getParcelableArrayList(ConstantString.ARRAY);
 
         }
 

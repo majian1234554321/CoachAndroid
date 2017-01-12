@@ -2,6 +2,7 @@ package com.leyuan.coach.page.mvp.presenter;
 
 import android.content.Context;
 
+import com.leyuan.coach.bean.RecentEarningResult;
 import com.leyuan.coach.bean.WithdrawDetail;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
 import com.leyuan.coach.page.mvp.model.AccountBalanceModel;
@@ -45,9 +46,9 @@ public class WithDrawRecordPresenter {
     }
 
     public void getMoreWithdrawRecord(final int page) {
-        model.getMoreWithdrawRecord(new BaseSubscriber<ArrayList<WithdrawDetail>>(context) {
+        model.getMoreWithdrawRecord(new BaseSubscriber<ArrayList<RecentEarningResult>>(context) {
             @Override
-            public void onNext(ArrayList<WithdrawDetail> withdrawDetails) {
+            public void onNext(ArrayList<RecentEarningResult> withdrawDetails) {
 
                 if (listenerMore != null)
                     listenerMore.onGetMoreWithDrawRecord(withdrawDetails, page);

@@ -1,6 +1,6 @@
 package com.leyuan.coach.page.mvp.model;
 
-import com.leyuan.coach.bean.RecentEaringResult;
+import com.leyuan.coach.bean.RecentEarningResult;
 import com.leyuan.coach.bean.WithdrawDetail;
 import com.leyuan.coach.http.RetrofitHelper;
 import com.leyuan.coach.http.RxHelper;
@@ -43,9 +43,9 @@ public class AccountBalanceModel {
                 .subscribe(subscriber);
     }
 
-    public void getMoreWithdrawRecord(Subscriber<ArrayList<WithdrawDetail>> subscriber, String page) {
+    public void getMoreWithdrawRecord(Subscriber<ArrayList<RecentEarningResult>> subscriber, String page) {
         service.getMoreWithdrawRecord(id, page)
-                .compose(RxHelper.<ArrayList<WithdrawDetail>>transform())
+                .compose(RxHelper.<ArrayList<RecentEarningResult>>transform())
                 .subscribe(subscriber);
     }
 
@@ -55,10 +55,10 @@ public class AccountBalanceModel {
                 .subscribe(subscriber);
     }
 
-    public void getRecentEarning(Subscriber<RecentEaringResult> subscriber, String cashTime) {
+    public void getRecentEarning(Subscriber<RecentEarningResult> subscriber, String cashTime) {
 
         service.getRecentEarning(id, cashTime)
-                .compose(RxHelper.<RecentEaringResult>transform())
+                .compose(RxHelper.<RecentEarningResult>transform())
                 .subscribe(subscriber);
     }
 

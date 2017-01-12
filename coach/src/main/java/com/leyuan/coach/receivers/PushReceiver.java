@@ -8,10 +8,9 @@ import android.os.Bundle;
 import com.facebook.stetho.common.LogUtil;
 import com.google.gson.Gson;
 import com.leyuan.coach.bean.PushExtroInfo;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.MainActivity;
-import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
-import com.leyuan.coach.page.activity.mine.MessageDetailActivity;
 import com.leyuan.commonlibrary.manager.UiManager;
 
 import org.json.JSONException;
@@ -55,27 +54,34 @@ public class PushReceiver extends BroadcastReceiver {
             com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的通知 notifactionId: " + notifactionId + ",extra = " + value);
 
             PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
-            switch (info.getType()) {
-                case 1:
-                    UiManager.activityJump(context, bundle, MessageDetailActivity.class,
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    break;
-                case 2:
-                    UiManager.activityJump(context, bundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    break;
-                case 3:
-                    UiManager.activityJump(context, bundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Bundle pushBundle = new Bundle();
+            pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
+            pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
 
-                    break;
-
-                case 4:
-                    UiManager.activityJump(context, bundle, NextMonthClassScheduleActivity.class,
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    break;
+            if (info.getType() == 2 || info.getType() == 4) {
+                UiManager.activityJump(context, pushBundle, MainActivity.class,
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             }
+
+//            switch (info.getType()) {
+//                case 1:
+//                    UiManager.activityJump(context, pushBundle, MessageDetailActivity.class,
+//                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    break;
+//                case 2:
+//                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    break;
+//                case 3:
+//                    UiManager.activityJump(context, pushBundle, NextMonthClassScheduleActivity.class,
+//                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    break;
+//                case 4:
+//                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//
+//                    break;
+//            }
 
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

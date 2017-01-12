@@ -17,7 +17,7 @@ import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.bean.CourseResult;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
-import com.leyuan.coach.config.StringConstant;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.BaseFragment;
 import com.leyuan.coach.page.activity.course.CalendarActivity;
 import com.leyuan.coach.page.activity.course.MapActivity;
@@ -34,6 +34,7 @@ import com.leyuan.commonlibrary.util.MyDateUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by user on 2016/12/19.
@@ -103,6 +104,25 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
         LinearLayoutManagerNoScroll managerHorizontal = new LinearLayoutManagerNoScroll(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         managerHorizontal.setScrollHorizontalEnabled(false);
+
+        courseAdapterHorizontal = new CourseAdapterHorizontal(getActivity(), new CourseAdapterHorizontal.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int currentPosition) {
+
+                currentCalendarPosition = currentPosition;
+                Bundle bundle = new Bundle();
+                bundle.putInt(ConstantString.POSITION, currentPosition);
+                bundle.putParcelableArrayList(ConstantString.ARRAY, myCalendars);
+
+                Intent intent = new Intent();
+                intent.putExtras(bundle);
+                intent.setClass(getActivity(), CalendarActivity.class);
+                startActivityForResult(intent, Constant.REQUEST_CALENDAR);
+
+            }
+        });
+        recyclerHan.setAdapter(courseAdapterHorizontal);
         recyclerHan.setLayoutManager(managerHorizontal);
 
         LinearLayoutManager managerVertical = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -148,40 +168,6 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         }
     }
 
-    private void refreshPreNextState() {
-        currentDate = getCurrentDataByPositin(currentCalendarPosition);
-
-        recyclerHan.scrollToPosition(currentCalendarPosition);
-        refreshPreNextView(currentCalendarPosition);
-        presenter.getCourseList(currentDate);
-        DialogUtils.showDialog(getActivity(), "", false);
-    }
-
-    private void refreshPreNextView(int currentCalendarPosition) {
-        if (currentCalendarPosition <= 0) {
-            //no pre style
-            txtPreMonth.setTextColor(getResources().getColor(R.color.text_gray));
-            txtPreMonthClassNumber.setVisibility(View.GONE);
-        } else {
-            txtPreMonth.setTextColor(getResources().getColor(R.color.black));
-            txtPreMonthClassNumber.setVisibility(View.VISIBLE);
-            txtPreMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition - 1) + "节课");
-            // have pre style
-        }
-
-        if (currentCalendarPosition >= totalCalendarItem - 1) {
-            //no next style
-            txtNextMonth.setTextColor(getResources().getColor(R.color.text_gray));
-            txtNextMonthClassNumber.setVisibility(View.GONE);
-
-        } else {
-            // have next style
-            txtNextMonth.setTextColor(getResources().getColor(R.color.black));
-            txtNextMonthClassNumber.setVisibility(View.VISIBLE);
-            txtNextMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition + 1) + "节课");
-        }
-    }
-
     @Override
     public void onGetCalendar(final ArrayList<MyCalendar> myCalendars) {
 
@@ -189,27 +175,10 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         if (myCalendars == null)
             return;
 
+        courseAdapterHorizontal.refreshData(myCalendars);
         this.myCalendars.clear();
         this.myCalendars.addAll(myCalendars);
 
-        courseAdapterHorizontal = new CourseAdapterHorizontal(getActivity(), myCalendars, new CourseAdapterHorizontal.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(int currentPosition) {
-
-                currentCalendarPosition = currentPosition;
-                Bundle bundle = new Bundle();
-                bundle.putInt(StringConstant.POSITION, currentPosition);
-                bundle.putParcelableArrayList(StringConstant.ARRAY, myCalendars);
-
-                Intent intent = new Intent();
-                intent.putExtras(bundle);
-                intent.setClass(getActivity(), CalendarActivity.class);
-                startActivityForResult(intent, Constant.REQUEST_CALENDAR);
-
-            }
-        });
-        recyclerHan.setAdapter(courseAdapterHorizontal);
 
         for (MyCalendar calendar : myCalendars) {
             totalCalendarItem += calendar.getDayList().length;
@@ -280,6 +249,11 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     }
 
     @Override
+    public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
+
+    }
+
+    @Override
     public void onItemClick(ClassSchedule course) {
         Bundle bunble = new Bundle();
         bunble.putString(Constant.CURRENT_DATE, currentDate);
@@ -298,6 +272,40 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
                 }
 
                 break;
+        }
+    }
+
+    private void refreshPreNextState() {
+        currentDate = getCurrentDataByPositin(currentCalendarPosition);
+
+        recyclerHan.scrollToPosition(currentCalendarPosition);
+        refreshPreNextView(currentCalendarPosition);
+        presenter.getCourseList(currentDate);
+        DialogUtils.showDialog(getActivity(), "", false);
+    }
+
+    private void refreshPreNextView(int currentCalendarPosition) {
+        if (currentCalendarPosition <= 0) {
+            //no pre style
+            txtPreMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtPreMonthClassNumber.setVisibility(View.GONE);
+        } else {
+            txtPreMonth.setTextColor(getResources().getColor(R.color.black));
+            txtPreMonthClassNumber.setVisibility(View.VISIBLE);
+            txtPreMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition - 1) + "节课");
+            // have pre style
+        }
+
+        if (currentCalendarPosition >= totalCalendarItem - 1) {
+            //no next style
+            txtNextMonth.setTextColor(getResources().getColor(R.color.text_gray));
+            txtNextMonthClassNumber.setVisibility(View.GONE);
+
+        } else {
+            // have next style
+            txtNextMonth.setTextColor(getResources().getColor(R.color.black));
+            txtNextMonthClassNumber.setVisibility(View.VISIBLE);
+            txtNextMonthClassNumber.setText(calendarCourseNumberArray.get(currentCalendarPosition + 1) + "节课");
         }
     }
 

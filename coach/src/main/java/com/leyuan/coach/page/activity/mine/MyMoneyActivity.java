@@ -7,13 +7,15 @@ import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.mvp.presenter.AccountBalancePresenter;
+import com.leyuan.coach.page.mvp.view.AccoutBalanceViewListener;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
 
 /**
  * Created by user on 2016/12/28.
  */
-public class MyMoneyActivity extends BaseActivity implements View.OnClickListener {
+public class MyMoneyActivity extends BaseActivity implements View.OnClickListener, AccoutBalanceViewListener {
 
     private CommonTitleLayout layoutTitle;
     private LinearLayout layoutRecentEarning;
@@ -21,14 +23,22 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout layoutMoreDetail;
     private TextView txtBalance;
 
+    private AccountBalancePresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_money);
+        presenter = new AccountBalancePresenter(this);
+        presenter.setAccoutBalanceViewListener(this);
 
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         txtBalance = (TextView) findViewById(R.id.txt_balance);
 
+        presenter.getBalance();
+
+
+        layoutTitle.setLeftIconListener(this);
         findViewById(R.id.bt_withdraw).setOnClickListener(this);
         findViewById(R.id.layout_recent_earning).setOnClickListener(this);
         findViewById(R.id.layout_withdraw_record).setOnClickListener(this);
@@ -39,6 +49,9 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.img_left:
+                finish();
+                break;
             case R.id.bt_withdraw:
                 UiManager.activityJump(this, WithDrawActivity.class);
 
@@ -62,5 +75,12 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void onGetBalance(String s) {
+        if (s != null) {
+            txtBalance.setText(s);
+        }
     }
 }

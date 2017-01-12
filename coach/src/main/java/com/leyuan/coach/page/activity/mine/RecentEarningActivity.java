@@ -6,7 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.leyuan.coach.R;
-import com.leyuan.coach.bean.RecentEaringResult;
+import com.leyuan.coach.bean.RecentEarningResult;
+import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.RecentEarningAdapter;
 import com.leyuan.coach.page.mvp.presenter.AccountBalancePresenter;
@@ -25,6 +26,7 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
     private RecyclerView recyclerView;
     private RecentEarningAdapter adapter;
     private AccountBalancePresenter presenter;
+    private String month;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         setContentView(R.layout.activity_recent_earning);
         presenter = new AccountBalancePresenter(this);
         presenter.setRecentEarningViewListener(this);
+        month = getIntent().getExtras().getString(ConstantString.MONTHS, MyDateUtils.getCurrentMonth());
 
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -64,13 +67,13 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         adapter = new RecentEarningAdapter(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        presenter.getRecentEarning(MyDateUtils.getCurrentMonth());
+        presenter.getRecentEarning(month);
 
     }
 
     @Override
-    public void onGetRecentEarning(RecentEaringResult recentEaringResult) {
-        if(recentEaringResult != null){
+    public void onGetRecentEarning(RecentEarningResult recentEaringResult) {
+        if (recentEaringResult != null) {
             adapter.refreshData(recentEaringResult);
         }
     }

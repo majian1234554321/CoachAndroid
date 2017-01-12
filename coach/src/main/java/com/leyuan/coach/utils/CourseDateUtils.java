@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class CourseDateUtils {
 
-    private static String getCurrentDataByPositin(int currentCalendarPosition, ArrayList<MyCalendar> myCalendars) {
+    public static String getCalendarDateByPosition(int currentCalendarPosition, ArrayList<MyCalendar> myCalendars) {
         String time = "";
         int temp = 0, monthClickedIndex = 0;
         for (; monthClickedIndex < myCalendars.size(); monthClickedIndex++) {
@@ -21,6 +21,48 @@ public class CourseDateUtils {
                 break;
             }
         }
+        LogUtil.i("course", "getCalendarDateByPosition time = " + time);
+
         return time;
+    }
+
+    public static String getCurrentMonthByPosition(int position, ArrayList<MyCalendar> myCalendars) {
+        String month = "";
+        int temp = 0;
+        for (int monthIndex = 0; monthIndex < myCalendars.size(); monthIndex++) {
+            temp += myCalendars.get(monthIndex).getDayList().length;
+            if (position < temp) {
+                month = myCalendars.get(monthIndex).getTimeMouth();
+                LogUtil.i("position", " getCurrentMonthByPosition = " + month);
+                break;
+            }
+        }
+
+        return month;
+    }
+
+    public static String getCurrentMonthByPositionQuickly(int position, ArrayList<MyCalendar> myCalendars) {
+        if (position < myCalendars.get(0).getDayList().length) {
+            return myCalendars.get(0).getTimeMouth();
+        } else if (position < myCalendars.get(0).getDayList().length + myCalendars.get(1).getDayList().length) {
+            return myCalendars.get(1).getTimeMouth();
+        } else {
+            return myCalendars.get(2).getTimeMouth();
+        }
+    }
+
+    public static int getFirstHaveCoursePosition(ArrayList<MyCalendar> myCalendars) {
+        int position = 0;
+        for (MyCalendar myCalendar : myCalendars) {
+            for (Integer num : myCalendar.getDayList()) {
+                if (num > 0) {
+                    break;
+                } else {
+                    position++;
+                }
+            }
+        }
+        LogUtil.i("course", "getFirstHaveCoursePosition = " + position);
+        return position;
     }
 }

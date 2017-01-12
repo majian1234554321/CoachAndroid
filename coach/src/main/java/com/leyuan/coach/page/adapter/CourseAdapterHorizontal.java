@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
-import com.leyuan.commonlibrary.util.MyDateUtils;
-import com.leyuan.commonlibrary.util.NumberUtils;
+import com.leyuan.coach.utils.CourseDateUtils;
 
 import java.util.ArrayList;
 
@@ -21,30 +20,41 @@ import java.util.ArrayList;
 public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterHorizontal.ViewHolder> {
 
     private Context context;
-    private ArrayList<MyCalendar> myCalendars = new ArrayList();
-    private ArrayList<Integer> calendarsFirst = new ArrayList<>();
-    private ArrayList<Integer> calendarsSecond = new ArrayList<>();
     private OnItemClickListener listener;
+    private ArrayList<Integer> calendars = new ArrayList<>();
+
+    private ArrayList<MyCalendar> myCalendars;
+//    private ArrayList<Integer> calendarsFirst = new ArrayList<>();
+//    private ArrayList<Integer> calendarsSecond = new ArrayList<>();
 
     public CourseAdapterHorizontal(Context context, ArrayList<MyCalendar> myCalendars, OnItemClickListener listener) {
 
         this.context = context;
         this.myCalendars = myCalendars;
         this.listener = listener;
-        if (!myCalendars.isEmpty()) {
-
-            for (Integer calendar : myCalendars.get(0).getDayList()) {
-                calendarsFirst.add(calendar);
-            }
-
-            for (Integer calendar : myCalendars.get(1).getDayList()) {
-                calendarsSecond.add(calendar);
+        for (MyCalendar calendar : myCalendars) {
+            for (Integer day : calendar.getDayList()) {
+                calendars.add(day);
             }
         }
+
+        //        this.myCalendars.addAll(myCalendars);
+//        this.myCalendars = myCalendars;
+
     }
 
-    public CourseAdapterHorizontal(Context context) {
+    public CourseAdapterHorizontal(Context context, OnItemClickListener listener) {
         this.context = context;
+        this.listener = listener;
+    }
+
+    public void refreshData(ArrayList<MyCalendar> myCalendars) {
+        this.myCalendars = myCalendars;
+        for (MyCalendar calendar : myCalendars) {
+            for (Integer day : calendar.getDayList()) {
+                calendars.add(day);
+            }
+        }
     }
 
 
@@ -57,21 +67,9 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int finalPosition = position;
-        if (position < calendarsFirst.size()) {
-            String time = myCalendars.get(0).getTimeMouth() + "-" + NumberUtils.intToString((position + 1));
-            holder.txt_date.setText(MyDateUtils.formatMonthDayByYearMonth(time)
-                    + " " + MyDateUtils.formatWeekByYearMonth(time));
 
-            holder.txt_course_number.setText(calendarsFirst.get(position) + "节课");
-        } else {
-            position = position - calendarsFirst.size();
-
-            String time = myCalendars.get(1).getTimeMouth() + "-" + NumberUtils.intToString((position + 1));
-            holder.txt_date.setText(MyDateUtils.formatMonthDayByYearMonth(time)
-                    + " " + MyDateUtils.formatWeekByYearMonth(time));
-            holder.txt_course_number.setText(calendarsSecond.get(position) + "节课");
-        }
-
+        holder.txt_date.setText(CourseDateUtils.getCalendarDateByPosition(position, myCalendars));
+        holder.txt_course_number.setText(calendars.get(position) + "节课");
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +80,7 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
 
     @Override
     public int getItemCount() {
-        return calendarsFirst.size() + calendarsSecond.size();
+        return calendars.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
