@@ -2,7 +2,7 @@ package com.leyuan.coach.page.mvp.presenter;
 
 import android.content.Context;
 
-import com.leyuan.coach.bean.VersionInfomation;
+import com.leyuan.coach.bean.VersionInformation;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
 import com.leyuan.coach.page.mvp.model.VersionModel;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
@@ -24,9 +24,9 @@ public class VersionPresenter {
     }
 
     public void getVersionInfo() {
-        model.getVersionInfo(new BaseSubscriber<VersionInfomation>(context) {
+        model.getVersionInfo(new BaseSubscriber<VersionInformation>(context) {
             @Override
-            public void onNext(VersionInfomation versionInfomation) {
+            public void onNext(VersionInformation versionInfomation) {
                 listener.onGetVersionInfo(versionInfomation);
             }
 

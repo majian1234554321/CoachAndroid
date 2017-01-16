@@ -1,7 +1,7 @@
 package com.leyuan.coach.http.api;
 
 import com.leyuan.coach.bean.BaseBean;
-import com.leyuan.coach.bean.VersionInfomation;
+import com.leyuan.coach.bean.VersionInformation;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -13,5 +13,5 @@ import rx.Observable;
 public interface VersionService {
 
     @GET("coachInfo/getAppUpdate.json")
-    Observable<BaseBean<VersionInfomation>> getVersionInfo();
+    Observable<BaseBean<VersionInformation>> getVersionInfo();
 }

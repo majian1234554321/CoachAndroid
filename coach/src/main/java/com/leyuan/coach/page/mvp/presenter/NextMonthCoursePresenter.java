@@ -26,18 +26,34 @@ public class NextMonthCoursePresenter {
         courseModel = new CourseModel();
     }
 
-    public void getNextMonthCalendar() {
+    public void getNextMonthUnconfirmCalendar() {
 
-        courseModel.getNextMonthCalendar(new BaseSubscriber<ArrayList<MyCalendar>>(context) {
+        courseModel.getNextMonthUnconfirmCalendar(new BaseSubscriber<ArrayList<MyCalendar>>(context) {
             @Override
             public void onNext(ArrayList<MyCalendar> myCalendars) {
-                viewListener.onGetNextMonthCalendar(myCalendars);
+                viewListener.onGetNextMonthUnconfirmCalendar(myCalendars);
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                viewListener.onGetNextMonthCalendar(null);
+                viewListener.onGetNextMonthUnconfirmCalendar(null);
+            }
+        });
+    }
+
+    public void getNextMonthConfirmedCalendar() {
+
+        courseModel.getNextMonthConfrimedCalendar(new BaseSubscriber<ArrayList<MyCalendar>>(context) {
+            @Override
+            public void onNext(ArrayList<MyCalendar> myCalendars) {
+                viewListener.onGetNextMonthconfirmedCalendar(myCalendars);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetNextMonthconfirmedCalendar(null);
             }
         });
     }
@@ -46,13 +62,13 @@ public class NextMonthCoursePresenter {
         courseModel.getNextMonthUnconfirmCourseList(new BaseSubscriber<CourseResult>(context) {
             @Override
             public void onNext(CourseResult courseNextMonthResult) {
-                viewListener.courseNextMonthResult(courseNextMonthResult);
+                viewListener.onGetNextMonthCourseList(courseNextMonthResult);
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                viewListener.courseNextMonthResult(null);
+                viewListener.onGetNextMonthCourseList(null);
             }
         }, courseTime);
     }
@@ -61,13 +77,13 @@ public class NextMonthCoursePresenter {
         courseModel.getNextMonthConfirmedCourseList(new BaseSubscriber<CourseResult>(context) {
             @Override
             public void onNext(CourseResult courseNextMonthResult) {
-                viewListener.courseNextMonthResult(courseNextMonthResult);
+                viewListener.onGetNextMonthCourseList(courseNextMonthResult);
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                viewListener.courseNextMonthResult(null);
+                viewListener.onGetNextMonthCourseList(null);
             }
         }, courseTime);
     }

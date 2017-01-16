@@ -34,4 +34,14 @@ public class MessagePresenter {
         });
     }
 
+    public void updateMsgStatus(String msgId) {
+        model.updateMsgStatus(new BaseSubscriber<Object>(context) {
+            @Override
+            public void onNext(Object o) {
+
+            }
+        }, msgId);
+
+    }
+
 }

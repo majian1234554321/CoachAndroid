@@ -31,4 +31,10 @@ public class MessageModel {
                 .compose(RxHelper.<ArrayList<MessageInfo>>transform())
                 .subscribe(subscriber);
     }
+
+    public void updateMsgStatus(Subscriber<Object> subscriber, String msgId) {
+        service.updateMsgStatus(msgId, id)
+                .compose(RxHelper.transform())
+                .subscribe(subscriber);
+    }
 }

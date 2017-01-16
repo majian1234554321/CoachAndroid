@@ -30,4 +30,14 @@ public class WithDrawPresenter {
         }, aliId, userName, money);
     }
 
+    public void withdrawBank(String moneyNum) {
+        model.withdrawBank(new BaseSubscriber<Object>(context) {
+            @Override
+            public void onNext(Object o) {
+                listener.onWithDrawResult(true);
+            }
+
+        }, moneyNum);
+    }
+
 }

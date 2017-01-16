@@ -34,7 +34,12 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         setContentView(R.layout.activity_recent_earning);
         presenter = new AccountBalancePresenter(this);
         presenter.setRecentEarningViewListener(this);
-        month = getIntent().getExtras().getString(ConstantString.MONTHS, MyDateUtils.getCurrentMonth());
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            month = bundle.getString(ConstantString.MONTHS, MyDateUtils.getLastMonth());
+        } else {
+            month = MyDateUtils.getLastMonth();
+        }
 
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);

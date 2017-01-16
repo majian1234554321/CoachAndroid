@@ -44,16 +44,22 @@ public class MessageCenterActivity extends BaseActivity implements MessageCenter
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         adapter = new MessageCenterAdapter(this);
         adapter.setOnItemClickListener(this);
+        recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
         presenter = new MessagePresenter(this, this);
-        presenter.getMsgList();
-
 
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getMsgList();
+    }
+
+    @Override
     public void onMessageClick(int messageId) {
+        presenter.updateMsgStatus(String.valueOf(messageId));
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.MESSAGE_ID, messageId);
         UiManager.activityJump(this, bundle, MessageDetailActivity.class);

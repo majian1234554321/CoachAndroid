@@ -1,20 +1,17 @@
-package com.leyuan.coach.widget;
+package com.leyuan.coach.widget.popupwindow;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.adapter.PagerAdapterTakeCourse;
-import com.leyuan.coach.page.mvp.presenter.TakeOverClassPresenter;
-import com.leyuan.coach.page.mvp.view.TakeOverClassViewListener;
+import com.leyuan.coach.page.mvp.presenter.ClassNotifyPresenter;
+import com.leyuan.coach.page.mvp.view.ClassNotifyViewListener;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
@@ -24,53 +21,46 @@ import java.util.ArrayList;
  * Created by user on 2016/12/27.
  */
 
-public class PopupWindowClassNotify extends PopupWindow implements TakeOverClassViewListener {
+public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow implements ClassNotifyViewListener {
 
-    private Activity context;
-    private ViewPager viewPager;
-    private LinearLayout llPointGroup;
-    private Button btRefuse;
-    private Button btKnowed;
-    private ArrayList<View> views = new ArrayList<>();
-    private PagerAdapterTakeCourse adapter;
 
-    private TakeOverClassPresenter presenter;
-    private ArrayList<ClassSchedule> arrayList = new ArrayList<>();
+    protected ViewPager viewPager;
+    protected LinearLayout llPointGroup;
+    protected Button btRefuse;
+    protected Button btKnowed;
+    protected PagerAdapterTakeCourse adapter;
+    protected ClassNotifyPresenter presenter;
+
+    protected ArrayList<ClassSchedule> arrayList = new ArrayList<>();
+    protected RelativeLayout layoutTakeOverClass;
+    protected Button btKnowSuspend;
 
     public PopupWindowClassNotify(Activity context) {
         super(context);
-        this.context = context;
-        presenter = new TakeOverClassPresenter(this, context);
-        initView();
-        initData();
     }
 
-    private void initView() {
-
+    protected View createView() {
         View view = View.inflate(context, R.layout.popup_window_class_notify, null);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         llPointGroup = (LinearLayout) view.findViewById(R.id.ll_point_group);
         btRefuse = (Button) view.findViewById(R.id.bt_refuse);
         btKnowed = (Button) view.findViewById(R.id.bt_knowed);
-        this.setContentView(view);
-        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setTouchable(true);
-        this.setFocusable(true);
-        this.setOutsideTouchable(true);
-        this.setAnimationStyle(R.style.popuStyle);
-
-        ColorDrawable background = new ColorDrawable(0x77000000);
-        this.setBackgroundDrawable(background);
+        layoutTakeOverClass = (RelativeLayout) view.findViewById(R.id.layout_take_over_class);
+        btKnowSuspend = (Button) view.findViewById(R.id.bt_know_suspend);
+        return view;
     }
 
-    private void initData() {
+    protected void initData() {
+        presenter = createPresenter(this, context);
+
+        setNotifyLayoutVisible();
+
         btRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogUtils.showDialog(context, "", false);
 
-                presenter.takeOverClassRefuse(getCurrentId(), viewPager.getCurrentItem());
+                presenter.courseRefuse(getCurrentId(), viewPager.getCurrentItem());
             }
         });
 
@@ -78,11 +68,21 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
             @Override
             public void onClick(View v) {
                 DialogUtils.showDialog(context, "", false);
-                presenter.takeOverClassAgree(getCurrentId(), viewPager.getCurrentItem());
+                presenter.courseAgree(getCurrentId(), viewPager.getCurrentItem());
             }
         });
 
+        btKnowSuspend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtils.showDialog(context, "", false);
+                presenter.courseAgree(getCurrentId(), viewPager.getCurrentItem());
+            }
+        });
+
+
     }
+
 
     private String getCurrentId() {
         int item = viewPager.getCurrentItem();
@@ -99,17 +99,7 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
         this.arrayList.addAll(arrayList);
         adapter = new PagerAdapterTakeCourse(context, arrayList);
         viewPager.setAdapter(adapter);
-
-        this.showAtLocation(((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0), Gravity.BOTTOM, 0, 0);
-    }
-
-
-    @Override
-    public void onGetRepalceCourseList(ArrayList<ClassSchedule> arrayList) {
-        this.arrayList.clear();
-        this.arrayList.addAll(arrayList);
-        adapter = new PagerAdapterTakeCourse(context, arrayList);
-        viewPager.setAdapter(adapter);
+        showAtBottom();
     }
 
     @Override
@@ -135,6 +125,10 @@ public class PopupWindowClassNotify extends PopupWindow implements TakeOverClass
                 this.dismiss();
         }
         DialogUtils.dismissDialog();
-
     }
+
+    protected abstract ClassNotifyPresenter createPresenter(PopupWindowClassNotify popupWindowClassNotify, Activity context);
+
+    protected abstract void setNotifyLayoutVisible();
+
 }

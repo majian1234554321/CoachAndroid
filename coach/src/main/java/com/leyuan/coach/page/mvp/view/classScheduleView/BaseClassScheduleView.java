@@ -171,8 +171,8 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
         recyclerHan.scrollToPosition(currentCalendarPosition);
         refreshPreNextView(currentCalendarPosition);
 
-        listener.refreshCourseList(CourseDateUtils.getCalendarDateByPosition(
-                currentCalendarPosition, myCalendars));
+        listener.requestCourseData(CourseDateUtils.getCalendarDateByPosition(
+                currentCalendarPosition, myCalendars), currentCalendarPosition);
     }
 
     private void refreshPreNextView(int currentCalendarPosition) {
@@ -204,13 +204,12 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
         if (myCalendars == null)
             return;
         courseAdapterHorizontal.refreshData(myCalendars);
-        this.myCalendars.clear();
-        this.myCalendars.addAll(myCalendars);
-
+        this.myCalendars = myCalendars;
+        totalCalendarItem = 0;
+        calendarCourseNumberArray.clear();
 
         for (MyCalendar calendar : myCalendars) {
             totalCalendarItem += calendar.getDayList().length;
-
             for (int i = 0; i < calendar.getDayList().length; i++) {
                 calendarCourseNumberArray.add(calendar.getDayList()[i]);
             }
@@ -229,7 +228,6 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
         }
 
         setHintLayout(courseResult);
-
         courseAdapterVertical.refreshData(courseResult.getCoachList());
     }
 

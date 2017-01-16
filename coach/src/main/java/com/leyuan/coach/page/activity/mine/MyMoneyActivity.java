@@ -35,9 +35,6 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         txtBalance = (TextView) findViewById(R.id.txt_balance);
 
-        presenter.getBalance();
-
-
         layoutTitle.setLeftIconListener(this);
         findViewById(R.id.bt_withdraw).setOnClickListener(this);
         findViewById(R.id.layout_recent_earning).setOnClickListener(this);
@@ -72,9 +69,9 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
+    protected void onResume() {
+        super.onResume();
+        presenter.getBalance();
     }
 
     @Override
@@ -83,4 +80,10 @@ public class MyMoneyActivity extends BaseActivity implements View.OnClickListene
             txtBalance.setText(s);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

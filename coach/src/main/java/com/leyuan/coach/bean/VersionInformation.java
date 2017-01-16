@@ -3,7 +3,7 @@ package com.leyuan.coach.bean;
 /**
  * Created by user on 2017/1/4.
  */
-public class VersionInfomation {
+public class VersionInformation {
 
     String version;//: 版本
     int isUpdate;//: 是否强制更新（0否，1是）

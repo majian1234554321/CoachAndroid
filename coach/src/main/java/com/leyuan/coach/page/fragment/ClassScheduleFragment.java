@@ -26,7 +26,6 @@ import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
 import com.leyuan.coach.widget.CommonTitleLayout;
-import com.leyuan.coach.widget.PopupWindowClassNotify;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
@@ -236,18 +235,21 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         }
     }
 
+    @Deprecated
     public void getTackoverCourseList() {
-        DialogUtils.showDialog(getActivity(), "", false);
-        presenter.getReplaceCourseList();
+//        DialogUtils.showDialog(getActivity(), "", false);
+//        presenter.getReplaceCourseList();
     }
 
+    @Deprecated
     @Override
     public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
-        DialogUtils.dismissDialog();
-        if (arrayList != null)
-            new PopupWindowClassNotify(getActivity()).showAtBottom(arrayList);
+//        DialogUtils.dismissDialog();
+//        if (arrayList != null)
+//            new PopupWindowClassNotify(getActivity()).showAtBottom(arrayList);
     }
 
+    @Deprecated
     @Override
     public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
 

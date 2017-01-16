@@ -35,6 +35,7 @@ public class RxHelper {
                         if (result.getCode() == 1) {
                             return createDataObservable(result.getResult());
                         } else {
+
                             // the exception will callback at Subscriber's onError
                             return Observable.error(new ServerException(result.getMessage()));
                         }

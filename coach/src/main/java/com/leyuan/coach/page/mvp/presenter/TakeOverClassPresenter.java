@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
-import com.leyuan.coach.page.mvp.model.CourseModel;
-import com.leyuan.coach.page.mvp.view.TakeOverClassViewListener;
+import com.leyuan.coach.page.mvp.view.ClassNotifyViewListener;
 
 import java.util.ArrayList;
 
@@ -13,28 +12,22 @@ import java.util.ArrayList;
  * Created by user on 2016/12/27.
  */
 
-public class TakeOverClassPresenter {
+public class TakeOverClassPresenter extends ClassNotifyPresenter {
 
-    CourseModel courseModel;
-    TakeOverClassViewListener viewListener;
-    Context context;
-
-    public TakeOverClassPresenter(TakeOverClassViewListener viewListener, Context context) {
-        this.viewListener = viewListener;
-        this.context = context;
-        courseModel = new CourseModel();
+    public TakeOverClassPresenter(ClassNotifyViewListener viewListener, Context context) {
+        super(viewListener, context);
     }
 
     public void getReplaceCourseList() {
         courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
             public void onNext(ArrayList<ClassSchedule> arrayList) {
-                viewListener.onGetRepalceCourseList(arrayList);
+//                viewListener.onGetRepalceCourseList(arrayList);
             }
         });
     }
 
-    public void takeOverClassAgree(String timetableId, final int currentItem) {
+    public void courseAgree(String timetableId, final int currentItem) {
         courseModel.takeOverClassAgree(new BaseSubscriber<Object>(context) {
             @Override
             public void onNext(Object o) {
@@ -50,7 +43,7 @@ public class TakeOverClassPresenter {
 
     }
 
-    public void takeOverClassRefuse(String timetableId, final int currentItem) {
+    public void courseRefuse(String timetableId, final int currentItem) {
         courseModel.takeOverClassRefuse(new BaseSubscriber<Object>(context) {
             @Override
             public void onNext(Object o) {

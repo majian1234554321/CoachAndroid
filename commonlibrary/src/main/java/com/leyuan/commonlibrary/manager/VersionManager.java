@@ -91,4 +91,19 @@ public class VersionManager {
 
         return verNum;
     }
+
+    public static boolean mustUpdate(String newVersion, Context context) {
+        String oldVersion = getVersionName(context);
+
+        if (!TextUtils.isEmpty(newVersion) && !TextUtils.isEmpty(oldVersion)) {
+            int[] oldNum = stringToInteger(oldVersion.split("\\."));
+            int[] newNum = stringToInteger(newVersion.split("\\."));
+
+            if (newNum[0] > oldNum[0])
+                return true;
+            if (newNum[1] - oldNum[1] > 1)
+                return true;
+        }
+        return false;
+    }
 }

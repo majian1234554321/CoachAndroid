@@ -66,10 +66,17 @@ public class PagerAdapterTakeCourse extends PagerAdapter {
         TextView txtMap = (TextView) view.findViewById(R.id.txt_map);
 
         final ClassSchedule course = arrayList.get(position);
-        if (course.getCourseType() == 2) {
-            imgCourseType.setImageResource(R.drawable.exchangeclass);
-        } else {
-            imgCourseType.setImageResource(R.drawable.substitute);
+
+        switch (course.getCourseType()) {
+            case ClassSchedule.CourseStatus.CHANGE:
+                imgCourseType.setImageResource(R.drawable.exchangeclass);
+                break;
+            case ClassSchedule.CourseStatus.TAKE_OVER:
+                imgCourseType.setImageResource(R.drawable.substitute);
+                break;
+            case ClassSchedule.CourseStatus.SUSPEND:
+                imgCourseType.setImageResource(R.drawable.tingke);
+                break;
         }
 
         txtCourseName.setText(course.getCourseName());

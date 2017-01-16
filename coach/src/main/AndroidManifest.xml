@@ -164,6 +164,12 @@
         <activity
             android:name=".page.activity.mine.AppointmentActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.CoachClientInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.UserAgreementActivity"
+            android:screenOrientation="portrait" />
 
         <!-- ********************BaiDuMap************************* -->
         <service

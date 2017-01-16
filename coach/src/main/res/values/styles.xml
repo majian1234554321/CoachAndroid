@@ -37,7 +37,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
-        <!--<item name="android:textColor">@drawable/tab_txt_sel</item>-->
+        <item name="android:textColor">@color/selector_tab_text</item>
         <item name="android:textSize">16dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -292,7 +292,6 @@
     </style>
 
 
-
     <style name="baseImageStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -380,7 +379,6 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
-
 
 
     <style name="selectorDialog" parent="@android:style/Theme.Dialog">

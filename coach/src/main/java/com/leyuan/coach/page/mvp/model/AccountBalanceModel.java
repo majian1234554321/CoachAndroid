@@ -62,5 +62,11 @@ public class AccountBalanceModel {
                 .subscribe(subscriber);
     }
 
+    public void withdrawBank(Subscriber<Object> subscriber, String moneyNum) {
+        service.withdrawBank(id, moneyNum)
+                .compose(RxHelper.transform())
+                .subscribe(subscriber);
+    }
+
 
 }

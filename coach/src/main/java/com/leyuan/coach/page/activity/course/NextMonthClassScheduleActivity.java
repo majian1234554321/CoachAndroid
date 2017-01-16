@@ -17,7 +17,6 @@ import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.NextMonthCourseViewListener;
 import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager;
 import com.leyuan.coach.utils.CourseDateUtils;
-import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.TelephoneManager;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -34,6 +33,8 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     private ClassScheduleViewManager viewManager;
     private String dateTag;
     private RequestType requestType = RequestType.UNCONFIRM;
+    private boolean firstRequest = true;
+    private int currentPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
 
         initView();
         initData();
-
     }
 
     private void initView() {
@@ -56,10 +56,9 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     }
 
     private void initData() {
-        presenter.getNextMonthCalendar();
-//        presenter.getNextMonthUnconfirmCourseList(MyDateUtils.getCurrentDay());
-        findViewById(R.id.bt_unconfirmed).setSelected(true);
+        presenter.getNextMonthUnconfirmCalendar();
 
+        findViewById(R.id.bt_unconfirmed).setSelected(true);
         findViewById(R.id.img_left).setOnClickListener(this);
         findViewById(R.id.confirmed).setOnClickListener(this);
         findViewById(R.id.bt_unconfirmed).setOnClickListener(this);
@@ -77,13 +76,13 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
                 findViewById(R.id.confirmed).setSelected(true);
                 findViewById(R.id.bt_unconfirmed).setSelected(false);
                 requestType = RequestType.CONFIRMED;
-                presenter.getNextMonthConfirmedCourseList(dateTag);
+                presenter.getNextMonthConfirmedCalendar();
                 break;
             case R.id.bt_unconfirmed:
                 findViewById(R.id.confirmed).setSelected(false);
                 findViewById(R.id.bt_unconfirmed).setSelected(true);
                 requestType = RequestType.UNCONFIRM;
-                presenter.getNextMonthUnconfirmCourseList(dateTag);
+                presenter.getNextMonthUnconfirmCalendar();
                 break;
             case R.id.bt_contact:
                 TelephoneManager.callImmediate(App.getInstance().getUser().getMemberPhone());
@@ -95,24 +94,40 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     }
 
     @Override
-    public void onGetNextMonthCalendar(ArrayList<MyCalendar> myCalendars) {
+    public void onGetNextMonthUnconfirmCalendar(ArrayList<MyCalendar> myCalendars) {
+        if (firstRequest) {
+            currentPosition = CourseDateUtils.getFirstHaveCoursePosition(myCalendars);
+            firstRequest = false;
+        }
 
-        viewManager.onGetCalendarData(myCalendars);
-
-        dateTag = CourseDateUtils.getCalendarDateByPosition(CourseDateUtils.getFirstHaveCoursePosition(myCalendars)
+        viewManager.onGetCalendarData(myCalendars, currentPosition);
+        dateTag = CourseDateUtils.getCalendarDateByPosition(currentPosition
                 , myCalendars);
-        LogUtil.i("course", "getCalendarDateByPosition dateTag  = " + dateTag);
         presenter.getNextMonthUnconfirmCourseList(dateTag);
     }
 
     @Override
-    public void courseNextMonthResult(CourseResult courseNextMonthResult) {
+    public void onGetNextMonthconfirmedCalendar(ArrayList<MyCalendar> myCalendars) {
+        viewManager.onGetCalendarData(myCalendars, currentPosition);
+        dateTag = CourseDateUtils.getCalendarDateByPosition(currentPosition
+                , myCalendars);
+        presenter.getNextMonthConfirmedCourseList(dateTag);
+    }
+
+    @Override
+    public void onGetNextMonthCourseList(CourseResult courseNextMonthResult) {
         viewManager.onGetCourseListData(courseNextMonthResult);
     }
 
     @Override
     public void nextMonthCourseConfirm(boolean success) {
-        presenter.confirmNextMonthCourse(dateTag);
+        if (success) {
+            if (requestType == RequestType.UNCONFIRM) {
+                presenter.getNextMonthUnconfirmCalendar();
+            } else {
+                presenter.getNextMonthConfirmedCalendar();
+            }
+        }
     }
 
     @Override
@@ -131,7 +146,8 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     }
 
     @Override
-    public void refreshCourseList(String currentData) {
+    public void requestCourseData(String currentData, int currentCalendarPosition) {
+        currentPosition = currentCalendarPosition;
         dateTag = currentData;
         presenter.getNextMonthUnconfirmCourseList(dateTag);
     }

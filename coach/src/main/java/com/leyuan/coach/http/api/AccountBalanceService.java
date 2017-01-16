@@ -37,6 +37,9 @@ public interface AccountBalanceService {
     Observable<BaseBean<Object>> withdraw(@Field("coachId") String coachId, @Field("aliId") String aliId,
                                           @Field("userName") String userName, @Field("money") String money);
 
+    @FormUrlEncoded
+    @POST("coachInfo/addUserBankMoney.json")
+    Observable<BaseBean<Object>> withdrawBank(@Field("coachId") String coachId, @Field("money") String money);
 
     @GET("coachInfo/getIncome.json")
     Observable<BaseBean<RecentEarningResult>> getRecentEarning(@Query("coachId") String id, @Query("cashTime") String cashTime);

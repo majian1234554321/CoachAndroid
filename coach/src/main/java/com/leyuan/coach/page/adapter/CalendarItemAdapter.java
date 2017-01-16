@@ -121,7 +121,7 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
 
     @Override
     public int getItemCount() {
-        return dayList.length;
+        return dayList.length + fristWeekDay;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

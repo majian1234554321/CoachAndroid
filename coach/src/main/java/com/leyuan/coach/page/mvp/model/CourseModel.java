@@ -30,15 +30,24 @@ public class CourseModel {
     }
 
     public void getCurrentCalendar(Subscriber<ArrayList<MyCalendar>> subscriber) {
-        getCalendar(subscriber, id, "0");
+        getCalendar(subscriber, id, "0", "0");
     }
 
-    public void getNextMonthCalendar(Subscriber<ArrayList<MyCalendar>> subscriber) {
-        getCalendar(subscriber, id, "1");
+    public void getNextMonthUnconfirmCalendar(Subscriber<ArrayList<MyCalendar>> subscriber) {
+        getCalendar(subscriber, id, "1", "2");
     }
 
-    public void getCalendar(Subscriber<ArrayList<MyCalendar>> subscriber, String id, String type) {
-        classService.getCalendar(id, type)
+    public void getNextMonthConfrimedCalendar(Subscriber<ArrayList<MyCalendar>> subscriber) {
+        getCalendar(subscriber, id, "1", "3");
+    }
+
+    public void getNextMonthCalendar(Subscriber<ArrayList<MyCalendar>> subscriber, String status) {
+        getCalendar(subscriber, id, "1", status);
+    }
+
+
+    public void getCalendar(Subscriber<ArrayList<MyCalendar>> subscriber, String id, String type, String status) {
+        classService.getCalendar(id, type, status)
                 .compose(RxHelper.<ArrayList<MyCalendar>>transform())
                 .subscribe(subscriber);
     }
@@ -107,11 +116,11 @@ public class CourseModel {
     }
 
     public void getNextMonthUnconfirmCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
-        getNextMonthCourseList(subscriber, id, courseTime, "0");
+        getNextMonthCourseList(subscriber, id, courseTime, "2");
     }
 
     public void getNextMonthConfirmedCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
-        getNextMonthCourseList(subscriber, id, courseTime, "1");
+        getNextMonthCourseList(subscriber, id, courseTime, "3");
     }
 
     public void getNextMonthCourseList(Subscriber<CourseResult> subscriber, String id, String courseTime, String type) {

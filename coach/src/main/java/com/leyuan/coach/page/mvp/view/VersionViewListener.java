@@ -1,10 +1,10 @@
 package com.leyuan.coach.page.mvp.view;
 
-import com.leyuan.coach.bean.VersionInfomation;
+import com.leyuan.coach.bean.VersionInformation;
 
 /**
  * Created by user on 2017/1/4.
  */
 public interface VersionViewListener {
-    void onGetVersionInfo(VersionInfomation versionInfomation);
+    void onGetVersionInfo(VersionInformation versionInfomation);
 }

@@ -9,7 +9,7 @@ public class MessageInfo {
     String msgContent; //: 消息内容
     String msgDate; //:: 消息日期
     String msgTime; //:：消息时间
-    int msgStatus; //:: 消息状态
+    int msgStatus; //:: 消息状态(0未读，1已读)
 
     public int getId() {
         return id;
@@ -49,5 +49,10 @@ public class MessageInfo {
 
     public void setMsgStatus(int msgStatus) {
         this.msgStatus = msgStatus;
+    }
+
+    public static class MsgStatus {
+        public static final int UNREAD = 0;
+        public static final int READED = 1;
     }
 }

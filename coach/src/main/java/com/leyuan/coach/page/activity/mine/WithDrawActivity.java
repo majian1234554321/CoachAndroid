@@ -1,95 +1,108 @@
 package com.leyuan.coach.page.activity.mine;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.mvp.presenter.WithDrawPresenter;
-import com.leyuan.coach.page.mvp.view.WithDrawViewListener;
-import com.leyuan.commonlibrary.util.StringUtils;
-import com.leyuan.commonlibrary.util.ToastUtil;
+import com.leyuan.coach.page.adapter.CommonFragmentPagerAdapter;
+import com.leyuan.coach.page.fragment.mine.WithDrawAlipayFragment;
+import com.leyuan.coach.page.fragment.mine.WithDrawBankFragment;
+import com.leyuan.coach.widget.CommonTitleLayout;
+
+import java.util.ArrayList;
 
 /**
  * Created by user on 2016/12/28.
  */
-public class WithDrawActivity extends BaseActivity implements View.OnClickListener, WithDrawViewListener {
+public class WithDrawActivity extends BaseActivity implements View.OnClickListener {
 
-    private String accout;
-    private String name;
-    private String number;
-    private WithDrawPresenter presenter;
+    private CommonTitleLayout layoutTitle;
+    private RelativeLayout relAlipay;
+    private RelativeLayout relBank;
+    private ViewPager viewPager;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private ImageView imgAlipay;
+    private ImageView imgBank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_withdraw);
-        presenter = new WithDrawPresenter(this, this);
 
-        findViewById(R.id.bt_withdraw).setOnClickListener(this);
+        initView();
+        initData();
     }
 
-    private EditText getEditAccount() {
-        return (EditText) findViewById(R.id.edit_account);
+    private void initView() {
+        layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
+        relAlipay = (RelativeLayout) findViewById(R.id.rel_alipay);
+        relBank = (RelativeLayout) findViewById(R.id.rel_bank);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        imgAlipay = (ImageView) findViewById(R.id.img_alipay);
+        imgBank = (ImageView) findViewById(R.id.img_bank);
+
+        layoutTitle.setLeftIconListener(this);
+        relAlipay.setOnClickListener(this);
+        relBank.setOnClickListener(this);
+
     }
 
-    private EditText getEditName() {
-        return (EditText) findViewById(R.id.edit_name);
-    }
-
-    private EditText getEditNumber() {
-        return (EditText) findViewById(R.id.edit_number);
+    private void initData() {
+        fragments.add(new WithDrawAlipayFragment());
+        fragments.add(new WithDrawBankFragment());
+        viewPager.setAdapter(new CommonFragmentPagerAdapter(getSupportFragmentManager(), fragments));
+        viewPager.addOnPageChangeListener(pagerListener);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_withdraw:
-
-                if (verify()) {
-                    presenter.withdraw(accout, name, number);
-                }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.img_left:
+                finish();
                 break;
+            case R.id.rel_alipay:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.rel_bank:
+                viewPager.setCurrentItem(1);
+                break;
+
         }
     }
 
-    private boolean verify() {
-        accout = getEditAccount().getText().toString().trim();
-        if (!StringUtils.isAlipayAccout(accout)) {
-            ToastUtil.showLong(this, getResources().getString(R.string.alipay_accout_errror));
-            return false;
-        }
-        name = getEditName().getText().toString().trim();
-        if (name.length() < 4) {
-            ToastUtil.showLong(this, getResources().getString(R.string.alipay_name_errror));
-            return false;
+    private ViewPager.OnPageChangeListener pagerListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
         }
 
-        number = getEditNumber().getText().toString().trim();
-        try {
-            int num = Integer.parseInt(number);
-            if (num < 200) {
-                ToastUtil.showLong(this, getResources().getString(R.string.less_than_two_hundred_erros));
-                return false;
+        @Override
+        public void onPageSelected(int position) {
+            switch (position) {
+                case 0:
+                    relAlipay.setSelected(true);
+                    relBank.setSelected(false);
+                    imgAlipay.setVisibility(View.VISIBLE);
+                    imgBank.setVisibility(View.INVISIBLE);
+                    break;
+                case 1:
+                    relAlipay.setSelected(false);
+                    relBank.setSelected(true);
+                    imgAlipay.setVisibility(View.INVISIBLE);
+                    imgBank.setVisibility(View.VISIBLE);
+                    break;
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            ToastUtil.showLong(this, getResources().getString(R.string.please_input_integer));
-            return false;
         }
-        return true;
-    }
 
-    @Override
-    public void onWithDrawResult(boolean success) {
-        ToastUtil.showLong(this, getResources().getString(R.string.withdraw_success));
+        @Override
+        public void onPageScrollStateChanged(int state) {
 
-        finish();
-    }
+        }
+    };
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

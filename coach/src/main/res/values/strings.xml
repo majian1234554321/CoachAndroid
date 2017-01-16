@@ -1032,7 +1032,7 @@
     <string name="news">新闻</string>
     <string name="love_sport_circle">爱动圈</string>
     <string name="please_select_birthday">请选择生日</string>
-    <string name="qq_id" >1104718858</string>
+    <string name="qq_id">1104718858</string>
     <string name="class_schedule">课表</string>
     <string name="train">培训</string>
     <string name="please_input_phone">请输入手机号</string>
@@ -1081,7 +1081,7 @@
     <string name="alipay_name_errror">您输入的支付宝姓名有误，请重新输入</string>
     <string name="less_than_two_hundred_erros">单次最小提现金额为200</string>
     <string name="please_input_integer">请输入整数提现金额</string>
-    <string name="withdraw_success">提现成功</string>
+    <string name="withdraw_success">提现成功，预计3-7个工作日内完成处理</string>
     <string name="confirmed">已确认</string>
     <string name="unconfirmed">待确认</string>
     <string name="sysytem_message">系统消息</string>
@@ -1097,6 +1097,15 @@
     <string name="about_coach_client">关于教练端</string>
     <string name="contact_governor">联系主管</string>
     <string name="i_know_no_problem">我知道了,没问题</string>
+    <string name="message_detail">消息详情</string>
+    <string name="version_update">版本更新</string>
+    <string name="hint">提示</string>
+    <string name="draw_to_alipay">提现到支付宝</string>
+    <string name="draw_to_bank">提现到银行卡</string>
+    <string name="money_colon">金额:</string>
+    <string name="accout_bank">开户银行</string>
+    <string name="accout_bank_colon">开户银行:</string>
+    <string name="bank_card_colon">银行卡号:</string>
 
 
 </resources>

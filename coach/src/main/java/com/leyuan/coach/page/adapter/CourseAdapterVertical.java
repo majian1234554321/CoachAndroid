@@ -40,7 +40,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.from(context).inflate(R.layout.item_course, null, false);
+        View view = mInflater.from(context).inflate(R.layout.item_course, parent, false);
 //        View.inflate(context, R.layout.item_course, parent,false);
         return new Viewholder(view);
     }
@@ -51,10 +51,16 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         switch (course.getCourseType()) {
             case 2:
                 holder.imgCourseState.setVisibility(View.VISIBLE);
-                holder.imgCourseState.setSelected(true);
+                holder.imgCourseState.setImageResource(R.drawable.exchangeclass);
+                break;
             case 3:
                 holder.imgCourseState.setVisibility(View.VISIBLE);
-                holder.imgCourseState.setEnabled(false);
+                holder.imgCourseState.setImageResource(R.drawable.substitute);
+                break;
+            case 4:
+                holder.imgCourseState.setVisibility(View.VISIBLE);
+                holder.imgCourseState.setImageResource(R.drawable.tingke);
+                break;
             default:
                 holder.imgCourseState.setVisibility(View.GONE);
 
@@ -81,7 +87,6 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 holder.btSignState.setText(context.getString(R.string.singed));
                 break;
             case 6:
-
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.beLate));
                 break;

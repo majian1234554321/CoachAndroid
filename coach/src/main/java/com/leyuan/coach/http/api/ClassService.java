@@ -22,7 +22,8 @@ public interface ClassService {
 
     //coachId：教练ID type:0（课表，上月课表），1：下月课表
     @GET("course/getCoachCalendar.json")
-    Observable<BaseBean<ArrayList<MyCalendar>>> getCalendar(@Query("coachId") String id, @Query("type") String type);
+    Observable<BaseBean<ArrayList<MyCalendar>>> getCalendar(@Query("coachId") String id, @Query("type") String type
+            , @Query("status") String status);
 
     //coachId：教练ID courseTime：课程时间2017-11-11
     @GET("course/getCoachCourseList.json")
@@ -55,7 +56,7 @@ public interface ClassService {
     //coachId：教练ID courseTime：课程时间2017-11-11  type:类型（0待确认，1已确认）
     @GET("course/getNextMonthCourse.json")
     Observable<BaseBean<CourseResult>> getNextMonthCourseList(@Query("coachId") String id,
-                                                                       @Query("courseTime") String courseTime, @Query("type") String type);
+                                                              @Query("courseTime") String courseTime, @Query("type") String type);
 
     @FormUrlEncoded
     @POST("course/updateNextCourseStatus.json")

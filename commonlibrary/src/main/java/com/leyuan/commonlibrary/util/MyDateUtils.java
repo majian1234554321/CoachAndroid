@@ -28,6 +28,13 @@ public class MyDateUtils {
         return DateFormat.format(yearMonth, Calendar.getInstance()).toString();
     }
 
+    public static String getLastMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        return DateFormat.format(yearMonth, calendar).toString();
+    }
+
+
     public static int getFirstWeekDayByMonth(String month) {
         return getFirstWeekDay(month, yearMonth);
     }

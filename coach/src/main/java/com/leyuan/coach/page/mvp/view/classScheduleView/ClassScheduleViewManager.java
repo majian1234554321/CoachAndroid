@@ -19,23 +19,21 @@ import java.util.ArrayList;
 
 public class ClassScheduleViewManager {
 
-    private ClassScheduleViewListener listener;
     BaseClassScheduleView scheduleView;
     private Context context;
     private ScheduleMode scheduleMode;
 
     private ClassScheduleViewManager(Context context, ScheduleMode scheduleMode) {
         this(context, scheduleMode, null);
-
     }
 
     public ClassScheduleViewManager(Context context, ScheduleMode scheduleMode, ClassScheduleViewListener listener) {
         this.context = context;
-        this.listener = listener;
+        this.scheduleMode = scheduleMode;
         if (scheduleMode == ScheduleMode.CURRENT_MONTH) {
-            scheduleView = new CurrentMonthClassScheduleView(context);
+            scheduleView = new CurrentMonthClassScheduleView(context, listener);
         } else {
-            scheduleView = new NextMonthClassScheduleView(context);
+            scheduleView = new NextMonthClassScheduleView(context, listener);
         }
 
     }

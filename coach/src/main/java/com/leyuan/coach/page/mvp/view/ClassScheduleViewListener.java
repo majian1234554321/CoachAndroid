@@ -14,6 +14,6 @@ public interface ClassScheduleViewListener {
 
     void startActivityForResult(int currentCalendarPosition, Bundle bundle);
 
-    void refreshCourseList(String currentCalendarPosition);
+    void requestCourseData(String currentData, int currentCalendarPosition);
 
 }

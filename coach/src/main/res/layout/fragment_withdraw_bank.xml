@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/name_colon"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+
+            />
+
+        <EditText
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="95dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/transparent"
+            android:editable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/sixsixsix"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:background="@color/common_divider_color" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/accout_bank_colon"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+
+            />
+
+        <EditText
+            android:id="@+id/txt_bank"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="95dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/transparent"
+            android:editable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/sixsixsix"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:background="@color/common_divider_color" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/bank_card_colon"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+
+            />
+
+        <EditText
+            android:id="@+id/txt_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="95dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/transparent"
+            android:editable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/sixsixsix"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/money_colon"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+
+            />
+
+        <EditText
+            android:id="@+id/edit_money_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:inputType="number"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/common_divider_color"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/min_withdraw_money_is_two_hundred"
+        android:textColor="@color/text_gray"
+        android:textSize="13dp"
+
+        />
+
+
+    <Button
+        android:id="@+id/bt_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_radius_red"
+        android:gravity="center"
+        android:text="@string/withdraw_confirm"
+        android:textColor="@color/fefefe"
+        android:textSize="16dp" />
+
+
+</LinearLayout>

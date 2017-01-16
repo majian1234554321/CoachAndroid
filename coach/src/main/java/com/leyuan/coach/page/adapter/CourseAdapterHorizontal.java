@@ -49,12 +49,14 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
     }
 
     public void refreshData(ArrayList<MyCalendar> myCalendars) {
+        calendars.clear();
         this.myCalendars = myCalendars;
         for (MyCalendar calendar : myCalendars) {
             for (Integer day : calendar.getDayList()) {
                 calendars.add(day);
             }
         }
+        notifyDataSetChanged();
     }
 
 

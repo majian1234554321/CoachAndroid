@@ -10,15 +10,20 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.leyuan.coach.R;
+import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.fragment.ClassScheduleFragment;
 import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
+import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
+import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
+import com.leyuan.coach.widget.popupwindow.PopupWindowSuspendCourseNotify;
+import com.leyuan.coach.widget.popupwindow.PopupWindowTakeOverCourseNotify;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
 
     private RelativeLayout tabCourse;
     private RelativeLayout tabTrain;
@@ -27,11 +32,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<Fragment> mFragments = new ArrayList<>();
     private FragmentManager fm;
     private FragmentTransaction ft;
+    private CourseNotifyPresenter courseNotifyPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        courseNotifyPresenter = new CourseNotifyPresenter(this, this);
         setContentView(R.layout.activity_main);
         initView();
         initData();
@@ -43,18 +49,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabCourse = (RelativeLayout) findViewById(R.id.tabCourse);
         tabTrain = (RelativeLayout) findViewById(R.id.tabTrain);
         tabMineLayout = (RelativeLayout) findViewById(R.id.tabMineLayout);
-
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (mFragments.size() == 3) {
-            setTabSelection(0);
-            showFragment(0);
-            ((ClassScheduleFragment) mFragments.get(0)).getTackoverCourseList();
-        }
 
+        courseNotifyPresenter.getReplaceCourseList();
+        courseNotifyPresenter.getSuspendCourseList();
     }
 
     private void initData() {
@@ -62,6 +64,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabCourse.setOnClickListener(this);
         tabTrain.setOnClickListener(this);
         tabMineLayout.setOnClickListener(this);
+        courseNotifyPresenter.getReplaceCourseList();
+        courseNotifyPresenter.getSuspendCourseList();
     }
 
     private void initFragments() {
@@ -155,4 +159,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
+        if (arrayList != null && !arrayList.isEmpty())
+            new PopupWindowTakeOverCourseNotify(this).showAtBottom(arrayList);
+    }
+
+    @Override
+    public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
+        if (arrayList != null && !arrayList.isEmpty())
+            new PopupWindowSuspendCourseNotify(this).showAtBottom(arrayList);
+    }
 }

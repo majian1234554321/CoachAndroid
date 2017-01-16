@@ -22,7 +22,7 @@ public class ClassSchedule implements Parcelable {
     double lng; // 经度
     double lat; // 维度
     int signStatus;//签到类型(4：未签到，5：已签到，6：迟到，7：旷课)
-    int courseType;//:课程类型(1:正常课程；2：换课，3代课，4其他)
+    int courseType;//:课程类型(1:正常课程；2：换课，3代课，4停课)
 
     public String getCourseTime() {
         return courseTime;
@@ -198,10 +198,17 @@ public class ClassSchedule implements Parcelable {
         dest.writeInt(courseType);
     }
 
-    public class SignStatus {
+    public static class SignStatus {
         public static final int UNSING = 4;
         public static final int SINGED = 5;
         public static final int BE_LATE = 6;
         public static final int TRUANT = 7;
+    }
+
+    public static class CourseStatus {
+        public static final int NORMAL = 1;
+        public static final int CHANGE = 2;
+        public static final int TAKE_OVER = 3;
+        public static final int SUSPEND = 4;
     }
 }

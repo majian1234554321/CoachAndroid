@@ -130,7 +130,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void getUserInfo(CoachInfo userInfo) {
         if (userInfo != null) {
-            imgClassWarn.setVisibility(userInfo.getNextCou() == 1 ? View.VISIBLE : View.GONE);
+            imgClassWarn.setVisibility(userInfo.getNextCou() == 1 ? View.VISIBLE : View.INVISIBLE);
             txtStarLevel.setText("评价星级 " + userInfo.getRated());
             txtAttendanceRate.setText("当月出勤率" + userInfo.getTimeCard());
             imgNewMessage.setVisibility(userInfo.getMsgCou() == 1 ? View.VISIBLE : View.GONE);

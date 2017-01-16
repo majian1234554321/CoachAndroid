@@ -52,17 +52,17 @@ public class CourseDateUtils {
     }
 
     public static int getFirstHaveCoursePosition(ArrayList<MyCalendar> myCalendars) {
-        int position = 0;
+        int position = 0, temp = 0;
         for (MyCalendar myCalendar : myCalendars) {
             for (Integer num : myCalendar.getDayList()) {
                 if (num > 0) {
-                    break;
+                    return position;
                 } else {
                     position++;
                 }
             }
         }
         LogUtil.i("course", "getFirstHaveCoursePosition = " + position);
-        return position;
+        return temp;
     }
 }
