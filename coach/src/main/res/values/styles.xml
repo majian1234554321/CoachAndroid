@@ -101,9 +101,9 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="popuStyle">
-        <!--<item name="android:windowEnterAnimation">@anim/popup_anim_in</item>-->
-        <!--<item name="android:windowExitAnimation">@anim/popup_anim_out</item>-->
+    <style name="popupStyle">
+        <item name="android:windowEnterAnimation">@anim/popup_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_anim_out</item>
     </style>
 
     <style name="MyProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal">
@@ -111,8 +111,8 @@
     </style>
 
     <style name="popupDownStyle">
-        <!--<item name="android:windowEnterAnimation">@anim/popup_anim_down</item>-->
-        <!--<item name="android:windowExitAnimation">@anim/popup_anim_up</item>-->
+        <item name="android:windowEnterAnimation">@anim/popup_anim_down</item>
+        <item name="android:windowExitAnimation">@anim/popup_anim_up</item>
     </style>
 
     <style name="ImageloadingDialogStyle" parent="android:Theme.Dialog">

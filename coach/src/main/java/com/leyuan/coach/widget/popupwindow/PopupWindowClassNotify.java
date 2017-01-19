@@ -2,6 +2,7 @@ package com.leyuan.coach.widget.popupwindow;
 
 import android.app.Activity;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.adapter.PagerAdapterTakeCourse;
 import com.leyuan.coach.page.mvp.presenter.ClassNotifyPresenter;
 import com.leyuan.coach.page.mvp.view.ClassNotifyViewListener;
+import com.leyuan.commonlibrary.manager.DisplayManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
@@ -34,6 +36,8 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
     protected ArrayList<ClassSchedule> arrayList = new ArrayList<>();
     protected RelativeLayout layoutTakeOverClass;
     protected Button btKnowSuspend;
+    private int widthPoint;
+    private int pointMargin;
 
     public PopupWindowClassNotify(Activity context) {
         super(context);
@@ -51,6 +55,8 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
     }
 
     protected void initData() {
+        widthPoint = DisplayManager.dp2px(context, 8);
+        pointMargin = DisplayManager.dp2px(context, 15);
         presenter = createPresenter(this, context);
 
         setNotifyLayoutVisible();
@@ -80,6 +86,45 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
             }
         });
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < llPointGroup.getChildCount(); i++) {
+                    //还原背景
+                    View indicatorView = llPointGroup.getChildAt(i);
+                    indicatorView.setBackgroundResource(R.drawable.shape_point_indicator_normal);
+
+                    if (i == position) {
+                        indicatorView.setBackgroundResource(R.drawable.shape_point_indicator_selector);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        getContentView().setFocusable(true);
+        getContentView().setFocusableInTouchMode(true);
+
+        getContentView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
     }
 
@@ -95,10 +140,23 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
     }
 
     public void showAtBottom(ArrayList<ClassSchedule> arrayList) {
-        this.arrayList.clear();
-        this.arrayList.addAll(arrayList);
+        if (arrayList == null)
+            return;
+        this.arrayList = arrayList;
         adapter = new PagerAdapterTakeCourse(context, arrayList);
         viewPager.setAdapter(adapter);
+        for (int i = 0; i < arrayList.size(); i++) {
+            View point = new View(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(widthPoint, widthPoint);
+            if (i > 0) {
+                params.leftMargin = pointMargin;
+                point.setBackgroundResource(R.drawable.shape_point_indicator_normal);
+            } else {
+                point.setBackgroundResource(R.drawable.shape_point_indicator_selector);
+            }
+            point.setLayoutParams(params);
+            llPointGroup.addView(point);
+        }
         showAtBottom();
     }
 
@@ -106,7 +164,8 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
     public void onAgreeResult(boolean success, int currentItem) {
         if (success) {
             arrayList.remove(currentItem);
-            adapter.refreshData(currentItem);
+            llPointGroup.removeViewAt(currentItem);
+            adapter.notifyDataSetChanged();
             ToastUtil.showLong(context, "已接受");
             if (arrayList.isEmpty())
                 this.dismiss();
@@ -119,7 +178,8 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
     public void onRefuseResult(boolean success, int currentItem) {
         if (success) {
             arrayList.remove(currentItem);
-            adapter.refreshData(currentItem);
+            llPointGroup.removeViewAt(currentItem);
+            adapter.notifyDataSetChanged();
             ToastUtil.showLong(context, "已拒绝");
             if (arrayList.isEmpty())
                 this.dismiss();

@@ -28,8 +28,14 @@ public class SignModel {
 
 
     public void getSignInList(Subscriber<ArrayList<ClassSchedule>> subscriber, String signTime, String page) {
-        service.getSignInList(id, signTime,page)
+        service.getSignInList(id, signTime, page)
                 .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
+                .subscribe(subscriber);
+    }
+
+    public void getMonthList(Subscriber<ArrayList<String>> subscriber) {
+        service.getMonthList()
+                .compose(RxHelper.<ArrayList<String>>transform())
                 .subscribe(subscriber);
     }
 

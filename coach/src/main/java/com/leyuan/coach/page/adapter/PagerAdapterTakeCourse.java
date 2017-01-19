@@ -21,17 +21,15 @@ import java.util.ArrayList;
  */
 public class PagerAdapterTakeCourse extends PagerAdapter {
     private Context context;
-    private ArrayList<ClassSchedule> arrayList = new ArrayList<>();
+    private ArrayList<ClassSchedule> arrayList;
 
     public PagerAdapterTakeCourse(Context context, ArrayList<ClassSchedule> arrayList) {
         this.context = context;
-        this.arrayList.clear();
-        this.arrayList.addAll(arrayList);
+        this.arrayList = arrayList;
     }
 
     public void refreshData(ArrayList<ClassSchedule> arrayList) {
-        this.arrayList.clear();
-        this.arrayList.addAll(arrayList);
+        this.arrayList = arrayList;
         notifyDataSetChanged();
     }
 
@@ -87,9 +85,8 @@ public class PagerAdapterTakeCourse extends PagerAdapter {
         txtMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Bundle bunble = new Bundle();
-                bunble.putString(Constant.CURRENT_DATE, "2016-11-11");
+                bunble.putString(Constant.CURRENT_DATE, course.getCourseTime());
                 bunble.putParcelable(Constant.CLASS_SCHEDULE, course);
                 UiManager.activityJump(context, bunble, MapActivity.class);
             }

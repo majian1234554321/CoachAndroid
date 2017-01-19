@@ -1,6 +1,7 @@
 package com.leyuan.coach.http;
 
 import com.leyuan.coach.bean.BaseBean;
+import com.leyuan.coach.http.api.exception.LoginDuplicateException;
 import com.leyuan.coach.http.api.exception.ServerException;
 import com.leyuan.coach.utils.LogUtil;
 
@@ -21,6 +22,7 @@ public class RxHelper {
 
     /**
      * 对结果进行预处理
+     *
      * @param <T>
      * @return
      */
@@ -31,11 +33,12 @@ public class RxHelper {
                 return tObservable.flatMap(new Func1<BaseBean<T>, Observable<T>>() {
                     @Override
                     public Observable<T> call(BaseBean<T> result) {
-                        LogUtil.i("retrofit","result from network : " + result);
+                        LogUtil.i("retrofit", "result from network : " + result);
                         if (result.getCode() == 1) {
                             return createDataObservable(result.getResult());
+                        } else if (result.getCode() == 100) {
+                            return Observable.error(new LoginDuplicateException(result.getMessage()));
                         } else {
-
                             // the exception will callback at Subscriber's onError
                             return Observable.error(new ServerException(result.getMessage()));
                         }
@@ -48,6 +51,7 @@ public class RxHelper {
 
     /**
      * 创建成功的数据
+     *
      * @param data
      * @param <T>
      * @return

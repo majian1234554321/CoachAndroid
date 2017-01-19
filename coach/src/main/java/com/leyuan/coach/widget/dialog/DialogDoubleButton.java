@@ -54,6 +54,16 @@ public class DialogDoubleButton extends BaseDialog {
         return this;
     }
 
+    public DialogDoubleButton setLeftButton(String content) {
+        btnCancle.setText(content);
+        return this;
+    }
+
+    public DialogDoubleButton setRightButton(String content) {
+        btnOk.setText(content);
+        return this;
+    }
+
     public DialogDoubleButton setContentDesc(String title) {
         txtContent.setText(title);
         return this;

@@ -12,4 +12,6 @@ public interface LoginViewListener {
 //    void onGetImageIdetify(String url);
 
     void onGetIdetify(boolean result,String mobile);
+
+    void onLoginOut(boolean success);
 }

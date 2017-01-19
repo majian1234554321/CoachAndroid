@@ -34,4 +34,18 @@ public class SignPresenter {
         }, signTime, String.valueOf(page));
     }
 
+    public void getMonthList() {
+        model.getMonthList(new BaseSubscriber<ArrayList<String>>(context) {
+            @Override
+            public void onNext(ArrayList<String> strings) {
+                 listener.onGetMonthList(strings);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
+
 }

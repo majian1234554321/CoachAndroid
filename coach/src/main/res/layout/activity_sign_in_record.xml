@@ -6,6 +6,8 @@
     android:orientation="vertical">
 
     <RelativeLayout
+
+        android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/black">
@@ -30,6 +32,14 @@
             android:textColor="#fff"
             android:textSize="18sp" />
 
+        <!--<Spinner-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:gravity="center"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="18sp" />-->
+
         <ImageView
             android:id="@+id/img_choose"
             android:layout_width="wrap_content"
@@ -45,8 +55,7 @@
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/ultimate_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         />
+        android:layout_height="match_parent" />
 
 
     <!--app:recyclerviewClipToPadding="true"-->

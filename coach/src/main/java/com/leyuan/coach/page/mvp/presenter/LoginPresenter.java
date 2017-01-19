@@ -64,4 +64,19 @@ public class LoginPresenter {
         },phone,imageCode);
     }
 
+    public void loginOut() {
+        loginModel.loginOut(new BaseSubscriber<String>(context) {
+            @Override
+            public void onNext(String s) {
+                viewListener.onLoginOut(true);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onLoginOut(false);
+            }
+        });
+    }
+
 }

@@ -9,4 +9,6 @@ import java.util.ArrayList;
  */
 public interface SignViewListener {
     void onGetSignList(ArrayList<ClassSchedule> arrayList, int page);
+
+    void onGetMonthList(ArrayList<String> strings);
 }

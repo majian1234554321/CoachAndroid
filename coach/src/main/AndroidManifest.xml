@@ -170,6 +170,12 @@
         <activity
             android:name=".page.activity.mine.UserAgreementActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.mine.LoginNoDismissActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.activity.GuideActivity"
+            android:screenOrientation="portrait" />
 
         <!-- ********************BaiDuMap************************* -->
         <service

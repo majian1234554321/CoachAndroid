@@ -5,14 +5,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.adapter.PopupWindowSignInAdapter;
 import com.leyuan.coach.page.adapter.SignRecordAdapter;
 import com.leyuan.coach.page.mvp.presenter.SignPresenter;
 import com.leyuan.coach.page.mvp.view.SignViewListener;
+import com.leyuan.coach.widget.popupwindow.PopupWindowSignInMonth;
+import com.leyuan.commonlibrary.util.MyDateUtils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
@@ -21,28 +25,32 @@ import java.util.ArrayList;
 /**
  * Created by user on 2017/1/3.
  */
-public class SignInRecordActivity extends BaseActivity implements View.OnClickListener, SignViewListener {
+public class SignInRecordActivity extends BaseActivity implements View.OnClickListener, SignViewListener, PopupWindowSignInAdapter.OnSignItemClickListener {
 
     private ImageView imgLeft;
     private TextView txtTitle;
     private ImageView imgChoose;
     private UltimateRecyclerView ultimateList;
+
     private SignRecordAdapter adapter;
     private SignPresenter presenter;
     private int page;
+    private String currentMonth;
+
+    private PopupWindowSignInMonth popup;
+    private RelativeLayout layoutTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_record);
-        presenter = new SignPresenter(this, this);
 
         initView();
         initData();
     }
 
     private void initView() {
-
+        layoutTitle = (RelativeLayout) findViewById(R.id.layout_title);
         imgLeft = (ImageView) findViewById(R.id.img_left);
         txtTitle = (TextView) findViewById(R.id.txt_title);
         imgChoose = (ImageView) findViewById(R.id.img_choose);
@@ -64,9 +72,12 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
+        presenter = new SignPresenter(this, this);
+        presenter.getMonthList();
+        popup = new PopupWindowSignInMonth(this, this);
+
         imgLeft.setOnClickListener(this);
-        page = 1;
-        presenter.getSignInList("2017-01", page);
+        txtTitle.setOnClickListener(this);
 
     }
 
@@ -74,7 +85,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void onRefresh() {
             page = 1;
-            presenter.getSignInList("2017-01", page);
+            presenter.getSignInList(currentMonth, page);
         }
     };
 
@@ -82,7 +93,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void loadMore(int itemsCount, int maxLastVisiblePosition) {
             page++;
-            presenter.getSignInList("2017-01", page);
+            presenter.getSignInList(currentMonth, page);
         }
     };
 
@@ -93,6 +104,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.txt_title:
+                popup.showAsDropDown(layoutTitle);
                 break;
             case R.id.img_choose:
                 break;
@@ -109,5 +121,22 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
             adapter.refreshData(arrayList);
         }
 
+    }
+
+    @Override
+    public void onGetMonthList(ArrayList<String> strings) {
+        if (strings != null) {
+            page = 1;
+            currentMonth = strings.isEmpty() ? MyDateUtils.getCurrentMonth() : strings.get(0);
+            presenter.getSignInList(currentMonth, page);
+            popup.setData(strings);
+        }
+    }
+
+    @Override
+    public void onMonthItemClicked(String month) {
+        page = 1;
+        currentMonth = month;
+        presenter.getSignInList(currentMonth, page);
     }
 }

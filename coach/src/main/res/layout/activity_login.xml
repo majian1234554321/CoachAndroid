@@ -98,7 +98,7 @@
                 android:id="@+id/bt_get_identify"
                 android:layout_width="77dp"
                 android:layout_height="27dp"
-                android:background="@color/black_gray"
+                android:background="@color/red_origin"
                 android:textSize="13dp"
                 android:textColor="@color/light_white"
                 android:text="@string/get_identify_code"

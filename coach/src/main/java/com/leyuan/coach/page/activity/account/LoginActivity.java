@@ -1,11 +1,13 @@
 package com.leyuan.coach.page.activity.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.App;
@@ -67,8 +69,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     DialogUtils.showDialog(this, "", false);
                     presenter.login(mobile, code);
                 }
-
-
                 break;
         }
     }
@@ -113,7 +113,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void loginResult(boolean success) {
         DialogUtils.dismissDialog();
         if (success) {
-            UiManager.activityJump(this, MainActivity.class);
+            UiManager.activityJump(this, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            finish();
         }
     }
 
@@ -133,6 +134,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             mDialogImageIdentify.clearContent();
             mDialogImageIdentify.refreshImage(mobile);
+        }
+    }
+
+    @Override
+    public void onLoginOut(boolean success) {
+
+    }
+
+    private long mPressedTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        //don't finish when back pressed
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        } else {//退出程序
+            exitApp();
         }
     }
 

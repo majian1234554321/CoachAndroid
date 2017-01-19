@@ -58,30 +58,19 @@ public class PushReceiver extends BroadcastReceiver {
             pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
             pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
 
-            if (info.getType() == 2 || info.getType() == 4) {
-                UiManager.activityJump(context, pushBundle, MainActivity.class,
-                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            }
-
-//            switch (info.getType()) {
-//                case 1:
-//                    UiManager.activityJump(context, pushBundle, MessageDetailActivity.class,
-//                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    break;
-//                case 2:
-//                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                    break;
-//                case 3:
+            switch (info.getType()) {
+                case PushExtroInfo.PushType.NEWS_MESSAGE:
+                case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
+                case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    break;
+                case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
 //                    UiManager.activityJump(context, pushBundle, NextMonthClassScheduleActivity.class,
 //                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    break;
-//                case 4:
-//                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//                    break;
-//            }
+                    break;
+
+            }
 
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

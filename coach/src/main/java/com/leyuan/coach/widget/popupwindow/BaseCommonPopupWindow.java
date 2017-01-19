@@ -1,14 +1,13 @@
 package com.leyuan.coach.widget.popupwindow;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-
-import com.leyuan.coach.R;
 
 /**
  * Created by user on 2017/1/13.
@@ -30,15 +29,19 @@ public abstract class BaseCommonPopupWindow extends PopupWindow {
         this.setTouchable(true);
         this.setFocusable(true);
         this.setOutsideTouchable(true);
-        this.setAnimationStyle(R.style.popuStyle);
+//        this.setAnimationStyle(R.style.popupStyle);
 
         ColorDrawable background = new ColorDrawable(0x77000000);
-        this.setBackgroundDrawable(background);
+        this.setBackgroundDrawable(new BitmapDrawable());
         initData();
     }
 
     protected void showAtBottom() {
         showAtLocation(((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0), Gravity.BOTTOM, 0, 0);
+    }
+
+    public void setHeightReal(int height) {
+        this.setHeight(height);
     }
 
     protected abstract void initData();

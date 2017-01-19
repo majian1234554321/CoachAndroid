@@ -24,6 +24,7 @@ import com.leyuan.coach.page.activity.mine.UserInfoActivity;
 import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.mvp.presenter.MinePresenter;
 import com.leyuan.coach.page.mvp.view.MineViewListener;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.UiManager;
 
 /**
@@ -31,6 +32,7 @@ import com.leyuan.commonlibrary.manager.UiManager;
  */
 public class MineFragment extends BaseFragment implements View.OnClickListener, MineViewListener {
 
+    private static final java.lang.String TAG = "MineFragment";
     private ImageView imgClassWarn;
     private SimpleDraweeView imgAvatar;
     private TextView txtName;
@@ -46,6 +48,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private RelativeLayout layoutSetting;
 
     private MinePresenter presenter;
+    private UserCoach user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,9 +72,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         view.findViewById(R.id.layout_message).setOnClickListener(this);
         view.findViewById(R.id.layout_my_sign_in).setOnClickListener(this);
         view.findViewById(R.id.layout_setting).setOnClickListener(this);
+        view.findViewById(R.id.rel_class_warn).setOnClickListener(this);
+        view.findViewById(R.id.txt_next_month_class).setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
         txtName.setOnClickListener(this);
-        txt_next_month_class.setOnClickListener(this);
 
         initData();
     }
@@ -93,6 +97,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.txt_next_month_class:
                 UiManager.activityJump(getActivity(), NextMonthClassScheduleActivity.class);
                 break;
+            case R.id.rel_class_warn:
+                UiManager.activityJump(getActivity(), NextMonthClassScheduleActivity.class);
+                break;
             case R.id.layout_mine_money:
                 UiManager.activityJump(getActivity(), MyMoneyActivity.class);
                 break;
@@ -112,19 +119,27 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initData() {
-        UserCoach user = App.getInstance().getUser();
+        user = App.getInstance().getUser();
         imgAvatar.setImageURI(user.getAvatar());
         txtName.setText(user.getName() + "");
 
-
         presenter = new MinePresenter(getActivity(), this);
-        presenter.getUserInfo("" + user.getId());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getUserInfo("" + user.getId());
+        LogUtil.i(TAG, "onResume");
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if (!hidden) {
+            presenter.getUserInfo("" + user.getId());
+        }
+        LogUtil.i(TAG, "onHiddenChanged " + hidden);
     }
 
     @Override
@@ -133,7 +148,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             imgClassWarn.setVisibility(userInfo.getNextCou() == 1 ? View.VISIBLE : View.INVISIBLE);
             txtStarLevel.setText("评价星级 " + userInfo.getRated());
             txtAttendanceRate.setText("当月出勤率" + userInfo.getTimeCard());
-            imgNewMessage.setVisibility(userInfo.getMsgCou() == 1 ? View.VISIBLE : View.GONE);
+            if (userInfo.getMsgCou() == 1) {
+                imgNewMessage.setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
+            } else {
+                imgNewMessage.setVisibility(View.GONE);
+                getActivity().findViewById(R.id.img_new_message).setVisibility(View.GONE);
+            }
 
         }
     }

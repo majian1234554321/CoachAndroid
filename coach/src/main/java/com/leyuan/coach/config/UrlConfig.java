@@ -14,7 +14,8 @@ public class UrlConfig {
     static {
         if (debug) {
             urlHtml = "http://opentest.aidong.me/";
-            urlHost = "http://192.168.0.208:8080/";
+//            urlHost = "http://192.168.0.208:8080/";
+            urlHost = "http://m1.aidong.me/coach/";
         } else {
             urlHtml = "http://open.aidong.me/";
             urlHost = "http://m1.aidong.me/coach/";
@@ -22,6 +23,6 @@ public class UrlConfig {
     }
 
     public static final String BASE_URL = urlHost;
-    public static final String BASE_URL_HTML = urlHtml;
+    static final String BASE_URL_HTML = urlHtml;
 
 }

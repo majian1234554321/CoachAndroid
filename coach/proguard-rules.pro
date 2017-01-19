@@ -39,7 +39,7 @@
 -keep class cn.jiguang.** { *; }
 
 # ------------------AliPay----------------------------------------
--libraryjars libs/alipaySDK-20150724.jar
+#-libraryjars libs/alipaySDK-20150724.jar
 
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}

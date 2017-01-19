@@ -35,7 +35,7 @@ public class SplashPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                App.getInstance().setUser(null);
+//                App.getInstance().setUser(null);
                 viewListener.onAutoLoginResult(false);
 
             }

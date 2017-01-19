@@ -12,6 +12,10 @@ import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.mvp.presenter.WithDrawPresenter;
 import com.leyuan.coach.page.mvp.view.WithDrawViewListener;
+import com.leyuan.coach.widget.dialog.BaseDialog;
+import com.leyuan.coach.widget.dialog.ButtonOkListener;
+import com.leyuan.coach.widget.dialog.DialogSingleButton;
+import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
 /**
@@ -68,6 +72,7 @@ public class WithDrawBankFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_withdraw:
+
                 number = getEditMoneyNumber().getText().toString().trim();
                 try {
                     int num = Integer.parseInt(number);
@@ -80,6 +85,7 @@ public class WithDrawBankFragment extends Fragment implements View.OnClickListen
                     ToastUtil.showLong(getActivity(), getResources().getString(R.string.please_input_integer));
                     return;
                 }
+                DialogUtils.showDialog(getActivity(), "", false);
                 presenter.withdrawBank(number);
                 break;
         }
@@ -87,6 +93,22 @@ public class WithDrawBankFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onWithDrawResult(boolean success) {
-        ToastUtil.showLong(getActivity(), getResources().getString(R.string.withdraw_success));
+        DialogUtils.dismissDialog();
+        if (success) {
+            new DialogSingleButton(getActivity())
+                    .setContentDesc(getResources().getString(R.string.withdraw_success))
+                    .setBtnOkListener(new ButtonOkListener() {
+                        @Override
+                        public void onClick(BaseDialog dialog) {
+                            getActivity().finish();
+                        }
+                    }).show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DialogUtils.releaseDialog();
     }
 }

@@ -9,11 +9,14 @@ import android.support.annotation.Nullable;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.VersionInformation;
+import com.leyuan.coach.config.ConstantString;
+import com.leyuan.coach.page.activity.GuideActivity;
 import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.page.mvp.presenter.SplashPresenter;
 import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
+import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.coach.widget.dialog.BaseDialog;
 import com.leyuan.coach.widget.dialog.ButtonCancelListener;
 import com.leyuan.coach.widget.dialog.ButtonOkListener;
@@ -29,6 +32,8 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
     private VersionPresenter versionPresenter;
     private boolean autoLoginSuccess;
     private VersionInformation versionInfomation;
+    private boolean firstOpenApp;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
         setContentView(R.layout.activity_splash);
         versionPresenter = new VersionPresenter(this, this);
         presenter = new SplashPresenter(this, this);
+        firstOpenApp = SharePrefUtils.getIsFirstOpenApp(this);
 
         initView();
         initData();
@@ -147,8 +153,11 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-
-                    if (autoLoginSuccess) {
+                    if (firstOpenApp) {
+                        Bundle bunble = new Bundle();
+                        bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
+                        UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
+                    } else if (autoLoginSuccess) {
                         UiManager.activityJump(SplashActivity.this, MainActivity.class);
                     } else {
                         UiManager.activityJump(SplashActivity.this, LoginActivity.class);
