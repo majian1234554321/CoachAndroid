@@ -61,7 +61,7 @@ public class CampaignPresent {
     }
 
     public void commonLoadData(final SwitcherLayout switcherLayout, String type) {
-        campaignModel.getCampaigns(new CommonSubscriber<List<CampaignBean>>(switcherLayout) {
+        campaignModel.getCampaigns(new CommonSubscriber<List<CampaignBean>>(switcherLayout,context) {
             @Override
             public void onNext(List<CampaignBean> campaignList) {
                 if(campaignList != null && !campaignList.isEmpty()){
@@ -103,7 +103,7 @@ public class CampaignPresent {
     }
 
     public void getCampaignDetail(final SwitcherLayout switcherLayout, String campaignId, String coachId ){
-        campaignModel.getCampaignDetail(new CommonSubscriber<CampaignDetailBean>(switcherLayout) {
+        campaignModel.getCampaignDetail(new CommonSubscriber<CampaignDetailBean>(switcherLayout,context) {
             @Override
             public void onNext(CampaignDetailBean campaignDetailBean) {
                 if(campaignDetailBean != null){

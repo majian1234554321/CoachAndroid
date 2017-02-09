@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -47,6 +48,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private FragmentTransaction ft;
     private CourseNotifyPresenter courseNotifyPresenter;
     private ImageView imgNewMessage;
+    private PopupWindowTakeOverCourseNotify popupTackOver;
+    private PopupWindowSuspendCourseNotify popupSuspend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         handler.sendEmptyMessageDelayed(GET_NOTIFY, 1000);
 
         PermissionsUtil.checkAndRequestPermissions(this, null);
+
+//        Intent intent = new Intent();
+//        intent.setAction("miui.intent.action.OP_AUTO_START");
+//        startActivityForResult(intent,0);
 
     }
 
@@ -154,6 +161,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+
+
     protected void resetTabBtn() {
         tabCourse.setSelected(false);
         tabTrain.setSelected(false);
@@ -219,16 +228,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
-        if (arrayList != null && !arrayList.isEmpty())
-            new PopupWindowTakeOverCourseNotify(this).showAtBottom(arrayList);
+        if (arrayList != null && !arrayList.isEmpty()){
+            if(popupTackOver == null){
+                popupTackOver =  new PopupWindowTakeOverCourseNotify(this);
+                popupTackOver.setOnDismissListener(popupDismissListener);
+            }
+            popupTackOver.showAtBottom(arrayList);
+        }
     }
 
     @Override
     public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
-        if (arrayList != null && !arrayList.isEmpty())
-            new PopupWindowSuspendCourseNotify(this).showAtBottom(arrayList);
+        if (arrayList != null && !arrayList.isEmpty()){
+            if(popupSuspend == null){
+                popupSuspend =  new PopupWindowSuspendCourseNotify(this);
+                popupSuspend.setOnDismissListener(popupDismissListener);
+            }
+            popupSuspend.showAtBottom(arrayList);
+        }
     }
 
+    private PopupWindow.OnDismissListener popupDismissListener = new PopupWindow.OnDismissListener() {
+        @Override
+        public void onDismiss() {
+                if(mFragments.get(0) instanceof ClassScheduleFragment){
+                    ((ClassScheduleFragment)(mFragments.get(0))).notifyCourseData();
+                }
+        }
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

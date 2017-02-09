@@ -25,6 +25,42 @@
 -dontpreverify
 -verbose
 
+# ------------------common keep------------------------------
+-keep public class * extends android.app.Fragment
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.support.annotation.**
+-keep public class * extends android.support.v7.**
+
+# ------------------retrofit------------------------------
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+# ------------------RxJava RxAndroid------------------------------
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+
+# ------------------OkHttp3------------------------------
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
+-dontwarn okio.**
+
 # ------------------baidu------------------------------
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}

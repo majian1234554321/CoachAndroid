@@ -16,12 +16,12 @@ import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseFragment;
 import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
+import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.activity.mine.MessageCenterActivity;
 import com.leyuan.coach.page.activity.mine.MyMoneyActivity;
 import com.leyuan.coach.page.activity.mine.SettingActivity;
 import com.leyuan.coach.page.activity.mine.SignInRecordActivity;
 import com.leyuan.coach.page.activity.mine.UserInfoActivity;
-import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.mvp.presenter.MinePresenter;
 import com.leyuan.coach.page.mvp.view.MineViewListener;
 import com.leyuan.coach.utils.LogUtil;
@@ -49,6 +49,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private MinePresenter presenter;
     private UserCoach user;
+    private TextView txtLevel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +62,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         super.onViewCreated(view, savedInstanceState);
         imgClassWarn = (ImageView) view.findViewById(R.id.img_class_warn);
         imgAvatar = (SimpleDraweeView) view.findViewById(R.id.img_avatar);
+        txtLevel  = (TextView) view.findViewById(R.id.txt_level);
         txtName = (TextView) view.findViewById(R.id.txt_name);
         txtAttendanceRate = (TextView) view.findViewById(R.id.txt_attendance_rate);
         txtStarLevel = (TextView) view.findViewById(R.id.txt_star_level);
@@ -122,6 +124,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         user = App.getInstance().getUser();
         imgAvatar.setImageURI(user.getAvatar());
         txtName.setText(user.getName() + "");
+        txtLevel.setText("LV"   +user.getLevel());
 
         presenter = new MinePresenter(getActivity(), this);
     }

@@ -56,7 +56,7 @@ public class CurrentCoursePresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                viewListener.onGetCalendar(null);
+                viewListener.onGetCourseList(null);
             }
         }, courseTime);
     }

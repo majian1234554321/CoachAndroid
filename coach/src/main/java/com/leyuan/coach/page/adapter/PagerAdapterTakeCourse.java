@@ -78,9 +78,9 @@ public class PagerAdapterTakeCourse extends PagerAdapter {
         }
 
         txtCourseName.setText(course.getCourseName());
-        txtDate.setText(course.getBeginTime());
+        txtDate.setText(course.getCourseTime());
         txtTime.setText(course.getBeginTime() + "-" + course.getEndTime());
-        txtStoreName.setText(course.getStoreName());
+        txtStoreName.setText(course.getStoreName()+"\n"+course.getClassRoom().trim());
         txtAddress.setText(course.getAddress());
         txtMap.setOnClickListener(new View.OnClickListener() {
             @Override

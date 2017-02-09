@@ -1,5 +1,7 @@
 package com.leyuan.coach.http.subscriber;
 
+import android.content.Context;
+
 import com.leyuan.coach.widget.SwitcherLayout;
 
 
@@ -11,7 +13,8 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
 
     private SwitcherLayout switcherLayout;
 
-    public CommonSubscriber(SwitcherLayout switcherLayout) {
+    public CommonSubscriber(SwitcherLayout switcherLayout, Context context) {
+        super(context);
         this.switcherLayout = switcherLayout;
 
     }

@@ -26,6 +26,22 @@ public class CourseDateUtils {
         return time;
     }
 
+    public static String getCalendarMonthDateByPosition(int currentCalendarPosition, ArrayList<MyCalendar> myCalendars) {
+        String time = "";
+        int temp = 0, monthClickedIndex = 0;
+        for (; monthClickedIndex < myCalendars.size(); monthClickedIndex++) {
+            temp += myCalendars.get(monthClickedIndex).getDayList().length;
+            if (currentCalendarPosition < temp) {
+                time = MyDateUtils.formatYearMonthDay(myCalendars.get(monthClickedIndex).getTimeMouth().substring(5),
+                        currentCalendarPosition - temp + myCalendars.get(monthClickedIndex).getDayList().length);
+                break;
+            }
+        }
+        LogUtil.i("course", "getCalendarDateByPosition time = " + time);
+
+        return time;
+    }
+
     public static String getCurrentMonthByPosition(int position, ArrayList<MyCalendar> myCalendars) {
         String month = "";
         int temp = 0;

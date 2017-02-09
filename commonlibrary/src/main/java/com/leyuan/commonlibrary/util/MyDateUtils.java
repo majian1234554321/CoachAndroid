@@ -16,6 +16,8 @@ import java.util.Date;
 public class MyDateUtils {
     private static String yearMonthDay = "yyyy-MM-dd";
     private static String yearMonth = "yyyy-MM";
+    private static String monthDay = "mm月dd日";
+    private static SimpleDateFormat monthDayFormat = new SimpleDateFormat(monthDay);
     private static SimpleDateFormat yearMonthFormat = new SimpleDateFormat(yearMonth);
     private static SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(yearMonthDay);
 
@@ -103,7 +105,7 @@ public class MyDateUtils {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(yearMonthDayFormat.parse(timeMouth));
-            day = (calendar.get(Calendar.MONTH)) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
+            day = (calendar.get(Calendar.MONTH) + 1) + "月" + calendar.get(Calendar.DAY_OF_MONTH) + "日";
 
         } catch (ParseException e) {
             e.printStackTrace();

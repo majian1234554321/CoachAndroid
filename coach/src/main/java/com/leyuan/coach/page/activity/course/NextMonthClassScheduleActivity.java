@@ -193,7 +193,15 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
     public void requestCourseData(String currentData, int currentCalendarPosition) {
         currentPosition = currentCalendarPosition;
         dateTag = currentData;
-        presenter.getNextMonthUnconfirmCourseList(dateTag);
+        if (requestType == RequestType.UNCONFIRM) {
+
+
+
+            presenter.getNextMonthUnconfirmCourseList(dateTag);
+        } else {
+            presenter.getNextMonthConfirmedCourseList(dateTag);
+        }
+
     }
 
     @Override

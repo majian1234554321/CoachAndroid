@@ -9,6 +9,15 @@ public class WithdrawDetail {
     String withdrawDate;//提现时间
     String statusName;//提现状态名称
     double cash;//金额
+    int status;//提现状态(0:待处理,1提现中，2提现成功,3提现失败)
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getWidthdrawMonth() {
         return widthdrawMonth;

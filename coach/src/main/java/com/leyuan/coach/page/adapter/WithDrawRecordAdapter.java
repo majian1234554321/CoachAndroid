@@ -2,7 +2,6 @@ package com.leyuan.coach.page.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  */
 public class WithDrawRecordAdapter extends RecyclerView.Adapter<WithDrawRecordAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<WithdrawDetail> withdrawDetails = new ArrayList<>();
+    private ArrayList<WithdrawDetail> withdrawDetails;
     private OnItemClickListener listener;
 
     public WithDrawRecordAdapter(Context context) {
@@ -31,8 +30,7 @@ public class WithDrawRecordAdapter extends RecyclerView.Adapter<WithDrawRecordAd
     }
 
     public void refreshData(ArrayList<WithdrawDetail> withdrawDetails) {
-        this.withdrawDetails.clear();
-        this.withdrawDetails.addAll(withdrawDetails);
+        this.withdrawDetails = withdrawDetails;
         notifyDataSetChanged();
     }
 
@@ -53,10 +51,20 @@ public class WithDrawRecordAdapter extends RecyclerView.Adapter<WithDrawRecordAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         final WithdrawDetail detail = withdrawDetails.get(position);
 
-        if (!TextUtils.isEmpty(detail.getStatusName())) {
-            holder.txtType.setText(detail.getStatusName());
-        } else {
-            holder.txtType.setText(detail.getWidthdrawMonth() + "");
+        switch (detail.getStatus()) {
+            case 0:
+                holder.txtType.setText("待处理");
+                break;
+            case 1:
+                holder.txtType.setText("提现中");
+                break;
+            case 2:
+                holder.txtType.setText("提现成功");
+                break;
+            case 3:
+                holder.txtType.setText("提现失败");
+                break;
+
         }
         holder.txtDate.setText(detail.getWithdrawDate());
         holder.txtMoney.setText(String.valueOf(detail.getCash()));
@@ -74,6 +82,8 @@ public class WithDrawRecordAdapter extends RecyclerView.Adapter<WithDrawRecordAd
 
     @Override
     public int getItemCount() {
+        if (withdrawDetails == null)
+            return 0;
         return withdrawDetails.size();
     }
 

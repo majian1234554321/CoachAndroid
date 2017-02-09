@@ -25,11 +25,13 @@ public abstract class ProgressSubscriber<T> extends BaseSubscriber<T> implements
     private ProgressDialogHandler progressDialogHandler;
 
     public ProgressSubscriber(Context context) {
+        super(context);
         this.context = context;
         progressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 
     public ProgressSubscriber(Context context, boolean showDialog) {
+        super(context);
         this.context = context;
         this.showDialog = showDialog;
         progressDialogHandler = new ProgressDialogHandler(context, this, true);

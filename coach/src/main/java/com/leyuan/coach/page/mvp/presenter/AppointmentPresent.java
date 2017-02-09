@@ -44,7 +44,7 @@ public class AppointmentPresent  {
     }
 
     public void commonLoadData(final SwitcherLayout switcherLayout, String coachId,String type) {
-        appointmentModel.getAppointments(new CommonSubscriber<List<AppointmentBean>>(switcherLayout) {
+        appointmentModel.getAppointments(new CommonSubscriber<List<AppointmentBean>>(switcherLayout,context) {
             @Override
             public void onNext(List<AppointmentBean> appointmentBeanList) {
                 if(appointmentBeanList != null && !appointmentBeanList.isEmpty()){
@@ -87,7 +87,7 @@ public class AppointmentPresent  {
 
 
     public void getAppointmentDetail(final SwitcherLayout switcherLayout, String orderId) {
-        appointmentModel.getAppointmentDetail(new CommonSubscriber<AppointmentDetailBean>(switcherLayout) {
+        appointmentModel.getAppointmentDetail(new CommonSubscriber<AppointmentDetailBean>(switcherLayout,context) {
             @Override
             public void onNext(AppointmentDetailBean appointmentDetailBean) {
                 if(appointmentDetailBean != null && appointmentDetailBean.getCampaign() != null){

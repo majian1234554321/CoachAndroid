@@ -57,7 +57,11 @@ public class WithDrawActivity extends BaseActivity implements View.OnClickListen
         fragments.add(new WithDrawBankFragment());
         viewPager.setAdapter(new CommonFragmentPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.addOnPageChangeListener(pagerListener);
-        viewPager.setCurrentItem(0);
+
+        relAlipay.setSelected(true);
+        relBank.setSelected(false);
+        imgAlipay.setVisibility(View.VISIBLE);
+        imgBank.setVisibility(View.INVISIBLE);
     }
 
     @Override

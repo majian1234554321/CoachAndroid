@@ -1,7 +1,6 @@
 package com.leyuan.coach.widget.popupwindow;
 
 import android.app.Activity;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -32,7 +31,7 @@ public abstract class BaseCommonPopupWindow extends PopupWindow {
 //        this.setAnimationStyle(R.style.popupStyle);
 
         ColorDrawable background = new ColorDrawable(0x77000000);
-        this.setBackgroundDrawable(new BitmapDrawable());
+        this.setBackgroundDrawable(background);
         initData();
     }
 

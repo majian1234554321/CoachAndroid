@@ -23,6 +23,7 @@ public abstract class RequestMoreSubscriber<T> extends BaseSubscriber<T> {
     private int pageSize;
 
     public RequestMoreSubscriber(Context context, RecyclerView recyclerView, int pageSize) {
+        super(context);
         this.context = context;
         this.recyclerView = recyclerView;
         this.pageSize = pageSize;

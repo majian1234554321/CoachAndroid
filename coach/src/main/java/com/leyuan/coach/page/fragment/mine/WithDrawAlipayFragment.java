@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.mvp.presenter.WithDrawPresenter;
 import com.leyuan.coach.page.mvp.view.WithDrawViewListener;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.dialog.BaseDialog;
 import com.leyuan.coach.widget.dialog.ButtonOkListener;
 import com.leyuan.coach.widget.dialog.DialogSingleButton;
@@ -22,6 +23,7 @@ import com.leyuan.commonlibrary.util.ToastUtil;
  */
 public class WithDrawAlipayFragment extends Fragment implements View.OnClickListener, WithDrawViewListener {
 
+    private static final java.lang.String TAG = "WithDrawAlipayFragment";
     private String accout;
     private String name;
     private String number;
@@ -77,7 +79,9 @@ public class WithDrawAlipayFragment extends Fragment implements View.OnClickList
             return false;
         }
         name = getEditName().getText().toString().trim();
-        if (name.length() < 4) {
+
+        LogUtil.i(TAG,"name.length = " + name.length() +" name.getbytes length = " +name.getBytes().length);
+        if (name.getBytes().length < 4) {
             ToastUtil.showLong(getActivity(), getResources().getString(R.string.alipay_name_errror));
             return false;
         }

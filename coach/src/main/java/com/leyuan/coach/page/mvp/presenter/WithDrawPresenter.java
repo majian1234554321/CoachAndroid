@@ -27,6 +27,12 @@ public class WithDrawPresenter {
                 listener.onWithDrawResult(true);
 
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                listener.onWithDrawResult(false);
+            }
         }, aliId, userName, money);
     }
 
@@ -35,6 +41,12 @@ public class WithDrawPresenter {
             @Override
             public void onNext(Object o) {
                 listener.onWithDrawResult(true);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                listener.onWithDrawResult(false);
             }
 
         }, moneyNum);

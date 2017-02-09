@@ -59,6 +59,8 @@ public class CourseEarningDetailAdapter extends RecyclerView.Adapter<CourseEarni
 
     @Override
     public int getItemCount() {
+        if(array == null)
+            return 0;
         return array.size() + 2;
     }
 

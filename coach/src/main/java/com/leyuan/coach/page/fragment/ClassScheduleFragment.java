@@ -325,6 +325,10 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         return time;
     }
 
+    public void notifyCourseData() {
+        presenter.getCourseList(currentDate);
+//        presenter.getCurrentMonthCalendar();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.utils.CourseDateUtils;
+import com.leyuan.commonlibrary.util.MyDateUtils;
 
 import java.util.ArrayList;
 
@@ -69,8 +70,9 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final int finalPosition = position;
+        String date = CourseDateUtils.getCalendarDateByPosition(position, myCalendars);
 
-        holder.txt_date.setText(CourseDateUtils.getCalendarDateByPosition(position, myCalendars));
+        holder.txt_date.setText( MyDateUtils.formatMonthDayByYearMonth(date)+" " + MyDateUtils.formatWeekByYearMonth(date));
         holder.txt_course_number.setText(calendars.get(position) + "节课");
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +98,6 @@ public class CourseAdapterHorizontal extends RecyclerView.Adapter<CourseAdapterH
             txt_course_number = (TextView) itemView.findViewById(R.id.txt_course_number);
             layout_root = (LinearLayout) itemView.findViewById(R.id.layout_root);
         }
-
     }
 
     public interface OnItemClickListener {

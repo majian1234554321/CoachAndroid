@@ -1,6 +1,7 @@
 package com.leyuan.coach.page.activity.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -42,6 +43,7 @@ public class WithDrawRecordActivity extends BaseActivity implements WithDrawReco
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new WithDrawRecordAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         presenter.getWithdrawRecord(page);

@@ -53,7 +53,7 @@ public interface ClassService {
     Observable<BaseBean<Object>> signIn(@Field("coachId") String coachId, @Field("timetableId")
             String timetableId, @Field("lat") String lat, @Field("lng") String lng);
 
-    //coachId：教练ID courseTime：课程时间2017-11-11  type:类型（0待确认，1已确认）
+    //coachId：教练ID courseTime：课程时间2017-11-11  type:类型（2待确认，3已确认）
     @GET("course/getNextMonthCourse.json")
     Observable<BaseBean<CourseResult>> getNextMonthCourseList(@Query("coachId") String id,
                                                               @Query("courseTime") String courseTime, @Query("type") String type);

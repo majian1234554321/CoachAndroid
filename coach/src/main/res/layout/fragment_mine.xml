@@ -24,7 +24,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/shape_circle_red" />
+                android:src="@drawable/shape_circle_red"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/txt_next_month_class"
@@ -49,6 +50,20 @@
             fresco:placeholderImage="@drawable/big_icon_head"
             fresco:roundAsCircle="true"
 
+            />
+        
+        <TextView
+            android:id="@id/txt_level"
+            android:layout_width="27dp"
+            android:layout_height="14dp"
+            android:layout_toRightOf="@id/img_avatar"
+            android:text="LV3"
+            android:gravity="center"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_radius_origin"
             />
 
         <TextView
@@ -165,7 +180,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="37dp"
-            android:src="@drawable/shape_circle_red" />
+            android:src="@drawable/shape_circle_red"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
