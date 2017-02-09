@@ -12,12 +12,12 @@
         android:background="@color/base_theme">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerHan"
-            android:layout_width="152dp"
-            android:layout_height="41dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shape_radius_white"
-            android:scrollbars="none" />
+        android:id="@+id/recyclerHan"
+        android:layout_width="152dp"
+        android:layout_height="41dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_radius_white"
+        android:scrollbars="none" />
 
         <!--android:nestedScrollingEnabled="false"-->
         <LinearLayout
@@ -64,7 +64,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/layout_next_month"
             android:layout_width="wrap_content"
@@ -109,40 +108,48 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginTop="1dp"
-        android:background="@color/base_theme"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:background="@color/base_theme">
 
-        <TextView
-            android:id="@+id/txt_class_number"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="2016-12 444444"
-            android:textColor="@color/black"
-            android:textSize="13dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            />
+            <TextView
+                android:id="@+id/txt_class_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-12 444444"
+                android:textColor="@color/black"
+                android:textSize="13dp"
 
-        <TextView
-            android:id="@+id/txt_sign_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="3dp"
-            android:text="@string/please_sign_in_fifteen_minute"
-            android:textColor="@color/sixsixsix"
-            android:textSize="11dp" />
-    </LinearLayout>
+                />
+
+            <TextView
+                android:id="@+id/txt_sign_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/please_sign_in_fifteen_minute"
+                android:textColor="@color/sixsixsix"
+                android:textSize="11dp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+    </FrameLayout>
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none" />
+    android:id="@+id/recyclerView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none" />
 
 </LinearLayout>

@@ -13,7 +13,11 @@
         app:txtTitle="@string/class_schedule"
         app:visible="false" />
 
-    <include layout="@layout/layout_class_schedule" />
+    <FrameLayout
+        android:id="@+id/layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 
 </LinearLayout>

@@ -21,7 +21,7 @@ import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.ConstantString;
-import com.leyuan.coach.page.fragment.ClassScheduleFragment;
+import com.leyuan.coach.page.fragment.CourseScheduleFragment;
 import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
 import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initFragments() {
         fm = getSupportFragmentManager();
-        mFragments.add(new ClassScheduleFragment());
+        mFragments.add(new CourseScheduleFragment());
         mFragments.add(new TrainFragment());
         mFragments.add(new MineFragment());
         setTabSelection(0);
@@ -251,8 +251,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PopupWindow.OnDismissListener popupDismissListener = new PopupWindow.OnDismissListener() {
         @Override
         public void onDismiss() {
-                if(mFragments.get(0) instanceof ClassScheduleFragment){
-                    ((ClassScheduleFragment)(mFragments.get(0))).notifyCourseData();
+                if(mFragments.get(0) instanceof CourseScheduleFragment){
+                    ((CourseScheduleFragment)(mFragments.get(0))).notifyCourseData();
                 }
         }
     };

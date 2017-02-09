@@ -1,6 +1,7 @@
 package com.leyuan.coach.page.activity.mine;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -47,6 +48,7 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new EarningDetailAdapter(this);
         adapter.setOnItemClickListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         presenter.getMoreWithdrawRecord(page);
@@ -54,7 +56,6 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
 
     @Override
     public void onGetMoreWithDrawRecord(ArrayList<RecentEarningResult> earningDetails, int page) {
-
         if (page == 1) {
             adapter.refreshData(earningDetails);
         } else {

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVertical.Viewholder> {
     private LayoutInflater mInflater;
     private Context context;
-    private ArrayList<ClassSchedule> courseArray = new ArrayList<>();
+    private ArrayList<ClassSchedule> courseArray ;
     private OnCourseItemClickListener listener;
 
     public CourseAdapterVertical(Context context, OnCourseItemClickListener listener) {
@@ -33,15 +33,13 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
     }
 
     public void refreshData(ArrayList<ClassSchedule> courseArray) {
-        this.courseArray.clear();
-        this.courseArray.addAll(courseArray);
+        this.courseArray = courseArray;
         this.notifyDataSetChanged();
     }
 
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.from(context).inflate(R.layout.item_course, parent, false);
-//        View.inflate(context, R.layout.item_course, parent,false);
         return new Viewholder(view);
     }
 
@@ -115,6 +113,8 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     @Override
     public int getItemCount() {
+        if(courseArray == null)
+            return  0;
         return courseArray.size();
     }
 

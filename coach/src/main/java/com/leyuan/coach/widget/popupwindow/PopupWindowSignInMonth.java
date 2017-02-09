@@ -15,17 +15,18 @@ import java.util.ArrayList;
 /**
  * Created by user on 2017/1/17.
  */
-public class PopupWindowSignInMonth extends BaseCommonPopupWindow {
+public class PopupWindowSignInMonth extends BaseCommonPopupWindow implements PopupWindowSignInAdapter.OnSignItemClickListener {
 
     private PopupWindowSignInAdapter adapter;
+    private OnSignItemClickListener listener;
 
-    public PopupWindowSignInMonth(Activity context, PopupWindowSignInAdapter.OnSignItemClickListener listener) {
+    public PopupWindowSignInMonth(Activity context, OnSignItemClickListener listener) {
         super(context);
+        this.listener = listener;
         RecyclerView recyclerView = (RecyclerView) getContentView().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new PopupWindowSignInAdapter(context, listener);
+        adapter = new PopupWindowSignInAdapter(context, this);
         recyclerView.setAdapter(adapter);
-
     }
 
     @Override
@@ -56,4 +57,13 @@ public class PopupWindowSignInMonth extends BaseCommonPopupWindow {
         adapter.refreshData(months);
     }
 
+    @Override
+    public void onMonthItemClicked(String month) {
+        listener.onMonthItemClicked(month);
+        this.dismiss();
+    }
+
+    public interface OnSignItemClickListener {
+        void onMonthItemClicked(String month);
+    }
 }

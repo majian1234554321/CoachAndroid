@@ -82,7 +82,7 @@ public class ClassScheduleViewManager {
     }
 
     public enum ScheduleMode {
-        CURRENT_MONTH, NEXT_MONTH;
+        CURRENT_MONTH, NEXT_MONTH
     }
 
 }

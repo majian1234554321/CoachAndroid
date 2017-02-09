@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.adapter.PopupWindowSignInAdapter;
 import com.leyuan.coach.page.adapter.SignRecordAdapter;
 import com.leyuan.coach.page.mvp.presenter.SignPresenter;
 import com.leyuan.coach.page.mvp.view.SignViewListener;
@@ -21,11 +20,13 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 
 import java.util.ArrayList;
 
+import static com.leyuan.coach.R.id.txt_title;
+
 
 /**
  * Created by user on 2017/1/3.
  */
-public class SignInRecordActivity extends BaseActivity implements View.OnClickListener, SignViewListener, PopupWindowSignInAdapter.OnSignItemClickListener {
+public class SignInRecordActivity extends BaseActivity implements View.OnClickListener, SignViewListener, PopupWindowSignInMonth.OnSignItemClickListener {
 
     private ImageView imgLeft;
     private TextView txtTitle;
@@ -52,7 +53,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         layoutTitle = (RelativeLayout) findViewById(R.id.layout_title);
         imgLeft = (ImageView) findViewById(R.id.img_left);
-        txtTitle = (TextView) findViewById(R.id.txt_title);
+        txtTitle = (TextView) findViewById(txt_title);
         imgChoose = (ImageView) findViewById(R.id.img_choose);
         ultimateList = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateList.setHasFixedSize(true);
@@ -103,7 +104,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
             case R.id.img_left:
                 finish();
                 break;
-            case R.id.txt_title:
+            case txt_title:
                 popup.showAsDropDown(layoutTitle);
                 break;
             case R.id.img_choose:
@@ -129,6 +130,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
             page = 1;
             currentMonth = strings.isEmpty() ? MyDateUtils.getCurrentMonth() : strings.get(0);
             presenter.getSignInList(currentMonth, page);
+            txtTitle.setText(currentMonth);
             popup.setData(strings);
         }
     }
@@ -138,5 +140,6 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         page = 1;
         currentMonth = month;
         presenter.getSignInList(currentMonth, page);
+        txtTitle.setText(currentMonth);
     }
 }

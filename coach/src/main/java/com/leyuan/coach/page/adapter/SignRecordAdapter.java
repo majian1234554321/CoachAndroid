@@ -57,7 +57,7 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
         ClassSchedule course = courses.get(position);
         holder.txtCourseName.setText(course.getStoreName() + " " + course.getCourseName());
         holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
-        holder.txtSignTime.setText("" + course.getSignTime());
+        holder.txtSignTime.setText("" + (course.getSignTime()==null?course.getBeginTime():course.getSignTime()));
         switch (course.getSignStatus()) {
             case ClassSchedule.SignStatus.UNSING:
                 holder.txtSignStatus.setText("未签到");
@@ -71,6 +71,7 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
             case ClassSchedule.SignStatus.TRUANT:
                 holder.txtSignStatus.setText("旷课");
                 break;
+            default:holder.txtSignStatus.setText("未知");
         }
     }
 

@@ -85,7 +85,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         txtNextMonth = (TextView) view.findViewById(R.id.txt_next_month);
         txtNextMonthClassNumber = (TextView) view.findViewById(R.id.txt_next_month_class_number);
         txtClassNumber = (TextView) view.findViewById(R.id.txt_class_number);
-        txtSignAll = (TextView) view.findViewById(R.id.txt_sign_all);
+        txtSignAll = (TextView) view.findViewById(R.id.txt_sign_hint);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
     }
@@ -327,7 +327,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
 
     public void notifyCourseData() {
         presenter.getCourseList(currentDate);
-//        presenter.getCurrentMonthCalendar();
+        presenter.getCurrentMonthCalendar();
     }
     @Override
     public void onDestroy() {

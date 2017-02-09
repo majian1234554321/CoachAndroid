@@ -39,7 +39,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     protected TextView txtPreMonth;
     protected TextView txtPreMonthClassNumber;
     protected LinearLayout layoutNextMonth;
-    protected TextView txtSignAll;
+    protected TextView txtSignHint;
     protected TextView txtNextMonth;
     protected TextView txtNextMonthClassNumber;
     protected TextView txtClassNumber;
@@ -82,7 +82,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
         txtNextMonth = (TextView) view.findViewById(R.id.txt_next_month);
         txtNextMonthClassNumber = (TextView) view.findViewById(R.id.txt_next_month_class_number);
         txtClassNumber = (TextView) view.findViewById(R.id.txt_class_number);
-        txtSignAll = (TextView) view.findViewById(R.id.txt_sign_all);
+        txtSignHint = (TextView) view.findViewById(R.id.txt_sign_hint);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
 
@@ -113,7 +113,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     }
 
     private void initData() {
-
+        setHintLayout(txtSignHint);
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
     }
@@ -227,7 +227,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
             return;
         }
 
-        setHintLayout(courseResult);
+        setHintCourse(courseResult);
         courseAdapterVertical.refreshData(courseResult.getCoachList());
     }
 
@@ -247,7 +247,8 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
 
     }
 
-    public abstract void setHintLayout(CourseResult courseResult);
+    public abstract void setHintCourse(CourseResult courseResult);
+    public abstract void setHintLayout(View txtSignHint);
 
 
 }
