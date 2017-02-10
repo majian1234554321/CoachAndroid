@@ -77,6 +77,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
     private RadioButton rbALiPay;
     private RadioButton rbWeiXinPay;
     private LinearLayout payLayout;
+    private LinearLayout bottomLayout;
     private TextView tvPrice;
     private TextView tvCancel;
     private TextView tvPay;
@@ -134,6 +135,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         rbALiPay = (RadioButton) findViewById(R.id.cb_alipay);
         rbWeiXinPay = (RadioButton) findViewById(R.id.cb_weixin);
         payLayout = (LinearLayout) findViewById(R.id.ll_pay);
+        bottomLayout= (LinearLayout) findViewById(R.id.ll_bottom);
         tvPrice = (TextView) findViewById(R.id.tv_price);
         tvCancel = (TextView) findViewById(R.id.tv_cancel);
         tvPay = (TextView) findViewById(R.id.tv_pay);
@@ -233,7 +235,8 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         public void success(String code, Object object) {
             Toast.makeText(AppointmentDetailActivity.this,"支付成功",Toast.LENGTH_LONG).show();
             AppointSuccessActivity.start(AppointmentDetailActivity.this,
-                    detailBean.getCampaign().getStartDate() + detailBean.getCampaign().getStartTime());
+                    detailBean.getCampaign().getStartDate() + detailBean.getCampaign().getStartTime(),
+                    detailBean.getPayOption().getOrderId());
         }
     };
 
@@ -253,6 +256,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void setAppointmentDetail(AppointmentDetailBean bean) {
+        bottomLayout.setVisibility(View.VISIBLE);
         detailBean = bean;
         payType = bean.getCampaign().getPayType();
         if(PAY_ALI.equals(payType)){
@@ -268,7 +272,8 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         tvCodeNum.setText(bean.getCampaign().getOrderId());
         tvAppointUser.setRightContent(bean.getCampaign().getUserName());
         tvUserPhone.setRightContent(bean.getCampaign().getPhone());
-        tvCampaignTime.setRightContent(bean.getCampaign().getStartDate());
+        tvCampaignTime.setRightContent(bean.getCampaign().getStartDate() + " " +
+                bean.getCampaign().getStartTime() + " - " + bean.getCampaign().getEndTime());
         tvCampaignAddress.setRightContent(bean.getCampaign().getAddress());
         tvPrice.setText(String.format(getString(R.string.rmb_price),bean.getCampaign().getPayAmount()));
 

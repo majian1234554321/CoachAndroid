@@ -9,19 +9,21 @@ import android.widget.TextView;
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.MainActivity;
-import com.leyuan.coach.page.activity.mine.AppointmentActivity;
+import com.leyuan.coach.page.activity.mine.AppointmentDetailActivity;
 import com.leyuan.coach.widget.SimpleTitleBar;
 
 public class AppointSuccessActivity extends BaseActivity implements View.OnClickListener {
     private SimpleTitleBar titleBar;
     private TextView tvTime;
-    private TextView tvHome;
+    private TextView tvTrain;
     private TextView tvAppointment;
     private String time;
+    private String orderId;
 
-    public static void start(Context context,String trainTime) {
+    public static void start(Context context,String trainTime,String orderId) {
         Intent starter = new Intent(context, AppointSuccessActivity.class);
         starter.putExtra("trainTime",trainTime);
+        starter.putExtra("orderId",orderId);
         context.startActivity(starter);
     }
 
@@ -31,29 +33,32 @@ public class AppointSuccessActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.activity_appoint_success);
         if(getIntent() != null){
             time = getIntent().getStringExtra("trainTime");
+            orderId = getIntent().getStringExtra("orderId");
         }
         titleBar = (SimpleTitleBar) findViewById(R.id.title_bar);
         tvTime = (TextView) findViewById(R.id.tv_time);
-        tvHome = (TextView) findViewById(R.id.tv_home);
+        tvTrain = (TextView) findViewById(R.id.tv_train);
         tvAppointment = (TextView) findViewById(R.id.tv_appointment);
         tvTime.setText(time);
 
         titleBar.setOnClickListener(this);
-        tvHome.setOnClickListener(this);
+        tvTrain.setOnClickListener(this);
         tvAppointment.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.title_bar:
+            case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_home:
-                startActivity(new Intent(this, MainActivity.class));
+            case R.id.tv_train:
+                Intent intent = new Intent(this,MainActivity.class);
+                intent.putExtra("tag",1);
+                startActivity(intent);
                 break;
             case R.id.tv_appointment:
-                startActivity(new Intent(this, AppointmentActivity.class));
+                AppointmentDetailActivity.start(this,orderId);
                 break;
             default:
                 break;

@@ -50,6 +50,9 @@ public class AllAppointmentFragment extends BaseLazyFragment implements Appointm
         coachId = String.valueOf(App.getInstance().getUser().getId());
         view =  LayoutInflater.from(getContext()).inflate(R.layout.fragment_appointment,null);
         emptyLayout = (LinearLayout) view.findViewById(R.id.ll_empty);
+        if(emptyLayout.getVisibility() == View.VISIBLE){
+            emptyLayout.setVisibility(View.GONE);
+        }
         initSwipeRefreshLayout();
         initRecyclerView();
         return view;
