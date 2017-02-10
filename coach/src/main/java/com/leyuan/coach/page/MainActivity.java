@@ -50,12 +50,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageView imgNewMessage;
     private PopupWindowTakeOverCourseNotify popupTackOver;
     private PopupWindowSuspendCourseNotify popupSuspend;
+    private int tag = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         courseNotifyPresenter = new CourseNotifyPresenter(this, this);
         setContentView(R.layout.activity_main);
+        if(getIntent() != null){
+            tag = getIntent().getIntExtra("tag",0);
+        }
         initView();
         initData();
 
@@ -98,8 +103,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mFragments.add(new CourseScheduleFragment());
         mFragments.add(new TrainFragment());
         mFragments.add(new MineFragment());
-        setTabSelection(0);
-        showFragment(0);
+        setTabSelection(tag);
+        showFragment(tag);
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.leyuan.coach.bean.CampaignDetailBean;
 import com.leyuan.coach.bean.PayOrderBean;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.activity.mine.AppointmentDetailActivity;
 import com.leyuan.coach.page.mvp.presenter.CampaignPresent;
 import com.leyuan.coach.page.mvp.view.AppointTrainListener;
 import com.leyuan.coach.pay.AliPay;
@@ -75,7 +74,8 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
         dvCover.setImageURI(detailBean.getCamImg());
         tvName.setText(detailBean.getTitle());
         tvShop.setText(detailBean.getBrandName());
-        tvTime.setText(detailBean.getSignStartTime());
+        tvTime.setText(detailBean.getStartDate() + " " + detailBean.getStartTime()+ " - " +
+                detailBean.getEndTime());
         tvAddress.setText(detailBean.getPlace());
         tvPrice.setText(String.format(getString(R.string.rmb_price),detailBean.getPrice()));
         campaignId = detailBean.getCampaignId();
@@ -91,7 +91,7 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.title_bar:
+            case R.id.iv_back:
                 finish();
                 break;
             case R.id.tv_pay:
@@ -112,7 +112,7 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
             payInterface.payOrder(payOrderBean);
         } else {
             Toast.makeText(AppointTrainActivity.this,"预约成功",Toast.LENGTH_LONG).show();
-            AppointSuccessActivity.start(this,detailBean.getSignStartTime());
+            AppointSuccessActivity.start(this,detailBean.getSignStartTime(),payOrderBean.getOrderId());
         }
     }
 
@@ -142,7 +142,6 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
             i.putExtra("orderId",orderId);
             setResult(0,i);
             Toast.makeText(AppointTrainActivity.this,tip,Toast.LENGTH_LONG).show();
-            AppointmentDetailActivity.start(AppointTrainActivity.this,orderId);
         }
 
         @Override
@@ -151,7 +150,7 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
             i.putExtra("status",TrainDetailActivity.STATUS_APPLIED);
             setResult(0,i);
             Toast.makeText(AppointTrainActivity.this,"支付成功",Toast.LENGTH_LONG).show();
-            AppointSuccessActivity.start(AppointTrainActivity.this,detailBean.getSignStartTime());
+            AppointSuccessActivity.start(AppointTrainActivity.this,detailBean.getSignStartTime(),orderId);
         }
     };
 

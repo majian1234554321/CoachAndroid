@@ -167,12 +167,14 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         tvTime.setText(bean.getStartTime());
         tvAddress.setText(bean.getPlace());
         tvOrganizer.setText(bean.getBrandName());
-        tvCoachLevel.setText(bean.getCoachLevel());
+        tvCoachLevel.setText(bean.getCoachLevel().contains("LV") ?
+         bean.getCoachLevel() : "LV" + bean.getCoachLevel());
         applicantAdapter.setData(bean.getMembersList());
         tvCount.setText(String.format(getString(R.string.applicant_count),
                 bean.getAlreadyPerson(),bean.getAllowPerson()));
         tvPrice.setText(String.format(getString(R.string.rmb_price),bean.getPrice()));
-        tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),bean.getSignStartTime()));
+        tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),
+                bean.getStartDate()) + " " + bean.getStartTime());
         RichText.from(bean.getContents()).into(tvCampaignDesc);
         setBottomStatus();
     }
