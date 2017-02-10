@@ -2,7 +2,6 @@ package com.leyuan.coach.widget.popupwindow;
 
 import android.app.Activity;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -51,6 +50,7 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
         btKnowed = (Button) view.findViewById(R.id.bt_knowed);
         layoutTakeOverClass = (RelativeLayout) view.findViewById(R.id.layout_take_over_class);
         btKnowSuspend = (Button) view.findViewById(R.id.bt_know_suspend);
+        this.setOutsideTouchable(false);
         return view;
     }
 
@@ -103,7 +103,6 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
                         indicatorView.setBackgroundResource(R.drawable.shape_point_indicator_selector);
                     }
                 }
-
             }
 
             @Override
@@ -113,13 +112,13 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
         });
 
 
-        setOutsideTouchable(false);
-        setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return event.getAction() == MotionEvent.ACTION_OUTSIDE;
-            }
-        });
+//        setOutsideTouchable(false);
+//        setTouchInterceptor(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return event.getAction() == MotionEvent.ACTION_OUTSIDE;
+//            }
+//        });
 //        getContentView().setFocusable(true);
 //        getContentView().setFocusableInTouchMode(true);
 //
