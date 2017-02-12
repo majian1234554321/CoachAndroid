@@ -332,7 +332,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 tvPay.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
-                codeLayout.setVisibility(View.GONE);
+                codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
                 tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG );
                 tvCodeNum.setTextColor(Color.parseColor("#ebebeb"));

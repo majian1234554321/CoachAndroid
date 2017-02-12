@@ -21,12 +21,11 @@
             android:src="@drawable/icon_back" />
 
         <TextView
-            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
-            android:text="活动详情"
+            android:text="培训详情"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:visibility="visible" />

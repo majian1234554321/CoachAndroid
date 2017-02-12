@@ -23,6 +23,7 @@ import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.utils.CourseDateUtils;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
     private ArrayList<Integer> calendarCourseNumberArray = new ArrayList<>();
     private ClassScheduleViewListener listener;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CommonEmptyLayout emptyView;
 
     protected BaseClassScheduleView(Context context, ClassScheduleViewListener listener) {
         this.context = context;
@@ -87,7 +89,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
         txtSignHint = (TextView) view.findViewById(R.id.txt_sign_hint);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-
+        emptyView = (CommonEmptyLayout) view.findViewById(R.id.empty_view);
 
         return view;
     }
@@ -234,12 +236,16 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
     public void setCourseList(CourseResult courseResult) {
         swipeRefreshLayout.setRefreshing(false);
         if (courseResult == null) {
-            courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
+            courseAdapterVertical.refreshData(null);
             return;
         }
-
         setHintCourse(courseResult);
         courseAdapterVertical.refreshData(courseResult.getCoachList());
+        if (courseResult.getCoachList() == null || courseResult.getCoachList().isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     public void setActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,6 +265,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
     }
 
     public abstract void setHintCourse(CourseResult courseResult);
+
     public abstract void setHintLayout(View txtSignHint);
 
 }

@@ -1109,6 +1109,7 @@
     <string name="request_newest_version_info">正在获取最新版本信息....</string>
     <string name="coach_slogan">积聚能量,随心而动</string>
     <string name="no_sign_record">暂无签到记录</string>
+    <string name="no_course_list">今日无课程安排</string>
 
 
 </resources>
