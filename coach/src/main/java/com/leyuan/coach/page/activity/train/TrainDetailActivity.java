@@ -36,7 +36,6 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     private String status;
 
     private SwitcherLayout switcherLayout;
-    private TextView tvTitle;
     private ImageView ivBack;
     private TextView tvStartTimeTip;
     private LinearLayout llContent;
@@ -92,7 +91,6 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView(){
-        tvTitle = (TextView) findViewById(R.id.tv_title);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvStartTimeTip = (TextView) findViewById(R.id.tv_start_time);
         llContent = (LinearLayout) findViewById(R.id.ll_content);
@@ -159,9 +157,8 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         this.detailBean = bean;
         orderId = detailBean.getOrderId();
         status = bean.getStatus();
-        tvTitle.setText(bean.getTitle());
         dvCover.setImageURI(bean.getCamImg());
-        tvCampaignName.setText(bean.getSubtitle());
+        tvCampaignName.setText(bean.getTitle());
         tvLandmark.setText(bean.getAreaName());
         tvDate.setText(bean.getStartDate());
         tvTime.setText(bean.getStartTime());
