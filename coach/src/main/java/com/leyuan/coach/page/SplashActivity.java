@@ -17,11 +17,11 @@ import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
 import com.leyuan.coach.utils.SharePrefUtils;
-import com.leyuan.coach.widget.dialog.BaseDialog;
-import com.leyuan.coach.widget.dialog.ButtonCancelListener;
-import com.leyuan.coach.widget.dialog.ButtonOkListener;
-import com.leyuan.coach.widget.dialog.DialogDoubleButton;
-import com.leyuan.coach.widget.dialog.DialogSingleButton;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
+import com.leyuan.commonlibrary.widget.dialog.DialogSingleButton;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
 

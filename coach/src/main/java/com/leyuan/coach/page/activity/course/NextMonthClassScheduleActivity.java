@@ -19,10 +19,10 @@ import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.NextMonthCourseViewListener;
 import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager;
 import com.leyuan.coach.utils.CourseDateUtils;
-import com.leyuan.coach.widget.dialog.BaseDialog;
-import com.leyuan.coach.widget.dialog.ButtonCancelListener;
-import com.leyuan.coach.widget.dialog.ButtonOkListener;
-import com.leyuan.coach.widget.dialog.DialogDoubleButton;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
 import com.leyuan.commonlibrary.manager.TelephoneManager;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -104,7 +104,7 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
                 layoutBottom.setVisibility(View.VISIBLE);
                 break;
             case R.id.bt_contact:
-                new DialogDoubleButton(this).setContentDesc("拨打电话")
+                new DialogDoubleButton(this).setCommonTilte("拨打电话")
                         .setLeftButton("取消")
                         .setRightButton("拨打")
                         .setContentDesc("" + phoneLeader)
@@ -199,6 +199,15 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
             presenter.getNextMonthConfirmedCourseList(dateTag);
         }
 
+    }
+
+    @Override
+    public void onRefresh() {
+        if (requestType == RequestType.UNCONFIRM) {
+            presenter.getNextMonthUnconfirmCourseList(dateTag);
+        } else {
+            presenter.getNextMonthConfirmedCourseList(dateTag);
+        }
     }
 
     @Override

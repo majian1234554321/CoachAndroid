@@ -14,6 +14,7 @@ import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.SignRecordAdapter;
 import com.leyuan.coach.page.mvp.presenter.SignPresenter;
 import com.leyuan.coach.page.mvp.view.SignViewListener;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.coach.widget.popupwindow.PopupWindowSignInMonth;
 import com.leyuan.commonlibrary.util.MyDateUtils;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
@@ -40,6 +41,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
 
     private PopupWindowSignInMonth popup;
     private RelativeLayout layoutTitle;
+    private CommonEmptyLayout emptyview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         imgLeft = (ImageView) findViewById(R.id.img_left);
         txtTitle = (TextView) findViewById(txt_title);
         imgChoose = (ImageView) findViewById(R.id.img_choose);
+        emptyview = (CommonEmptyLayout) findViewById(R.id.empty_view);
         ultimateList = (UltimateRecyclerView) findViewById(R.id.ultimate_recycler_view);
         ultimateList.setHasFixedSize(true);
         ultimateList.setLayoutManager(new LinearLayoutManager(this));
@@ -69,6 +72,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         ultimateList.reenableLoadmore();
         ultimateList.setOnLoadMoreListener(loadMoreListener);
 
+//        ultimateList.setEmptyView(R.layout.empty_view,UltimateRecyclerView.EMPTY_CLEAR_ALL);
 //        ultimateList.reenableLoadmore();
     }
 
@@ -116,10 +120,16 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onGetSignList(ArrayList<ClassSchedule> arrayList, int page) {
 //        ultimateList.setRefreshing(false);
+
         if (page > 1) {
             adapter.addData(arrayList);
         } else {
             adapter.refreshData(arrayList);
+            if (arrayList == null || arrayList.isEmpty()) {
+                emptyview.setVisibility(View.VISIBLE);
+            } else {
+                emptyview.setVisibility(View.GONE);
+            }
         }
 
     }

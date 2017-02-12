@@ -381,17 +381,17 @@
     </style>
 
 
-    <style name="selectorDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <!--边框-->
-        <item name="android:windowIsFloating">true</item>
-        <!--半透明-->
-        <item name="android:windowNoTitle">true</item>
-        <!--无标题-->
-        <item name="android:windowBackground">@color/transpance</item>
-        <!--模糊-->
-        <item name="android:backgroundDimAmount">0.6</item>
-    </style>
+    <!--<style name="selectorDialog" parent="@android:style/Theme.Dialog">-->
+        <!--<item name="android:windowFrame">@null</item>-->
+        <!--&lt;!&ndash;边框&ndash;&gt;-->
+        <!--<item name="android:windowIsFloating">true</item>-->
+        <!--&lt;!&ndash;半透明&ndash;&gt;-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--&lt;!&ndash;无标题&ndash;&gt;-->
+        <!--<item name="android:windowBackground">@color/transpance</item>-->
+        <!--&lt;!&ndash;模糊&ndash;&gt;-->
+        <!--<item name="android:backgroundDimAmount">0.6</item>-->
+    <!--</style>-->
 
     <style name="baseButtonStyle">
         <item name="android:layout_width">wrap_content</item>

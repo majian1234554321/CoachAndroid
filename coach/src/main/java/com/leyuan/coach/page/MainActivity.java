@@ -2,7 +2,6 @@ package com.leyuan.coach.page;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,10 +28,12 @@ import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.popupwindow.PopupWindowSuspendCourseNotify;
 import com.leyuan.coach.widget.popupwindow.PopupWindowTakeOverCourseNotify;
-import com.leyuan.commonlibrary.util.PermissionsUtil;
+import com.leyuan.commonlibrary.manager.PermissionManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PopupWindowTakeOverCourseNotify popupTackOver;
     private PopupWindowSuspendCourseNotify popupSuspend;
     private int tag = 0;
+    private PermissionManager permissionManager;
 
 
     @Override
@@ -58,12 +60,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         courseNotifyPresenter = new CourseNotifyPresenter(this, this);
         setContentView(R.layout.activity_main);
-        if(getIntent() != null){
-            tag = getIntent().getIntExtra("tag",0);
+        if (getIntent() != null) {
+            tag = getIntent().getIntExtra("tag", 0);
         }
         initView();
         initData();
+        checkPermission();
 
+    }
+
+    private void checkPermission() {
+        //        PermissionsUtil.checkAndRequestPermissions(this, null);
+        Map<String, String> map = new HashMap<>();
+        map.put(Manifest.permission.ACCESS_FINE_LOCATION, "定位权限");
+        map.put(Manifest.permission.CALL_PHONE, "电话权限");
+
+        permissionManager = new PermissionManager(map, this);
+        permissionManager.checkPermissionList();
     }
 
     private void initView() {
@@ -88,9 +101,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tabTrain.setOnClickListener(this);
         tabMineLayout.setOnClickListener(this);
         handler.sendEmptyMessageDelayed(GET_NOTIFY, 1000);
-
-        PermissionsUtil.checkAndRequestPermissions(this, null);
-
 //        Intent intent = new Intent();
 //        intent.setAction("miui.intent.action.OP_AUTO_START");
 //        startActivityForResult(intent,0);
@@ -167,7 +177,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-
     protected void resetTabBtn() {
         tabCourse.setSelected(false);
         tabTrain.setSelected(false);
@@ -233,9 +242,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
-        if (arrayList != null && !arrayList.isEmpty()){
-            if(popupTackOver == null){
-                popupTackOver =  new PopupWindowTakeOverCourseNotify(this);
+        if (arrayList != null && !arrayList.isEmpty()) {
+            if (popupTackOver == null) {
+                popupTackOver = new PopupWindowTakeOverCourseNotify(this);
                 popupTackOver.setOnDismissListener(popupDismissListener);
             }
             popupTackOver.showAtBottom(arrayList);
@@ -244,9 +253,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
-        if (arrayList != null && !arrayList.isEmpty()){
-            if(popupSuspend == null){
-                popupSuspend =  new PopupWindowSuspendCourseNotify(this);
+        if (arrayList != null && !arrayList.isEmpty()) {
+            if (popupSuspend == null) {
+                popupSuspend = new PopupWindowSuspendCourseNotify(this);
                 popupSuspend.setOnDismissListener(popupDismissListener);
             }
             popupSuspend.showAtBottom(arrayList);
@@ -256,37 +265,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PopupWindow.OnDismissListener popupDismissListener = new PopupWindow.OnDismissListener() {
         @Override
         public void onDismiss() {
-                if(mFragments.get(0) instanceof CourseScheduleFragment){
-                    ((CourseScheduleFragment)(mFragments.get(0))).notifyCourseData();
-                }
+            if (mFragments.get(0) instanceof CourseScheduleFragment) {
+                ((CourseScheduleFragment) (mFragments.get(0))).notifyCourseData();
+            }
         }
     };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PermissionsUtil.REQUEST_STATUS_CODE) {
-
-            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {//定位权限
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意
-                    PermissionsUtil.checkAndRequestPermissions(this, null);
-                } else {//不同意
-                    Toast.makeText(MainActivity.this, "在设置-应用-" + getString(R.string.app_name) + "-权限中开启定位权限，以正常使用App功能", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            if (permissions[0].equals(Manifest.permission.CALL_PHONE)) {//电话权限
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意
-                    PermissionsUtil.checkAndRequestPermissions(this, null);
-                } else {//不同意
-                    Toast.makeText(MainActivity.this, "在设置-应用-" + getString(R.string.app_name) + "-权限中开启电话权限，以正常使用App功能", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-        }
-
+        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

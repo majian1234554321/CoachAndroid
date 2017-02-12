@@ -154,6 +154,11 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
     }
 
     @Override
+    public void onRefresh() {
+        presenter.getCourseList(dateTag);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         viewManager.onActivityResult(requestCode, resultCode, data);

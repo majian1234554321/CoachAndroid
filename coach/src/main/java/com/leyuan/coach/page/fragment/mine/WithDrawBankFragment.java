@@ -12,9 +12,9 @@ import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.mvp.presenter.WithDrawPresenter;
 import com.leyuan.coach.page.mvp.view.WithDrawViewListener;
-import com.leyuan.coach.widget.dialog.BaseDialog;
-import com.leyuan.coach.widget.dialog.ButtonOkListener;
-import com.leyuan.coach.widget.dialog.DialogSingleButton;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogSingleButton;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
 
