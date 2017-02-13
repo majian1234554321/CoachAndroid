@@ -25,15 +25,21 @@ import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
 import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
 import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
+import com.leyuan.coach.utils.CheckAutoStartUtils;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.popupwindow.PopupWindowSuspendCourseNotify;
 import com.leyuan.coach.widget.popupwindow.PopupWindowTakeOverCourseNotify;
 import com.leyuan.commonlibrary.manager.PermissionManager;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
@@ -65,9 +71,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         initView();
         initData();
+        checkAutoStart();
         checkPermission();
 
     }
+
+    private void checkAutoStart() {
+        if (CheckAutoStartUtils.isNeedCheck(this)) {
+            new DialogDoubleButton(this).setContentDesc("为了保证能及时收到代课听课通知，请进入设置把应用加入自启动白名单")
+                    .setBtnCancelListener(new ButtonCancelListener() {
+                        @Override
+                        public void onClick(BaseDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setBtnOkListener(new ButtonOkListener() {
+                        @Override
+                        public void onClick(BaseDialog dialog) {
+                            CheckAutoStartUtils.skipToAutoStartView(MainActivity.this);
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
 
     private void checkPermission() {
         //        PermissionsUtil.checkAndRequestPermissions(this, null);

@@ -69,7 +69,6 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
     }
 
     public View createView(LayoutInflater inflater) {
-
         return createView(inflater, null, false);
     }
 

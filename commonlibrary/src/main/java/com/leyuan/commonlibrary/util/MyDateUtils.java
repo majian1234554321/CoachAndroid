@@ -2,8 +2,6 @@ package com.leyuan.commonlibrary.util;
 
 import android.text.format.DateFormat;
 
-import com.facebook.stetho.common.LogUtil;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,22 +64,27 @@ public class MyDateUtils {
 
 
     public static int getCurrentDay(String month) {
-        SimpleDateFormat yearMonthFormat = new SimpleDateFormat(yearMonth);
         try {
             Date inDate = yearMonthFormat.parse(month);
             Date date = new Date();
-            if (date.getYear() == inDate.getYear() && date.getMonth() == inDate.getMonth()) {
-                LogUtil.i("date", "date.getDate , === currentDay :" + date.getDate());
+            if (inDate.getYear() < date.getYear()) {
+                return 32;
+            } else if (inDate.getYear() == date.getYear() && inDate.getMonth() < date.getMonth()) {
+                return 32;
+            } else if (inDate.getYear() == date.getYear() && inDate.getMonth() == date.getMonth()) {
                 return date.getDate() - 1;
-
+            } else {
+                return -1;
             }
+//            if (date.getYear() == inDate.getYear() && date.getMonth() == inDate.getMonth()) {
+//                LogUtil.i("date", "date.getDate , === currentDay :" + date.getDate());
+//                return date.getDate() - 1;
+//
+//            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
         return -1;
-
     }
 
     /**
