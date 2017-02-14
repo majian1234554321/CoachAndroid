@@ -1110,6 +1110,8 @@
     <string name="coach_slogan">积聚能量,随心而动</string>
     <string name="no_sign_record">暂无签到记录</string>
     <string name="no_course_list">今日无课程安排</string>
+    <string name="campaign_status_no_level">未达到教练等级</string>
+    <string name="campaign_status_not_pay_applied">待支付(已报名)</string>
 
 
 </resources>
