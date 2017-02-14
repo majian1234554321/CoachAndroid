@@ -15,6 +15,7 @@ import com.leyuan.coach.bean.CoachInfo;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseFragment;
+import com.leyuan.coach.page.MainActivity;
 import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
 import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.activity.mine.MessageCenterActivity;
@@ -153,10 +154,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             txtAttendanceRate.setText("当月出勤率" + userInfo.getTimeCard());
             if (userInfo.getMsgCou() > 0) {
                 imgNewMessage.setVisibility(View.VISIBLE);
-                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
+                ((MainActivity) getActivity()).setNewMessageVisibility(View.VISIBLE);
+//                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
             } else {
                 imgNewMessage.setVisibility(View.GONE);
-                getActivity().findViewById(R.id.img_new_message).setVisibility(View.GONE);
+                ((MainActivity) getActivity()).setNewMessageVisibility(View.GONE);
             }
 
         }

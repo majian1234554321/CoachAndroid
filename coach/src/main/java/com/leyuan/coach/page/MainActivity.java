@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
 
     private static final java.lang.String TAG = "MainActivity";
@@ -309,5 +308,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+    }
+
+    public void setNewMessageVisibility(int visible) {
+        imgNewMessage.setVisibility(visible);
     }
 }

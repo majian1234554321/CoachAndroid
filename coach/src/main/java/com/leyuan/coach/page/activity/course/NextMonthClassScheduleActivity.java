@@ -1,6 +1,5 @@
 package com.leyuan.coach.page.activity.course;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,25 +13,26 @@ import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.page.App;
+import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.mvp.presenter.NextMonthCoursePresenter;
 import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.NextMonthCourseViewListener;
 import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager;
 import com.leyuan.coach.utils.CourseDateUtils;
+import com.leyuan.commonlibrary.manager.TelephoneManager;
+import com.leyuan.commonlibrary.manager.UiManager;
+import com.leyuan.commonlibrary.util.MyDateUtils;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
 import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
 import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
-import com.leyuan.commonlibrary.manager.TelephoneManager;
-import com.leyuan.commonlibrary.manager.UiManager;
-import com.leyuan.commonlibrary.util.MyDateUtils;
 
 import java.util.ArrayList;
 
 /**
  * Created by user on 2016/12/29.
  */
-public class NextMonthClassScheduleActivity extends Activity implements View.OnClickListener, NextMonthCourseViewListener, ClassScheduleViewListener {
+public class NextMonthClassScheduleActivity extends BaseActivity implements View.OnClickListener, NextMonthCourseViewListener, ClassScheduleViewListener {
 
     private LinearLayout layoutBottom;
     private FrameLayout layoutContainer;
@@ -131,6 +131,8 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
 
     @Override
     public void onGetNextMonthUnconfirmCalendar(ArrayList<MyCalendar> myCalendars) {
+        if (myCalendars == null)
+            return;
         if (firstRequest) {
             currentPosition = CourseDateUtils.getFirstHaveCoursePosition(myCalendars);
             firstRequest = false;
@@ -144,6 +146,9 @@ public class NextMonthClassScheduleActivity extends Activity implements View.OnC
 
     @Override
     public void onGetNextMonthconfirmedCalendar(ArrayList<MyCalendar> myCalendars) {
+        if (myCalendars == null)
+            return;
+
         viewManager.onGetCalendarData(myCalendars, currentPosition);
         dateTag = CourseDateUtils.getCalendarDateByPosition(currentPosition
                 , myCalendars);
