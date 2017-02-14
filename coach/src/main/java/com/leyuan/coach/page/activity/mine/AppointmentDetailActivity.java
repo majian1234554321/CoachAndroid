@@ -42,7 +42,7 @@ import cn.iwgang.countdownview.CountdownView;
 import static com.leyuan.coach.page.App.context;
 
 
-public class AppointmentDetailActivity extends BaseActivity implements View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener,AppointmentDetailViewListener {
+public class AppointmentDetailActivity extends BaseActivity implements View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener,AppointmentDetailViewListener, CountdownView.OnCountdownEndListener {
     private static final String UN_PAID = "0";          //待付款
     private static final String UN_JOIN= "1";           //待参加
     private static final String CLOSE = "2";            //已关闭
@@ -151,6 +151,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         tvCancel.setOnClickListener(this);
         tvConfirm.setOnClickListener(this);
         tvDelete.setOnClickListener(this);
+        timer.setOnCountdownEndListener(this);
     }
 
     @Override
@@ -374,5 +375,10 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onEnd(CountdownView cv) {
+        appointmentPresent.getAppointmentDetail(switcherLayout,orderId);
     }
 }
