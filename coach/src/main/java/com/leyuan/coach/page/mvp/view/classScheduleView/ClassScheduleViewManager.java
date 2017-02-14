@@ -47,7 +47,6 @@ public class ClassScheduleViewManager {
     }
 
     public void onGetCalendarData(ArrayList<MyCalendar> myCalendars, int calendarPosition) {
-
         scheduleView.setCalendarData(myCalendars, calendarPosition);
     }
 

@@ -40,7 +40,7 @@ public class OtherEarningDetailAdapter extends RecyclerView.Adapter<OtherEarning
             holder.txtLeft.setTextColor(context.getResources().getColor(R.color.red_origin));
             holder.txtRight.setTextColor(context.getResources().getColor(R.color.red_origin));
             holder.txtLeft.setText(context.getString(R.string.total_colon));
-            String symbol = welfareIncome > 0 ? "+" : "-";
+            String symbol = welfareIncome > 0 ? "+" : "";
             holder.txtRight.setText(symbol + welfareIncome);
         } else {
             RecentEarningResult.OtherEarning otherEarning = otherList.get(position);

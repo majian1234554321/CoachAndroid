@@ -25,9 +25,9 @@ public abstract class BaseCommonPopupWindow extends PopupWindow {
         this.setContentView(createView());
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setTouchable(true);
-        this.setFocusable(true);
-        this.setOutsideTouchable(true);
+//        this.setTouchable(true);
+//        this.setFocusable(true);
+
 //        this.setAnimationStyle(R.style.popupStyle);
 
         ColorDrawable background = new ColorDrawable(0x77000000);

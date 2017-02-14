@@ -99,8 +99,8 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         }
 
         if (realPosition == positionClicked) {
-            holder.txtDate.setTextColor(context.getResources().getColor(R.color.black));
-            holder.txtCourseNumber.setTextColor(context.getResources().getColor(R.color.black));
+            holder.txtDate.setTextColor(context.getResources().getColor(R.color.white));
+            holder.txtCourseNumber.setTextColor(context.getResources().getColor(R.color.white));
         }
 
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {

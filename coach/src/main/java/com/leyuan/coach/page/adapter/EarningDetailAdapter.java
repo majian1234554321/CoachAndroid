@@ -57,7 +57,7 @@ public class EarningDetailAdapter extends RecyclerView.Adapter<EarningDetailAdap
         holder.txtType.setText(detail.getMonths() + "");
         holder.txtDate.setText(detail.getIncomeDate() + "");
 
-        String symbol = detail.getTotalIncome() > 0 ? "" : "-";
+        String symbol = detail.getTotalIncome() > 0 ? "" : "";
         holder.txtMoney.setText(symbol + detail.getTotalIncome());
 
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {

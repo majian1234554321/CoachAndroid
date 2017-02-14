@@ -7,9 +7,9 @@ import com.leyuan.coach.R;
 import com.leyuan.coach.http.api.exception.LoginDuplicateException;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.activity.mine.LoginNoDismissActivity;
-import com.leyuan.coach.widget.dialog.BaseDialog;
-import com.leyuan.coach.widget.dialog.ButtonOkListener;
-import com.leyuan.coach.widget.dialog.DialogSingleButton;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogSingleButton;
 import com.leyuan.commonlibrary.manager.UiManager;
 
 import java.net.ConnectException;

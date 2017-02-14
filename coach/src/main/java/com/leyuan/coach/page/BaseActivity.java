@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.leyuan.coach.R;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,18 @@ public class BaseActivity extends AppCompatActivity {
             mActivities.add(this);
         }
         Log.w("currActivity : ",getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

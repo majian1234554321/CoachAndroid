@@ -44,6 +44,8 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
 
     @Override
     public int getAdapterItemCount() {
+        if (courses == null)
+            return 0;
         return courses.size();
     }
 
@@ -57,22 +59,36 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
         ClassSchedule course = courses.get(position);
         holder.txtCourseName.setText(course.getStoreName() + " " + course.getCourseName());
         holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
-        holder.txtSignTime.setText("" + (course.getSignTime()==null?course.getBeginTime():course.getSignTime()));
+        holder.txtSignTime.setText(course.getSignTime());
+        StringBuilder signStatus = new StringBuilder();
+
+        switch (course.getCourseType()) {
+            case ClassSchedule.CourseStatus.CHANGE:
+                signStatus.append("换课");
+                break;
+            case ClassSchedule.CourseStatus.TAKE_OVER:
+                signStatus.append("代课");
+                break;
+            case ClassSchedule.CourseStatus.SUSPEND:
+                signStatus.append("停课");
+                break;
+        }
         switch (course.getSignStatus()) {
             case ClassSchedule.SignStatus.UNSING:
-                holder.txtSignStatus.setText("未签到");
+                signStatus.append("未签到");
                 break;
             case ClassSchedule.SignStatus.SINGED:
-                holder.txtSignStatus.setText("已签到");
+                signStatus.append("已签到");
                 break;
             case ClassSchedule.SignStatus.BE_LATE:
-                holder.txtSignStatus.setText("迟到");
+                signStatus.append("迟到");
                 break;
             case ClassSchedule.SignStatus.TRUANT:
-                holder.txtSignStatus.setText("旷课");
+                signStatus.append("旷课");
                 break;
-            default:holder.txtSignStatus.setText("未知");
         }
+
+        holder.txtSignStatus.setText(signStatus.toString());
     }
 
     @Override
@@ -86,12 +102,13 @@ public class SignRecordAdapter extends UltimateViewAdapter<SignRecordAdapter.Vie
     }
 
     public void refreshData(ArrayList<ClassSchedule> arrayList) {
-        courses.clear();
-        courses.addAll(arrayList);
+        this.courses = arrayList;
         this.notifyDataSetChanged();
     }
 
     public void addData(ArrayList<ClassSchedule> arrayList) {
+        if (arrayList == null)
+            return;
         courses.addAll(arrayList);
         this.notifyDataSetChanged();
     }

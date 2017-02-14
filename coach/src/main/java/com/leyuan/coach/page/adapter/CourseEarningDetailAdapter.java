@@ -45,7 +45,7 @@ public class CourseEarningDetailAdapter extends RecyclerView.Adapter<CourseEarni
             holder.txtLeft.setTextColor(context.getResources().getColor(R.color.red_origin));
             holder.txtRight.setTextColor(context.getResources().getColor(R.color.red_origin));
             holder.txtLeft.setText(context.getString(R.string.total_colon));
-            String symbol = courseEarning.getTypeAmount() > 0 ? "+" : "-";
+            String symbol = courseEarning.getTypeAmount() > 0 ? "+" : "";
             holder.txtRight.setText(symbol + courseEarning.getTypeAmount());
         } else {
             RecentEarningResult.StroreDetail stroreDetail = array.get(position - 1);

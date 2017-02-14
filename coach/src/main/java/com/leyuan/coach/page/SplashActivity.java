@@ -17,13 +17,13 @@ import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
 import com.leyuan.coach.utils.SharePrefUtils;
-import com.leyuan.coach.widget.dialog.BaseDialog;
-import com.leyuan.coach.widget.dialog.ButtonCancelListener;
-import com.leyuan.coach.widget.dialog.ButtonOkListener;
-import com.leyuan.coach.widget.dialog.DialogDoubleButton;
-import com.leyuan.coach.widget.dialog.DialogSingleButton;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
+import com.leyuan.commonlibrary.widget.dialog.DialogSingleButton;
 
 
 public class SplashActivity extends BaseActivity implements AutoLoginViewListener, VersionViewListener {
@@ -49,24 +49,12 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
 
     private void initView() {
 
-
     }
 
     private void initData() {
-
-        //jump version check
-//        if (App.getInstance().isLogin()) {
-//            UiManager.activityJump(SplashActivity.this, MainActivity.class);
-//            finish();
-//        } else {
-//            UiManager.activityJump(SplashActivity.this, LoginActivity.class);
-//            finish();
-//        }
-
         versionPresenter.getVersionInfo();
-
-
     }
+
 
     @Override
     public void onGetVersionInfo(VersionInformation versionInfomation) {

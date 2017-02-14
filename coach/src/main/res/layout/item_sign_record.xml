@@ -42,15 +42,16 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-
+            android:gravity="right"
+            android:layout_marginLeft="100dp"
             android:orientation="vertical">
 
 
             <TextView
+                android:singleLine="true"
                 android:id="@+id/txt_sign_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="22222"
                 android:textColor="@color/black_gray"
                 android:textSize="13dp" />
 

@@ -15,6 +15,7 @@ import com.leyuan.coach.bean.CoachInfo;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseFragment;
+import com.leyuan.coach.page.MainActivity;
 import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
 import com.leyuan.coach.page.activity.mine.AppointmentActivity;
 import com.leyuan.coach.page.activity.mine.MessageCenterActivity;
@@ -62,7 +63,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         super.onViewCreated(view, savedInstanceState);
         imgClassWarn = (ImageView) view.findViewById(R.id.img_class_warn);
         imgAvatar = (SimpleDraweeView) view.findViewById(R.id.img_avatar);
-        txtLevel  = (TextView) view.findViewById(R.id.txt_level);
+        txtLevel = (TextView) view.findViewById(R.id.txt_level);
         txtName = (TextView) view.findViewById(R.id.txt_name);
         txtAttendanceRate = (TextView) view.findViewById(R.id.txt_attendance_rate);
         txtStarLevel = (TextView) view.findViewById(R.id.txt_star_level);
@@ -124,7 +125,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         user = App.getInstance().getUser();
         imgAvatar.setImageURI(user.getAvatar());
         txtName.setText(user.getName() + "");
-        txtLevel.setText("LV"   +user.getLevel());
+        txtLevel.setText("LV" + user.getLevel());
 
         presenter = new MinePresenter(getActivity(), this);
     }
@@ -151,12 +152,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             imgClassWarn.setVisibility(userInfo.getNextCou() == 1 ? View.VISIBLE : View.INVISIBLE);
             txtStarLevel.setText("评价星级 " + userInfo.getRated());
             txtAttendanceRate.setText("当月出勤率" + userInfo.getTimeCard());
-            if (userInfo.getMsgCou() == 1) {
+            if (userInfo.getMsgCou() > 0) {
                 imgNewMessage.setVisibility(View.VISIBLE);
-                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
+                ((MainActivity) getActivity()).setNewMessageVisibility(View.VISIBLE);
+//                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
             } else {
                 imgNewMessage.setVisibility(View.GONE);
-                getActivity().findViewById(R.id.img_new_message).setVisibility(View.GONE);
+                ((MainActivity) getActivity()).setNewMessageVisibility(View.GONE);
             }
 
         }

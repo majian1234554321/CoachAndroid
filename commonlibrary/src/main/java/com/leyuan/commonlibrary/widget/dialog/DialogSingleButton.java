@@ -1,4 +1,4 @@
-package com.leyuan.coach.widget.dialog;
+package com.leyuan.commonlibrary.widget.dialog;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.leyuan.coach.R;
+import com.leyuan.commonlibrary.R;
+
 
 /**
  * Created by user on 2017/1/12.
@@ -46,7 +47,7 @@ public class DialogSingleButton extends BaseDialog {
 //        });
     }
 
-    public DialogSingleButton setTilte(String title) {
+    public DialogSingleButton setCommonTilte(String title) {
         txtTitle.setText(title);
         return this;
     }

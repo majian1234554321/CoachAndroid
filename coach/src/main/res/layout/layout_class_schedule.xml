@@ -12,12 +12,12 @@
         android:background="@color/base_theme">
 
         <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerHan"
-        android:layout_width="152dp"
-        android:layout_height="41dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/shape_radius_white"
-        android:scrollbars="none" />
+            android:id="@+id/recyclerHan"
+            android:layout_width="152dp"
+            android:layout_height="41dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/shape_radius_white"
+            android:scrollbars="none" />
 
         <!--android:nestedScrollingEnabled="false"-->
         <LinearLayout
@@ -145,11 +145,28 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-    android:id="@+id/recyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none" />
+        <com.leyuan.coach.widget.CommonEmptyLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:imgEmpty="@drawable/icon_qiandao"
+            app:txtEmpty="@string/no_course_list" />
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 </LinearLayout>

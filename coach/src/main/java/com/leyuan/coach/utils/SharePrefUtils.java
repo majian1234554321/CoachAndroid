@@ -41,20 +41,19 @@ public class SharePrefUtils {
     }
 
     public static void putIsFirstOpenApp(Context ctx) {
-        if (mSharedPreferences == null) {
-            mSharedPreferences = ctx.getSharedPreferences(SHARE_PREFS_NAME,
-                    Context.MODE_PRIVATE);
-        }
-        mSharedPreferences.edit().putBoolean("firstOpenApp", false).commit();
+        putBoolean(ctx, "firstOpenApp", false);
     }
 
     public static boolean getIsFirstOpenApp(Context ctx) {
-        if (mSharedPreferences == null) {
-            mSharedPreferences = ctx.getSharedPreferences(SHARE_PREFS_NAME,
-                    Context.MODE_PRIVATE);
-        }
+        return getBoolean(ctx, "firstOpenApp", true);
+    }
 
-        return mSharedPreferences.getBoolean("firstOpenApp", true);
+    public static void putCheckAutoStartTime(Context ctx) {
+        putLong(ctx, "checkAutoStartTime", System.currentTimeMillis());
+    }
+
+    public static long getLastCheckAutoStartTime(Context ctx) {
+        return getLong(ctx, "checkAutoStartTime", 0);
     }
 
     public static void putInt(Context ctx, String key, int value) {
@@ -71,6 +70,22 @@ public class SharePrefUtils {
                     Context.MODE_PRIVATE);
         }
         return mSharedPreferences.getInt(key, defaultValue);
+    }
+
+    public static void putLong(Context ctx, String key, long value) {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = ctx.getSharedPreferences(SHARE_PREFS_NAME,
+                    Context.MODE_PRIVATE);
+        }
+        mSharedPreferences.edit().putLong(key, value).commit();
+    }
+
+    public static long getLong(Context ctx, String key, long defaultValue) {
+        if (mSharedPreferences == null) {
+            mSharedPreferences = ctx.getSharedPreferences(SHARE_PREFS_NAME,
+                    Context.MODE_PRIVATE);
+        }
+        return mSharedPreferences.getLong(key, defaultValue);
     }
 
 

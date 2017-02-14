@@ -24,7 +24,7 @@ import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
 import com.zzhoujay.richtext.RichText;
 
-public class TrainDetailActivity extends BaseActivity implements View.OnClickListener ,TrainDetailViewListener {
+public class TrainDetailActivity extends BaseActivity implements View.OnClickListener, TrainDetailViewListener {
     public static final String STATUS_APPLY = "0";                //马上报名
     public static final String STATUS_CAMPAIGN_END = "1";         //活动已结束
     public static final String STATUS_APPLY_END = "2";            //报名结束
@@ -56,16 +56,16 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     private TextView tvState;
 
     private int coachId;
-    private String campaignId ;
+    private String campaignId;
     private String orderId;
     private ApplicantAdapter applicantAdapter;
     private CampaignDetailBean detailBean;
     private CampaignPresent campaignPresent;
 
 
-    public static void start(Context context,String campaignId) {
+    public static void start(Context context, String campaignId) {
         Intent starter = new Intent(context, TrainDetailActivity.class);
-        starter.putExtra("campaignId",campaignId);
+        starter.putExtra("campaignId", campaignId);
         context.startActivity(starter);
     }
 
@@ -73,15 +73,15 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_detail);
-        campaignPresent = new CampaignPresent(this,this);
+        campaignPresent = new CampaignPresent(this, this);
         Intent intent = getIntent();
-        if(intent != null){
+        if (intent != null) {
             campaignId = intent.getStringExtra("campaignId");
         }
         coachId = App.getInstance().getUser().getId();
         initView();
         setListener();
-        campaignPresent.getCampaignDetail(switcherLayout,campaignId,String.valueOf(coachId));
+        campaignPresent.getCampaignDetail(switcherLayout, campaignId, String.valueOf(coachId));
     }
 
     @Override
@@ -90,11 +90,11 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         RichText.clear(this);
     }
 
-    private void initView(){
+    private void initView() {
         ivBack = (ImageView) findViewById(R.id.iv_back);
         tvStartTimeTip = (TextView) findViewById(R.id.tv_start_time);
         llContent = (LinearLayout) findViewById(R.id.ll_content);
-        switcherLayout = new SwitcherLayout(this,llContent);
+        switcherLayout = new SwitcherLayout(this, llContent);
         dvCover = (SimpleDraweeView) findViewById(R.id.dv_cover);
         tvCampaignName = (TextView) findViewById(R.id.tv_campaign_name);
         tvLandmark = (TextView) findViewById(R.id.tv_landmark);
@@ -111,7 +111,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         tvPrice = (TextView) findViewById(R.id.tv_price);
         tvState = (TextView) findViewById(R.id.tv_state);
         applicantView.setLayoutManager(new LinearLayoutManager
-                (this,LinearLayoutManager.HORIZONTAL,false));
+                (this, LinearLayoutManager.HORIZONTAL, false));
         applicantAdapter = new ApplicantAdapter();
         applicantView.setAdapter(applicantAdapter);
         applicantView.setNestedScrollingEnabled(false);
@@ -126,24 +126,24 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.ll_address:
-                TrainMapActivity.start(this,detailBean.getTitle(),detailBean.getBrandName(),
-                        detailBean.getPlace(),detailBean.getLat(),detailBean.getLng());
+                TrainMapActivity.start(this, detailBean.getTitle(), detailBean.getBrandName(),
+                        detailBean.getPlace(), detailBean.getLat(), detailBean.getLng());
                 break;
             case R.id.tv_count:
-                AppointmentUserActivity.start(this,detailBean.getMembersList());
+                AppointmentUserActivity.start(this, detailBean.getMembersList());
                 break;
             case R.id.ll_apply:
-                if(STATUS_APPLY.equals(status)){     //预约
-                    Intent i = new Intent(this,AppointTrainActivity.class);
-                    i.putExtra("detailBean",detailBean);
-                    startActivityForResult(i,0);
-                }else if(STATUS_NOT_PAY.equals(status)){
-                    AppointmentDetailActivity.start(this,orderId);
+                if (STATUS_APPLY.equals(status)) {     //预约
+                    Intent i = new Intent(this, AppointTrainActivity.class);
+                    i.putExtra("detailBean", detailBean);
+                    startActivityForResult(i, 0);
+                } else if (STATUS_NOT_PAY.equals(status) || STATUS_APPLIED.equals(status)) {
+                    AppointmentDetailActivity.start(this, orderId);
                 }
                 break;
             default:
@@ -165,23 +165,23 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         tvAddress.setText(bean.getPlace());
         tvOrganizer.setText(bean.getBrandName());
         tvCoachLevel.setText(bean.getCoachLevel().contains("LV") ?
-         bean.getCoachLevel() : "LV" + bean.getCoachLevel());
+                bean.getCoachLevel() : "LV" + bean.getCoachLevel());
         applicantAdapter.setData(bean.getMembersList());
         tvCount.setText(String.format(getString(R.string.applicant_count),
-                bean.getAlreadyPerson(),bean.getAllowPerson()));
-        tvPrice.setText(String.format(getString(R.string.rmb_price),bean.getPrice()));
+                bean.getAlreadyPerson(), bean.getAllowPerson()));
+        tvPrice.setText(String.format(getString(R.string.rmb_price), bean.getPrice()));
         tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),
                 bean.getStartDate()) + " " + bean.getStartTime());
         RichText.from(bean.getContents()).into(tvCampaignDesc);
         setBottomStatus();
     }
 
-    private void setBottomStatus(){
-        if(TextUtils.isEmpty(status)) {
+    private void setBottomStatus() {
+        if (TextUtils.isEmpty(status)) {
             return;
         }
         bottomLayout.setVisibility(View.VISIBLE);
-        switch (status){
+        switch (status) {
             case STATUS_APPLY:
                 tvPrice.setVisibility(View.VISIBLE);
                 tvStartTimeTip.setVisibility(View.GONE);
@@ -204,7 +204,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
                 tvPrice.setVisibility(View.GONE);
                 tvStartTimeTip.setVisibility(View.GONE);
                 tvState.setText(R.string.campaign_status_applied);
-                bottomLayout.setBackgroundColor(Color.parseColor("#666667"));
+                bottomLayout.setBackgroundColor(Color.parseColor("#000000"));
                 break;
             case STATUS_NOT_START:
                 tvPrice.setVisibility(View.GONE);
@@ -215,7 +215,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
             case STATUS_NOT_PAY:
                 tvPrice.setVisibility(View.VISIBLE);
                 tvStartTimeTip.setVisibility(View.GONE);
-                tvState.setText(R.string.campaign_status_not_pay);
+                tvState.setText(R.string.campaign_status_not_pay_applied);
                 bottomLayout.setBackgroundColor(Color.parseColor("#000000"));
                 break;
             case STATUS_FULL:
@@ -227,7 +227,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
             case STATUS_NO_PERMISSION_APPLY:
                 tvPrice.setVisibility(View.GONE);
                 tvStartTimeTip.setVisibility(View.GONE);
-                tvState.setText(R.string.campaign_status_no_permission);
+                tvState.setText(R.string.campaign_status_no_level);
                 bottomLayout.setBackgroundColor(Color.parseColor("#666667"));
                 break;
             default:
@@ -237,7 +237,7 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null && requestCode == 0){
+        if (data != null && requestCode == 0) {
             status = data.getStringExtra("status");
             orderId = data.getStringExtra("orderId");
             setBottomStatus();

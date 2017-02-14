@@ -52,11 +52,24 @@
 
     </RelativeLayout>
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
-        android:id="@+id/ultimate_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+
+        <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+            android:id="@+id/ultimate_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.leyuan.coach.widget.CommonEmptyLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:imgEmpty="@drawable/icon_qiandao"
+            app:txtEmpty="@string/no_sign_record" />
+    </FrameLayout>
 
     <!--app:recyclerviewClipToPadding="true"-->
     <!--app:recyclerviewDefaultSwipeColor="@array/google_colors"-->

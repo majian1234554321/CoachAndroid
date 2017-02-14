@@ -3,6 +3,7 @@ package com.leyuan.coach.page.mvp.view.classScheduleView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.utils.CourseDateUtils;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
  * Created by user on 2017/1/9.
  */
 
-public abstract class BaseClassScheduleView implements View.OnClickListener {
+public abstract class BaseClassScheduleView implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private Context context;
 
     protected RecyclerView recyclerHan;
@@ -54,6 +56,8 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     private int totalCalendarItem;
     private ArrayList<Integer> calendarCourseNumberArray = new ArrayList<>();
     private ClassScheduleViewListener listener;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private CommonEmptyLayout emptyView;
 
     protected BaseClassScheduleView(Context context, ClassScheduleViewListener listener) {
         this.context = context;
@@ -65,7 +69,6 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     }
 
     public View createView(LayoutInflater inflater) {
-
         return createView(inflater, null, false);
     }
 
@@ -84,7 +87,8 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
         txtClassNumber = (TextView) view.findViewById(R.id.txt_class_number);
         txtSignHint = (TextView) view.findViewById(R.id.txt_sign_hint);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        emptyView = (CommonEmptyLayout) view.findViewById(R.id.empty_view);
 
         return view;
     }
@@ -113,6 +117,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     }
 
     private void initData() {
+        swipeRefreshLayout.setOnRefreshListener(this);
         setHintLayout(txtSignHint);
         layoutPreMonth.setOnClickListener(this);
         layoutNextMonth.setOnClickListener(this);
@@ -138,6 +143,12 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        listener.onRefresh();
+
     }
 
     private CourseAdapterHorizontal.OnItemClickListener horizontalItemClickListener = new CourseAdapterHorizontal.OnItemClickListener() {
@@ -222,13 +233,18 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
 
 
     public void setCourseList(CourseResult courseResult) {
+        swipeRefreshLayout.setRefreshing(false);
         if (courseResult == null) {
-            courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
+            courseAdapterVertical.refreshData(null);
             return;
         }
-
         setHintCourse(courseResult);
         courseAdapterVertical.refreshData(courseResult.getCoachList());
+        if (courseResult.getCoachList() == null || courseResult.getCoachList().isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     public void setActivityResult(int requestCode, int resultCode, Intent data) {
@@ -248,7 +264,7 @@ public abstract class BaseClassScheduleView implements View.OnClickListener {
     }
 
     public abstract void setHintCourse(CourseResult courseResult);
-    public abstract void setHintLayout(View txtSignHint);
 
+    public abstract void setHintLayout(View txtSignHint);
 
 }

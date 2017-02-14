@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="73dp"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/layout_recent_earning"
@@ -79,7 +79,7 @@
         <ImageView
             android:layout_width="1dp"
             android:layout_height="30dp"
-            android:layout_marginTop="13dp"
+            android:layout_gravity="center_vertical"
             android:background="@color/four_d" />
 
         <LinearLayout
@@ -88,7 +88,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -108,7 +109,8 @@
             android:layout_width="1dp"
             android:layout_height="30dp"
             android:layout_marginTop="13dp"
-            android:background="@color/four_d" />
+            android:background="@color/four_d"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/layout_more_detail"
@@ -155,7 +157,8 @@
         android:gravity="center"
         android:text="@string/withdraw"
         android:textColor="@color/white"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:visibility="gone" />
 
 
 </LinearLayout>
