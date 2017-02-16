@@ -85,6 +85,8 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
     @Override
     public void onGetCalendar(final ArrayList<MyCalendar> myCalendars) {
         DialogUtils.dismissDialog();
+        if (myCalendars == null)
+            return;
         if (firstRequest) {
             for (MyCalendar calendar : myCalendars) {
                 if (MyDateUtils.getCurrentPositionByMonth(calendar.getTimeMouth()) >= 0) {

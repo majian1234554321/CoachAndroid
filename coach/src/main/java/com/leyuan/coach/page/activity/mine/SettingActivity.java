@@ -12,6 +12,7 @@ import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.bean.VersionInformation;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.page.mvp.presenter.LoginPresenter;
 import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.LoginViewListener;
@@ -178,7 +179,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onLoginOut(boolean success) {
         if (success) {
             App.getInstance().exitLogin();
-            UiManager.activityJump(this, LoginNoDismissActivity.class);
+            UiManager.activityJump(this, LoginActivity.class);
             finish();
         }
     }

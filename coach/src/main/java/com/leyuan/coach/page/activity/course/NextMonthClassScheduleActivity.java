@@ -14,6 +14,7 @@ import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.page.mvp.presenter.NextMonthCoursePresenter;
 import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.NextMonthCourseViewListener;
@@ -49,6 +50,9 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!App.getInstance().isLogin()) {
+            UiManager.activityJump(this, LoginActivity.class);
+        }
         setContentView(R.layout.activity_next_month_class_schedule);
         presenter = new NextMonthCoursePresenter(this, this);
         viewManager = new ClassScheduleViewManager(this, ClassScheduleViewManager.ScheduleMode.NEXT_MONTH
@@ -68,19 +72,21 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
     }
 
     private void initData() {
-        presenter.getNextMonthUnconfirmCalendar();
-
         findViewById(R.id.bt_unconfirmed).setSelected(true);
         findViewById(R.id.img_left).setOnClickListener(this);
         findViewById(R.id.confirmed).setOnClickListener(this);
         findViewById(R.id.bt_unconfirmed).setOnClickListener(this);
         findViewById(R.id.bt_contact).setOnClickListener(this);
         findViewById(R.id.bt_know).setOnClickListener(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getNextMonthUnconfirmCalendar();
         UserCoach user = App.getInstance().getUser();
         if (user != null)
             phoneLeader = user.getMemberPhone();
-
     }
 
     @Override

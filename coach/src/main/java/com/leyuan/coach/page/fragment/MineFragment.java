@@ -122,10 +122,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initData() {
-        user = App.getInstance().getUser();
-        imgAvatar.setImageURI(user.getAvatar());
-        txtName.setText(user.getName() + "");
-        txtLevel.setText("LV" + user.getLevel());
 
         presenter = new MinePresenter(getActivity(), this);
     }
@@ -133,7 +129,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getUserInfo("" + user.getId());
+        user = App.getInstance().getUser();
+        if (user != null) {
+            imgAvatar.setImageURI(user.getAvatar());
+            txtName.setText(user.getName() + "");
+            txtLevel.setText("LV" + user.getLevel());
+            presenter.getUserInfo("" + user.getId());
+        }
         LogUtil.i(TAG, "onResume");
     }
 
@@ -155,11 +157,17 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             if (userInfo.getMsgCou() > 0) {
                 imgNewMessage.setVisibility(View.VISIBLE);
                 ((MainActivity) getActivity()).setNewMessageVisibility(View.VISIBLE);
-//                getActivity().findViewById(R.id.img_new_message).setVisibility(View.VISIBLE);
             } else {
                 imgNewMessage.setVisibility(View.GONE);
                 ((MainActivity) getActivity()).setNewMessageVisibility(View.GONE);
             }
+
+            UserCoach user = App.getInstance().getUser();
+            if (user != null) {
+                user.setStatus(userInfo.getMsgCou() > 0 ? 1 : 0);
+                App.getInstance().setUser(user);
+            }
+
 
         }
     }

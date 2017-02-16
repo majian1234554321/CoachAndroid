@@ -25,12 +25,13 @@ public class PermissionManager {
 //    private ArrayList<String> hints = new ArrayList<>();
     private Activity context;
     private Map<String, String> map;
+    private OnCheckPermissionListener listener;
 
-    public PermissionManager(Map<String, String> permissionAndHintMap, Activity context) {
+    public PermissionManager(Map<String, String> permissionAndHintMap, Activity context, OnCheckPermissionListener listener) {
         this.context = context;
         this.map = permissionAndHintMap;
+        this.listener = listener;
     }
-
 
     private void checkPermission(String permission, String hint) {
         if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
@@ -72,8 +73,10 @@ public class PermissionManager {
 
     public void checkPermissionList() {
 //        Log.i("permission","call checkPermissionList");
-        if (map == null || map.isEmpty())
+        if (map == null || map.isEmpty()) {
+            listener.checkOver();
             return;
+        }
         Iterator<String> iterator = map.keySet().iterator();
         if (iterator.hasNext()) {
             String key = iterator.next();
@@ -94,4 +97,7 @@ public class PermissionManager {
         }
     }
 
+    public interface OnCheckPermissionListener {
+        void checkOver();
+    }
 }

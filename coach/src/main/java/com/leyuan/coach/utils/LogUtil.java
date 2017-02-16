@@ -22,6 +22,12 @@ public class LogUtil {
             Log.i(TAG, msg);
     }
 
+
+    public static void w(String msg) {
+        if (UrlConfig.debug)
+            Log.w(TAG, msg);
+    }
+
     public static void d(String msg) {
         if (UrlConfig.debug)
             Log.d(TAG, msg);
@@ -40,6 +46,11 @@ public class LogUtil {
     public static void i(String tag, String msg) {
         if (UrlConfig.debug)
             Log.i(tag, msg);
+    }
+
+    public static void w(String tag, String msg) {
+        if (UrlConfig.debug)
+            Log.w(tag, msg);
     }
 
     public static void d(String tag, String msg) {

@@ -47,9 +47,10 @@ public class CourseModel {
 
 
     public void getCalendar(Subscriber<ArrayList<MyCalendar>> subscriber, String id, String type, String status) {
-        classService.getCalendar(id, type, status)
-                .compose(RxHelper.<ArrayList<MyCalendar>>transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.getCalendar(id, type, status)
+                    .compose(RxHelper.<ArrayList<MyCalendar>>transform())
+                    .subscribe(subscriber);
     }
 
     public void getCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
@@ -57,21 +58,24 @@ public class CourseModel {
     }
 
     public void getCourseList(Subscriber<CourseResult> subscriber, String id, String courseTime) {
-        classService.getCourseList(id, courseTime)
-                .compose(RxHelper.<CourseResult>transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.getCourseList(id, courseTime)
+                    .compose(RxHelper.<CourseResult>transform())
+                    .subscribe(subscriber);
     }
 
     public void getSuspendCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber) {
-        classService.getSuspendCourseList(id)
-                .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.getSuspendCourseList(id)
+                    .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
+                    .subscribe(subscriber);
     }
 
     public void confirmSuspendClass(Subscriber<Object> subscriber, String timetableId) {
-        classService.suspendClassConfirm(id, timetableId)
-                .compose(RxHelper.transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.suspendClassConfirm(id, timetableId)
+                    .compose(RxHelper.transform())
+                    .subscribe(subscriber);
     }
 
     public void getReplaceCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber) {
@@ -79,9 +83,10 @@ public class CourseModel {
     }
 
     public void getReplaceCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber, String id) {
-        classService.getReplaceCourseList(id)
-                .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.getReplaceCourseList(id)
+                    .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
+                    .subscribe(subscriber);
     }
 
     public void takeOverClassAgree(Subscriber<Object> subscriber, String timetableId) {
@@ -98,10 +103,10 @@ public class CourseModel {
 
 
     public void takeOverClassConfirm(Subscriber<Object> subscriber, String id, String timetableId, String status) {
-
-        classService.takeOverClassConfirm(id, timetableId, status)
-                .compose(transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.takeOverClassConfirm(id, timetableId, status)
+                    .compose(transform())
+                    .subscribe(subscriber);
     }
 
     public void signIn(Subscriber<Object> subscriber, String timetableId) {
@@ -109,10 +114,10 @@ public class CourseModel {
     }
 
     public void signIn(Subscriber<Object> subscriber, String coachId, String timetableId, String lat, String lng) {
-
-        classService.signIn(coachId, timetableId, lat, lng)
-                .compose(transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.signIn(coachId, timetableId, lat, lng)
+                    .compose(transform())
+                    .subscribe(subscriber);
     }
 
     public void getNextMonthUnconfirmCourseList(Subscriber<CourseResult> subscriber, String courseTime) {
@@ -124,9 +129,10 @@ public class CourseModel {
     }
 
     public void getNextMonthCourseList(Subscriber<CourseResult> subscriber, String id, String courseTime, String type) {
-        classService.getNextMonthCourseList(id, courseTime, type)
-                .compose(RxHelper.<CourseResult>transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.getNextMonthCourseList(id, courseTime, type)
+                    .compose(RxHelper.<CourseResult>transform())
+                    .subscribe(subscriber);
     }
 
     public void nextMonthCourseConfirm(Subscriber<Object> subscriber, String courseTime) {
@@ -134,9 +140,10 @@ public class CourseModel {
     }
 
     public void nextMonthCourseConfirm(Subscriber<Object> subscriber, String id, String courseTime) {
-        classService.nextMonthCourseConfirm(id, courseTime)
-                .compose(transform())
-                .subscribe(subscriber);
+        if (id != null)
+            classService.nextMonthCourseConfirm(id, courseTime)
+                    .compose(transform())
+                    .subscribe(subscriber);
     }
 
 }

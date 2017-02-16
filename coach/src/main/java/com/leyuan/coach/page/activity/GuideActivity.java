@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.activity.account.LoginActivity;
+import com.leyuan.coach.page.MainActivity;
 import com.leyuan.coach.page.adapter.CommonPagerAdapter;
 import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.commonlibrary.manager.UiManager;
@@ -46,7 +46,7 @@ public class GuideActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SharePrefUtils.putIsFirstOpenApp(GuideActivity.this);
-                        UiManager.activityJump(GuideActivity.this, LoginActivity.class);
+                        UiManager.activityJump(GuideActivity.this, MainActivity.class);
                         finish();
                     }
                 });

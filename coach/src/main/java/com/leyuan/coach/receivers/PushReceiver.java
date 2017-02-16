@@ -1,16 +1,17 @@
 package com.leyuan.coach.receivers;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.facebook.stetho.common.LogUtil;
 import com.google.gson.Gson;
 import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.MainActivity;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.UiManager;
 
 import org.json.JSONException;
@@ -57,25 +58,35 @@ public class PushReceiver extends BroadcastReceiver {
             Bundle pushBundle = new Bundle();
             pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
             pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
+            if (info.getType() == PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE ||
+                    info.getType() == PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE) {
 
-            switch (info.getType()) {
-                case PushExtroInfo.PushType.NEWS_MESSAGE:
-                case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
-                case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
-                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    break;
-                case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
-//                    UiManager.activityJump(context, pushBundle, NextMonthClassScheduleActivity.class,
-//                            Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    break;
-
+                UiManager.activityJump(context, pushBundle, MainActivity.class,
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            } else if (info.getType() == PushExtroInfo.PushType.NEWS_MESSAGE) {
+                context.sendBroadcast(new Intent(NewMessageReceiver.ACTION));
             }
 
-
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知");
+            LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知  1111111111111");
 
+            for (Activity activity : App.mActivities) {
+                LogUtil.i(TAG, " activity =  " + activity.getClass().getSimpleName());
+            }
+
+            if (!App.mActivities.isEmpty())
+                return;
+            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知");
+            String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
+            Bundle pushBundle = new Bundle();
+            pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
+            pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
+            if (info.getType() == PushExtroInfo.PushType.NEWS_MESSAGE ||
+                    info.getType() == PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED) {
+                UiManager.activityJump(context, pushBundle, MainActivity.class,
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
@@ -123,25 +134,4 @@ public class PushReceiver extends BroadcastReceiver {
         return sb.toString();
     }
 
-    //    //send msg to MainActivity
-    //    private void processCustomMessage(Context context, Bundle bundle) {
-    //        if (MainActivity.isForeground) {
-    //            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-    //            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-    //            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-    //            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
-    //            if (!ExampleUtil.isEmpty(extras)) {
-    //                try {
-    //                    JSONObject extraJson = new JSONObject(extras);
-    //                    if (null != extraJson && extraJson.length() > 0) {
-    //                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-    //                    }
-    //                } catch (JSONException e) {
-    //
-    //                }
-    //
-    //            }
-    //            context.sendBroadcast(msgIntent);
-    //        }
-    //    }
 }

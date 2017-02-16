@@ -5,17 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.VersionInformation;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.activity.GuideActivity;
-import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.page.mvp.presenter.SplashPresenter;
 import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
+import com.leyuan.coach.utils.CheckAutoStartUtils;
 import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
@@ -42,19 +43,12 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
         versionPresenter = new VersionPresenter(this, this);
         presenter = new SplashPresenter(this, this);
         firstOpenApp = SharePrefUtils.getIsFirstOpenApp(this);
-
-        initView();
         initData();
-    }
-
-    private void initView() {
-
     }
 
     private void initData() {
         versionPresenter.getVersionInfo();
     }
-
 
     @Override
     public void onGetVersionInfo(VersionInformation versionInfomation) {
@@ -62,7 +56,6 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
         if (versionInfomation != null && VersionManager.shouldUpdate(versionInfomation.getVersion(), this)) {
             showUpdateDialog(versionInfomation);
         } else {
-//            ToastUtil.show(SplashActivity.this, "获取版本失败，请检查网络");
             if (App.getInstance().isLogin()) {
                 //先自动登录
                 presenter.autoLogin();
@@ -132,7 +125,6 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
         this.autoLoginSuccess = success;
         mHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(1, 2000);
-
     }
 
     private Handler mHandler = new Handler() {
@@ -141,20 +133,69 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    if (firstOpenApp) {
-                        Bundle bunble = new Bundle();
-                        bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
-                        UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
-                    } else if (autoLoginSuccess) {
-                        UiManager.activityJump(SplashActivity.this, MainActivity.class);
-                    } else {
-                        UiManager.activityJump(SplashActivity.this, LoginActivity.class);
-                    }
-                    finish();
+                    presenter.checkPermission();
+//                    checkAutoStart();
+
+//                    if (firstOpenApp) {
+//                        Bundle bunble = new Bundle();
+//                        bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
+//                        UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
+//                    } else {
+//                        UiManager.activityJump(SplashActivity.this, MainActivity.class);
+//                    }
+//                    if (autoLoginSuccess) {
+//                        UiManager.activityJump(SplashActivity.this, MainActivity.class);
+//                    } else {
+//                        UiManager.activityJump(SplashActivity.this, LoginActivity.class);
+//                    }
+//                    finish();
                     break;
             }
         }
     };
+
+    @Override
+    public void checkOver() {
+        if (firstOpenApp) {
+            Bundle bunble = new Bundle();
+            bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
+            UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
+        } else {
+            UiManager.activityJump(SplashActivity.this, MainActivity.class);
+        }
+        finish();
+    }
+
+    private void checkAutoStart() {
+        if (CheckAutoStartUtils.isNeedCheck(this)) {
+            new DialogDoubleButton(this)
+                    .setContentDesc("为了保证能及时收到代课听课通知，请进入设置把应用加入自启动白名单")
+                    .setBtnCancelListener(new ButtonCancelListener() {
+                        @Override
+                        public void onClick(BaseDialog dialog) {
+                            dialog.dismiss();
+                            presenter.checkPermission();
+                        }
+                    })
+                    .setBtnOkListener(new ButtonOkListener() {
+                        @Override
+                        public void onClick(BaseDialog dialog) {
+                            CheckAutoStartUtils.skipToAutoStartView(SplashActivity.this);
+                            dialog.dismiss();
+                            presenter.checkPermission();
+                        }
+                    }).show();
+        } else {
+            presenter.checkPermission();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     protected void onDestroy() {

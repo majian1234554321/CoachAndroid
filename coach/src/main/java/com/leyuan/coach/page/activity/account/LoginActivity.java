@@ -1,6 +1,5 @@
 package com.leyuan.coach.page.activity.account;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -12,11 +11,10 @@ import android.widget.Toast;
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.MainActivity;
 import com.leyuan.coach.page.mvp.presenter.LoginPresenter;
 import com.leyuan.coach.page.mvp.view.LoginViewListener;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.DialogImageIdentify;
-import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.StringUtils;
 import com.leyuan.commonlibrary.util.TimeCountUtil;
@@ -28,6 +26,7 @@ import com.leyuan.commonlibrary.util.ToastUtil;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, LoginViewListener {
 
+    private static final java.lang.String TAG = "LoginActivity";
     private DialogImageIdentify mDialogImageIdentify;
     private LoginPresenter presenter;
     private String mobile;
@@ -42,6 +41,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         findViewById(R.id.bt_get_identify).setOnClickListener(this);
         findViewById(R.id.bt_login).setOnClickListener(this);
+        LogUtil.w(TAG, "onCreate");
     }
 
     private EditText getEidtTelephone() {
@@ -113,7 +113,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void loginResult(boolean success) {
         DialogUtils.dismissDialog();
         if (success) {
-            UiManager.activityJump(this, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            UiManager.activityJump(this, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
             finish();
         }
     }
@@ -157,11 +157,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.w(TAG, "onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.w(TAG, "onStart");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         DialogUtils.releaseDialog();
         if (timeCount != null)
             timeCount.cancel();
+        LogUtil.w(TAG, "onDestroy");
     }
 
 }

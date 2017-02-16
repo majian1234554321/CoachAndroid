@@ -1,7 +1,7 @@
 package com.leyuan.coach.page;
 
-import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,26 +19,29 @@ import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.bean.UserCoach;
+import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.ConstantString;
+import com.leyuan.coach.page.activity.account.LoginActivity;
+import com.leyuan.coach.page.activity.course.NextMonthClassScheduleActivity;
+import com.leyuan.coach.page.activity.mine.MessageDetailActivity;
 import com.leyuan.coach.page.fragment.CourseScheduleFragment;
 import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
 import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
 import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
+import com.leyuan.coach.receivers.NewMessageReceiver;
 import com.leyuan.coach.utils.CheckAutoStartUtils;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.popupwindow.PopupWindowSuspendCourseNotify;
 import com.leyuan.coach.widget.popupwindow.PopupWindowTakeOverCourseNotify;
-import com.leyuan.commonlibrary.manager.PermissionManager;
+import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
 import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
 import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
@@ -57,22 +60,96 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private PopupWindowTakeOverCourseNotify popupTackOver;
     private PopupWindowSuspendCourseNotify popupSuspend;
     private int tag = 0;
-    private PermissionManager permissionManager;
+    //    private PermissionManager permissionManager;
+    private NewMessageReceiver newMessageReceiver;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tag = getIntent().getIntExtra("tag", 0);
+        backstageReceiverNotifyJumpPage();
         courseNotifyPresenter = new CourseNotifyPresenter(this, this);
         setContentView(R.layout.activity_main);
-        if (getIntent() != null) {
-            tag = getIntent().getIntExtra("tag", 0);
-        }
         initView();
+        registerMessageReceiver();
         initData();
-        checkAutoStart();
-        checkPermission();
 
+        checkAutoStart();
+        LogUtil.w(TAG, "onCreate");
+//        checkPermission();
+
+    }
+
+    private void backstageReceiverNotifyJumpPage() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            int type = bundle.getInt(ConstantString.PUSH_TYPE, 0);
+            if (type == PushExtroInfo.PushType.NEWS_MESSAGE) {
+                tag = 2;
+                String backup = bundle.getString(ConstantString.PUSH_BACKUP, "0");
+
+                LogUtil.i(TAG, "backup =  " + backup);
+                int value = 0;
+                try {
+                    value = Integer.parseInt(backup.trim());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                LogUtil.i(TAG, "value =  " + value);
+                Bundle b = new Bundle();
+                b.putInt(Constant.MESSAGE_ID, value);
+                UiManager.activityJump(this, b, MessageDetailActivity.class);
+            } else if (type == PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED) {
+                tag = 2;
+                UiManager.activityJump(this, NextMonthClassScheduleActivity.class);
+            } else if (!App.getInstance().isLogin()) {
+                UiManager.activityJump(this, LoginActivity.class);
+            }
+        } else if (!App.getInstance().isLogin()) {
+            UiManager.activityJump(this, LoginActivity.class);
+        }
+
+    }
+
+    private void registerMessageReceiver() {
+        newMessageReceiver = new NewMessageReceiver(imgNewMessage);
+        registerReceiver(newMessageReceiver, new IntentFilter(NewMessageReceiver.ACTION));
+    }
+
+    private void initView() {
+
+        tabCourse = (RelativeLayout) findViewById(R.id.tabCourse);
+        tabTrain = (RelativeLayout) findViewById(R.id.tabTrain);
+        tabMineLayout = (RelativeLayout) findViewById(R.id.tabMineLayout);
+        imgNewMessage = (ImageView) findViewById(R.id.img_new_message);
+    }
+
+    private void initData() {
+        initFragments();
+
+        UserCoach user = App.getInstance().getUser();
+        if (user != null && user.getStatus() > 0) {
+            imgNewMessage.setVisibility(View.VISIBLE);
+        } else {
+            imgNewMessage.setVisibility(View.GONE);
+        }
+
+//        LogUtil.i(TAG, "user.getStatus() = " + user.getStatus());
+
+        tabCourse.setOnClickListener(this);
+        tabTrain.setOnClickListener(this);
+        tabMineLayout.setOnClickListener(this);
+        handler.sendEmptyMessageDelayed(GET_NOTIFY, 1000);
+    }
+
+    private void initFragments() {
+        fm = getSupportFragmentManager();
+        mFragments.add(new CourseScheduleFragment());
+        mFragments.add(new TrainFragment());
+        mFragments.add(new MineFragment());
+        setTabSelection(tag);
+        showFragment(tag);
     }
 
     private void checkAutoStart() {
@@ -95,54 +172,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-
-    private void checkPermission() {
-        //        PermissionsUtil.checkAndRequestPermissions(this, null);
-        Map<String, String> map = new HashMap<>();
-        map.put(Manifest.permission.ACCESS_FINE_LOCATION, "定位权限");
-        map.put(Manifest.permission.CALL_PHONE, "电话权限");
-
-        permissionManager = new PermissionManager(map, this);
-        permissionManager.checkPermissionList();
-    }
-
-    private void initView() {
-
-        tabCourse = (RelativeLayout) findViewById(R.id.tabCourse);
-        tabTrain = (RelativeLayout) findViewById(R.id.tabTrain);
-        tabMineLayout = (RelativeLayout) findViewById(R.id.tabMineLayout);
-        imgNewMessage = (ImageView) findViewById(R.id.img_new_message);
-    }
-
-    private void initData() {
-        initFragments();
-
-        UserCoach user = App.getInstance().getUser();
-        if (user != null && user.getStatus() == 1) {
-            imgNewMessage.setVisibility(View.VISIBLE);
-        } else {
-            imgNewMessage.setVisibility(View.GONE);
-        }
-
-        tabCourse.setOnClickListener(this);
-        tabTrain.setOnClickListener(this);
-        tabMineLayout.setOnClickListener(this);
-        handler.sendEmptyMessageDelayed(GET_NOTIFY, 1000);
-//        Intent intent = new Intent();
-//        intent.setAction("miui.intent.action.OP_AUTO_START");
-//        startActivityForResult(intent,0);
-
-    }
-
-
-    private void initFragments() {
-        fm = getSupportFragmentManager();
-        mFragments.add(new CourseScheduleFragment());
-        mFragments.add(new TrainFragment());
-        mFragments.add(new MineFragment());
-        setTabSelection(tag);
-        showFragment(tag);
-    }
+//    private void checkPermission() {
+//        //        PermissionsUtil.checkAndRequestPermissions(this, null);
+//        Map<String, String> map = new HashMap<>();
+//        map.put(Manifest.permission.ACCESS_FINE_LOCATION, "定位权限");
+//        map.put(Manifest.permission.CALL_PHONE, "电话权限");
+//
+//        permissionManager = new PermissionManager(map, this);
+//        permissionManager.checkPermissionList();
+//    }
 
     @Override
     public void onClick(View v) {
@@ -165,6 +203,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void showFragment(int tag) {
 
+        LogUtil.i(TAG, "showFragment tag = " + tag);
         ft = fm.beginTransaction();
         for (int i = 0; i < mFragments.size(); i++) {
             if (i != tag) {
@@ -182,7 +221,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
         ft.commit();
-
     }
 
     private void setTabSelection(int index) {
@@ -202,7 +240,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
     }
-
 
     protected void resetTabBtn() {
         tabCourse.setSelected(false);
@@ -225,9 +262,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             return;
         int type = bundle.getInt(ConstantString.PUSH_TYPE, 0);
         switch (type) {
-            case PushExtroInfo.PushType.NEWS_MESSAGE:
-                imgNewMessage.setVisibility(View.VISIBLE);
-                break;
+//            case PushExtroInfo.PushType.NEWS_MESSAGE:
+//                imgNewMessage.setVisibility(View.VISIBLE);
+//                break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
                 courseNotifyPresenter.getReplaceCourseList();
                 break;
@@ -301,16 +338,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
+//        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public void setNewMessageVisibility(int visible) {
         imgNewMessage.setVisibility(visible);
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.w(TAG, "onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.w(TAG, "onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(newMessageReceiver);
+        handler.removeCallbacksAndMessages(null);
+        LogUtil.w(TAG, "onDestroy");
+    }
+
+
 }

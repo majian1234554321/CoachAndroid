@@ -16,6 +16,9 @@ import com.leyuan.commonlibrary.manager.VersionManager;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.utils.SharePrefUtils;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import cn.jpush.android.api.JPushInterface;
 
 public class App extends Application {
@@ -35,6 +38,7 @@ public class App extends Application {
 
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
+    public final static List<BaseActivity> mActivities = new LinkedList<>();
 
     @Override
     public void onCreate() {
@@ -161,5 +165,9 @@ public class App extends Application {
         }
 
         return versionName;
+    }
+
+    public static List<BaseActivity> getmActivities() {
+        return mActivities;
     }
 }

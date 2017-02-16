@@ -1,12 +1,17 @@
 package com.leyuan.coach.page.mvp.presenter;
 
-import android.content.Context;
+import android.Manifest;
+import android.app.Activity;
 
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.mvp.model.LoginModel;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
+import com.leyuan.commonlibrary.manager.PermissionManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by user on 2017/1/4.
@@ -16,9 +21,10 @@ public class SplashPresenter {
 
     private LoginModel loginModel;
     private AutoLoginViewListener viewListener;
-    private Context context;
+    private Activity context;
+    private PermissionManager permissionManager;
 
-    public SplashPresenter(AutoLoginViewListener viewListener, Context context) {
+    public SplashPresenter(AutoLoginViewListener viewListener, Activity context) {
         this.viewListener = viewListener;
         this.context = context;
         loginModel = new LoginModel();
@@ -35,10 +41,25 @@ public class SplashPresenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-//                App.getInstance().setUser(null);
+                App.getInstance().exitLogin();
                 viewListener.onAutoLoginResult(false);
 
             }
         });
     }
+
+    public void checkPermission() {
+        //        PermissionsUtil.checkAndRequestPermissions(this, null);
+        Map<String, String> map = new HashMap<>();
+        map.put(Manifest.permission.ACCESS_FINE_LOCATION, "定位权限");
+        map.put(Manifest.permission.CALL_PHONE, "电话权限");
+
+        permissionManager = new PermissionManager(map, context, viewListener);
+        permissionManager.checkPermissionList();
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
+

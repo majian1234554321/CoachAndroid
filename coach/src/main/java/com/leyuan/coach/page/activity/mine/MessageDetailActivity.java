@@ -10,14 +10,19 @@ import android.webkit.WebViewClient;
 import com.leyuan.coach.R;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.ConstantUrl;
+import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
+import com.leyuan.commonlibrary.manager.UiManager;
 
 /**
  * Created by user on 2017/1/3.
  */
 public class MessageDetailActivity extends BaseActivity {
 
+    private static final java.lang.String TAG = "MessageDetailActivity";
     private CommonTitleLayout layoutTitle;
     private WebView mWebView;
     private int messageId;
@@ -25,6 +30,9 @@ public class MessageDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!App.getInstance().isLogin()) {
+            UiManager.activityJump(this, LoginActivity.class);
+        }
 
         setContentView(R.layout.activity_message_detail);
         messageId = getIntent().getExtras().getInt(Constant.MESSAGE_ID);
@@ -34,6 +42,7 @@ public class MessageDetailActivity extends BaseActivity {
 
         initData();
         initWebView();
+        LogUtil.w(TAG, "onCreate");
     }
 
     private void initData() {
@@ -83,10 +92,26 @@ public class MessageDetailActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
-
         });
-        mWebView.loadUrl(ConstantUrl.MESSAGE + messageId);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.w(TAG, "onResume");
+        mWebView.loadUrl(ConstantUrl.MESSAGE + messageId);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.w(TAG, "onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtil.w(TAG, "onDestroy");
+    }
 }

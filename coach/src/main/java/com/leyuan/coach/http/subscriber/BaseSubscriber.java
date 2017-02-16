@@ -6,11 +6,11 @@ import android.widget.Toast;
 import com.leyuan.coach.R;
 import com.leyuan.coach.http.api.exception.LoginDuplicateException;
 import com.leyuan.coach.page.App;
-import com.leyuan.coach.page.activity.mine.LoginNoDismissActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
+import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
 import com.leyuan.commonlibrary.widget.dialog.DialogSingleButton;
-import com.leyuan.commonlibrary.manager.UiManager;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -48,7 +48,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> {
                         @Override
                         public void onClick(BaseDialog dialog) {
                             App.getInstance().exitLogin();
-                            UiManager.activityJump(context, LoginNoDismissActivity.class);
+                            UiManager.activityJump(context, LoginActivity.class);
                         }
                     }).show();
 
