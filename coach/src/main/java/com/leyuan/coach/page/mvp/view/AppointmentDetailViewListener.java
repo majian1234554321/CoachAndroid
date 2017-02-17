@@ -12,4 +12,6 @@ public interface AppointmentDetailViewListener {
     void setChangePayType(PayOrderBean payOrderBean);
 
     void setUpdateOrderStatus(BaseBean baseBean);
+
+    void showEmptyView();
 }

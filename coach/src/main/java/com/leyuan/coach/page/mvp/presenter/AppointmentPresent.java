@@ -97,6 +97,11 @@ public class AppointmentPresent  {
                     switcherLayout.showEmptyLayout();
                 }
             }
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                appointmentDetailViewListener.showEmptyView();
+            }
         },orderId);
     }
 

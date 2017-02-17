@@ -42,13 +42,14 @@
                     android:layout_width="60dp"
                     android:layout_height="2dp"
                     android:layout_gravity="center"
-                    android:background="@color/line_color"/>
+                    android:background="@color/line_color"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="暂无内容"
+                    android:text="暂无预约信息"
                     android:textSize="14sp"
                     android:gravity="center"
                     android:textColor="@color/gray_normal"
@@ -59,7 +60,8 @@
                     android:layout_width="60dp"
                     android:layout_height="2dp"
                     android:layout_gravity="center"
-                    android:background="@color/line_color"/>
+                    android:background="@color/line_color"
+                    android:visibility="gone"/>
             </LinearLayout>
 
 

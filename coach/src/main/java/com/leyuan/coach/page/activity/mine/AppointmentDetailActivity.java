@@ -2,10 +2,12 @@ package com.leyuan.coach.page.activity.mine;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -164,8 +166,21 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 TrainDetailActivity.start(this,detailBean.getCampaign().getCampaignId());
                 break;
             case R.id.tv_cancel:
-                handleType = ORDER_CANCEL;
-                appointmentPresent.updateOrderStatus(orderId,handleType);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.un_join_confirm))
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                handleType = ORDER_CANCEL;
+                                appointmentPresent.updateOrderStatus(orderId,handleType);
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.show();
                 break;
             case R.id.tv_confirm:
                 handleType = ORDER_CONFIRM;
@@ -380,5 +395,12 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
     @Override
     public void onEnd(CountdownView cv) {
         appointmentPresent.getAppointmentDetail(switcherLayout,orderId);
+    }
+
+    @Override
+    public void showEmptyView() {
+        View view = View.inflate(this,R.layout.empty_appoint_detail,null);
+        switcherLayout.addCustomView(view,"empty");
+        switcherLayout.showCustomLayout("empty");
     }
 }
