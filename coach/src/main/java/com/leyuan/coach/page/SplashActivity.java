@@ -12,6 +12,7 @@ import com.leyuan.coach.R;
 import com.leyuan.coach.bean.VersionInformation;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.activity.GuideActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.page.mvp.presenter.SplashPresenter;
 import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
@@ -160,10 +161,22 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
             Bundle bunble = new Bundle();
             bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
             UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
-        } else {
+        } else if (autoLoginSuccess) {
             UiManager.activityJump(SplashActivity.this, MainActivity.class);
+        } else {
+            UiManager.activityJump(SplashActivity.this, LoginActivity.class);
         }
         finish();
+
+//
+//        if (firstOpenApp) {
+//            Bundle bunble = new Bundle();
+//            bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);
+//            UiManager.activityJump(SplashActivity.this, bunble, GuideActivity.class);
+//        } else {
+//            UiManager.activityJump(SplashActivity.this, MainActivity.class);
+//        }
+//        finish();
     }
 
     private void checkAutoStart() {

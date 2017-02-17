@@ -2,10 +2,12 @@ package com.leyuan.commonlibrary.manager;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.facebook.stetho.common.LogUtil;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
 import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
@@ -33,16 +35,38 @@ public class PermissionManager {
         this.listener = listener;
     }
 
+    private boolean checkPermissionCompat(String permission) {
+        boolean result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            result = context.checkSelfPermission(permission)
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            PackageManager pm = context.getPackageManager();
+            result = pm.checkPermission(permission, context.getPackageName())
+                    == PackageManager.PERMISSION_GRANTED;
+
+            LogUtil.i("permission", "pm.checkPermission = " + pm.checkPermission(permission, context.getPackageName()) + " name = " + permission);
+//            result = PermissionChecker.checkSelfPermission(context, permission)
+//                    == PermissionChecker.PERMISSION_GRANTED;
+        }
+
+        LogUtil.i("permission", "Build.VERSION.SDK_INT = " + Build.VERSION.SDK_INT + "  result = " + result + " pname = " + context.getPackageName());
+        return result;
+    }
+
     private void checkPermission(String permission, String hint) {
-        if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
-//            Log.i("permission"," checkPermission  PERMISSION_DENIED");
+        LogUtil.i("permission", " permission status =  " + checkPermissionCompat(permission));
+
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+//        if (!checkPermissionCompat(permission)) {
+//            LogUtil.i("permission"," checkPermission  PERMISSION_DENIED");
             if (ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
                 ActivityCompat.requestPermissions(context, new String[]{permission}, REQUEST_PERMISSION_CODE);
             } else {
                 showPermissionDailog(permission, hint);
             }
         } else {
-//            Log.i("permission"," checkPermission  map.remove(permission);");
+//            LogUtil.i("permission"," checkPermission  map.remove(permission);");
             map.remove(permission);
             checkPermissionList();
         }
@@ -51,7 +75,8 @@ public class PermissionManager {
 
     private void showPermissionDailog(final String permission, final String hint) {
         new DialogDoubleButton(context)
-                .setContentDesc("正常使用该应用需要" + hint + ",请点击确定打开该权限")
+                .setContentDesc(hint)
+                .setRightButton("设置")
                 .setBtnCancelListener(new ButtonCancelListener() {
                     @Override
                     public void onClick(BaseDialog dialog) {

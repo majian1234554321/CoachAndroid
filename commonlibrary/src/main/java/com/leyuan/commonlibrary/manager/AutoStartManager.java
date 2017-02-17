@@ -17,9 +17,9 @@ public class AutoStartManager {
 
         Intent intent = new Intent();
         if (PhoneManufacturerUtils.isXiaoMi()) {
-//            intent.setAction("miui.intent.action.OP_AUTO_START");//小米自启动
+            intent.setAction("miui.intent.action.OP_AUTO_START");//小米自启动
 
-            intent.setAction("miui.intent.action.OP_AUTO_STAR");//小米自启动
+//            intent.setAction("miui.intent.action.OP_AUTO_STAR");//小米自启动
         } else if (PhoneManufacturerUtils.isHuaWei()) {
             intent.setAction("huawei.intent.action.HSM_BOOTAPP_MANAGER");//华为自启动界面
 //            intent.setAction("huawei.intent.action.HSM_PROTECTED_APPS");//华为后台保护

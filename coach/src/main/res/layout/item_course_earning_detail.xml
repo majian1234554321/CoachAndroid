@@ -4,7 +4,6 @@
     android:layout_height="40dp">
 
     <TextView
-        android:layout_marginLeft="15dp"
         android:id="@+id/txt_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +13,6 @@
         android:textSize="15sp" />
 
     <TextView
-        android:layout_marginRight="15dp"
         android:id="@+id/txt_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

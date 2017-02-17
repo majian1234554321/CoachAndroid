@@ -12,9 +12,9 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.Constant;
-import com.leyuan.commonlibrary.manager.VersionManager;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.utils.SharePrefUtils;
+import com.leyuan.commonlibrary.manager.VersionManager;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -64,8 +64,12 @@ public class App extends Application {
         mLocationClient.registerLocationListener(myListener);
         initLocation();
         mLocationClient.start();
+        LogUtil.i("location", "mLocationClient.start()");
     }
 
+    public void startLocation() {
+        mLocationClient.start();
+    }
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
@@ -88,6 +92,8 @@ public class App extends Application {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
+
+            LogUtil.i("location", "onReceiveLocation , error type = " + location.getLocType());
             App.lat = location.getLatitude();
             App.lon = location.getLongitude();
             if (location.getCity() != null)
@@ -96,8 +102,9 @@ public class App extends Application {
                 addressStr = location.getAddrStr();
             if (city != null) {
                 mLocationClient.stop();
+                LogUtil.i("location", "mLocationClient.stop()");
             }
-            LogUtil.i("lat = " + lat + ",   lon = " + lon);
+            LogUtil.i("location lat = " + lat + ",   lon = " + lon);
         }
     }
 

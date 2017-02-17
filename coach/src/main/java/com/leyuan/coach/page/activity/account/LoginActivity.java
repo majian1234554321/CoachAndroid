@@ -1,5 +1,6 @@
 package com.leyuan.coach.page.activity.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -11,10 +12,12 @@ import android.widget.Toast;
 import com.leyuan.coach.R;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
+import com.leyuan.coach.page.MainActivity;
 import com.leyuan.coach.page.mvp.presenter.LoginPresenter;
 import com.leyuan.coach.page.mvp.view.LoginViewListener;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.DialogImageIdentify;
+import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.StringUtils;
 import com.leyuan.commonlibrary.util.TimeCountUtil;
@@ -32,12 +35,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private String mobile;
     private String code;
     private CountDownTimer timeCount;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         presenter = new LoginPresenter(this, this);
+        bundle = getIntent().getExtras();
 
         findViewById(R.id.bt_get_identify).setOnClickListener(this);
         findViewById(R.id.bt_login).setOnClickListener(this);
@@ -113,7 +118,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void loginResult(boolean success) {
         DialogUtils.dismissDialog();
         if (success) {
-//            UiManager.activityJump(this, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            if (bundle != null) {
+                UiManager.activityJump(this, bundle, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            } else {
+                UiManager.activityJump(this, MainActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            }
+
             finish();
         }
     }

@@ -10,12 +10,9 @@ import android.webkit.WebViewClient;
 import com.leyuan.coach.R;
 import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.ConstantUrl;
-import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseActivity;
-import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
-import com.leyuan.commonlibrary.manager.UiManager;
 
 /**
  * Created by user on 2017/1/3.
@@ -30,9 +27,9 @@ public class MessageDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!App.getInstance().isLogin()) {
-            UiManager.activityJump(this, LoginActivity.class);
-        }
+//        if (!App.getInstance().isLogin()) {
+//            UiManager.activityJump(this, LoginActivity.class);
+//        }
 
         setContentView(R.layout.activity_message_detail);
         messageId = getIntent().getExtras().getInt(Constant.MESSAGE_ID);

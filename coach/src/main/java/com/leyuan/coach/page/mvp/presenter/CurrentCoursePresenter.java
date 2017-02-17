@@ -45,6 +45,10 @@ public class CurrentCoursePresenter {
         });
     }
 
+    public void refreshloginUser(){
+        courseModel.refreshUserId();
+    }
+
     public void getCourseList(String courseTime) {
         courseModel.getCourseList(new BaseSubscriber<CourseResult>(context) {
             @Override

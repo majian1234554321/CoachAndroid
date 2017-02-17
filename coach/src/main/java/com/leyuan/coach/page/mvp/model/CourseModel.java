@@ -146,4 +146,9 @@ public class CourseModel {
                     .subscribe(subscriber);
     }
 
+    public void refreshUserId() {
+        if (App.getInstance().isLogin()) {
+            id = String.valueOf(App.getInstance().getUser().getId());
+        }
+    }
 }

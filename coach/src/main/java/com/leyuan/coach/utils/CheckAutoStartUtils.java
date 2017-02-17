@@ -11,7 +11,7 @@ import com.leyuan.commonlibrary.manager.AutoStartManager;
 
 public class CheckAutoStartUtils {
 
-    private static long checkInterval = 15 * 24 * 60 * 60 * 1000;
+    private static long checkInterval = 30 * 24 * 60 * 60 * 1000;
 
     public static boolean isNeedCheck(Context context) {
         long currentTime = System.currentTimeMillis();
