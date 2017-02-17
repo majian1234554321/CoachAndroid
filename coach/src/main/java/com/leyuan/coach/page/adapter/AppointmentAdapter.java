@@ -1,6 +1,8 @@
 package com.leyuan.coach.page.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -139,16 +141,29 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         holder.tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(orderHandleListener != null){
-                    orderHandleListener.onCancelJoin(bean.getOrderId());
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(context.getString(R.string.un_join_confirm))
+                        .setCancelable(true)
+                        .setPositiveButton(context.getString(R.string.sure), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if(orderHandleListener != null){
+                                    orderHandleListener.onCancelJoin(bean.getOrderId());
+                                }
+                            }
+                        })
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.show();
             }
         });
 
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(orderHandleListener != null){
+                if(orderHandleListener != null) {
                     orderHandleListener.onDeleteOrder(bean.getOrderId());
                 }
             }

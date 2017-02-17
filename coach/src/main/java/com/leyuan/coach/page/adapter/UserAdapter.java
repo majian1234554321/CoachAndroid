@@ -30,6 +30,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder>{
     public void setData(List<AppointUserBean> data) {
         if(data != null) {
             this.data = data;
+            notifyDataSetChanged();
         }
     }
 

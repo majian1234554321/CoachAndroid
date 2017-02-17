@@ -80,7 +80,7 @@ public abstract class ProgressSubscriber<T> extends BaseSubscriber<T> implements
         } else if (e instanceof ConnectException) {
             Toast.makeText(context, R.string.connect_break, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         dismissProgressDialog();
     }

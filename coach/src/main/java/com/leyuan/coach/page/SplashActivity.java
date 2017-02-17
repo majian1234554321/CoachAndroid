@@ -17,7 +17,6 @@ import com.leyuan.coach.page.mvp.presenter.SplashPresenter;
 import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.AutoLoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
-import com.leyuan.coach.utils.CheckAutoStartUtils;
 import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
@@ -179,29 +178,29 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
 //        finish();
     }
 
-    private void checkAutoStart() {
-        if (CheckAutoStartUtils.isNeedCheck(this)) {
-            new DialogDoubleButton(this)
-                    .setContentDesc("为了保证能及时收到代课听课通知，请进入设置把应用加入自启动白名单")
-                    .setBtnCancelListener(new ButtonCancelListener() {
-                        @Override
-                        public void onClick(BaseDialog dialog) {
-                            dialog.dismiss();
-                            presenter.checkPermission();
-                        }
-                    })
-                    .setBtnOkListener(new ButtonOkListener() {
-                        @Override
-                        public void onClick(BaseDialog dialog) {
-                            CheckAutoStartUtils.skipToAutoStartView(SplashActivity.this);
-                            dialog.dismiss();
-                            presenter.checkPermission();
-                        }
-                    }).show();
-        } else {
-            presenter.checkPermission();
-        }
-    }
+//    private void checkAutoStart() {
+//        if (CheckAutoStartUtils.isNeedCheck(this)) {
+//            new DialogDoubleButton(this)
+//                    .setContentDesc("为了保证能及时收到代课听课通知，请进入设置把应用加入自启动白名单")
+//                    .setBtnCancelListener(new ButtonCancelListener() {
+//                        @Override
+//                        public void onClick(BaseDialog dialog) {
+//                            dialog.dismiss();
+//                            presenter.checkPermission();
+//                        }
+//                    })
+//                    .setBtnOkListener(new ButtonOkListener() {
+//                        @Override
+//                        public void onClick(BaseDialog dialog) {
+//                            CheckAutoStartUtils.skipToAutoStartView(SplashActivity.this);
+//                            dialog.dismiss();
+//                            presenter.checkPermission();
+//                        }
+//                    }).show();
+//        } else {
+//            presenter.checkPermission();
+//        }
+//    }
 
 
     @Override

@@ -169,11 +169,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 ((MainActivity) getActivity()).setNewMessageVisibility(View.GONE);
             }
 
-            UserCoach user = App.getInstance().getUser();
-            if (user != null) {
-                user.setStatus(userInfo.getMsgCou() > 0 ? 1 : 0);
-                App.getInstance().setUser(user);
-            }
+//            UserCoach user = App.getInstance().getUser();
+//            if (user != null) {
+//                user.setStatus(userInfo.getMsgCou() > 0 ? 1 : 0);
+//                App.getInstance().setUser(user);
+//            }
 
 
         }
