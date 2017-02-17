@@ -17,6 +17,7 @@ import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CampaignPresent {
@@ -61,6 +62,7 @@ public class CampaignPresent {
     }
 
     public void commonLoadData(final SwitcherLayout switcherLayout, String type) {
+
         campaignModel.getCampaigns(new CommonSubscriber<List<CampaignBean>>(switcherLayout, context) {
             @Override
             public void onNext(List<CampaignBean> campaignList) {
@@ -69,11 +71,11 @@ public class CampaignPresent {
                     trainViewListener.updateRecyclerView(campaignList);
                 } else {
                     switcherLayout.showEmptyLayout();
+                    trainViewListener.updateRecyclerView(new ArrayList<CampaignBean>());
                 }
             }
         }, type, 1);
     }
-
 
     public void pullToRefreshData(String type) {
         campaignModel.getCampaigns(new BaseSubscriber<List<CampaignBean>>(context) {
@@ -85,7 +87,6 @@ public class CampaignPresent {
             }
         }, type, 1);
     }
-
 
     public void requestMoreData(String type, RecyclerView recyclerView, final int pageSize, int page) {
         campaignModel.getCampaigns(new RequestMoreSubscriber<List<CampaignBean>>(context, recyclerView, pageSize) {
