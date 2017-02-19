@@ -124,16 +124,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private void initData() {
 
         presenter = new MinePresenter(getActivity(), this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         user = App.getInstance().getUser();
         if (user != null) {
             imgAvatar.setImageURI(user.getAvatar());
             txtName.setText(user.getName() + "");
             txtLevel.setText("LV" + user.getLevel());
+            presenter.getUserInfo("" + user.getId());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        user = App.getInstance().getUser();
+        if (user != null) {
+//            imgAvatar.setImageURI(user.getAvatar());
+//            txtName.setText(user.getName() + "");
+//            txtLevel.setText("LV" + user.getLevel());
             presenter.getUserInfo("" + user.getId());
         }
         LogUtil.i(TAG, "onResume");
@@ -142,7 +149,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && user != null) {
             presenter.getUserInfo("" + user.getId());
         }
         LogUtil.i(TAG, "onHiddenChanged " + hidden);
@@ -162,11 +169,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 ((MainActivity) getActivity()).setNewMessageVisibility(View.GONE);
             }
 
-            UserCoach user = App.getInstance().getUser();
-            if (user != null) {
-                user.setStatus(userInfo.getMsgCou() > 0 ? 1 : 0);
-                App.getInstance().setUser(user);
-            }
+//            UserCoach user = App.getInstance().getUser();
+//            if (user != null) {
+//                user.setStatus(userInfo.getMsgCou() > 0 ? 1 : 0);
+//                App.getInstance().setUser(user);
+//            }
 
 
         }

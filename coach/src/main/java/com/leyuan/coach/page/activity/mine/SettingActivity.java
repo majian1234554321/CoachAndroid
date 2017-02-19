@@ -1,5 +1,6 @@
 package com.leyuan.coach.page.activity.mine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,21 +19,25 @@ import com.leyuan.coach.page.mvp.presenter.VersionPresenter;
 import com.leyuan.coach.page.mvp.view.LoginViewListener;
 import com.leyuan.coach.page.mvp.view.VersionViewListener;
 import com.leyuan.coach.widget.CommonTitleLayout;
-import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
-import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
-import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
-import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
+import com.leyuan.commonlibrary.manager.PermissionManager;
 import com.leyuan.commonlibrary.manager.TelephoneManager;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.ToastUtil;
+import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
+import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
+import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
+import com.leyuan.commonlibrary.widget.dialog.DialogDoubleButton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Created by user on 2017/1/4.
  */
-public class SettingActivity extends BaseActivity implements View.OnClickListener, VersionViewListener, LoginViewListener {
+public class SettingActivity extends BaseActivity implements View.OnClickListener, VersionViewListener, LoginViewListener, PermissionManager.OnCheckPermissionListener {
     private CommonTitleLayout layoutTitle;
     private RelativeLayout layoutAboutCoach;
     private RelativeLayout layoutUserAgreement;
@@ -44,6 +49,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     VersionPresenter presenter;
     LoginPresenter presenterLogin;
+    private PermissionManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         txtVersion.setText("LV " + VersionManager.getVersionName(this));
         txtContactPhone.setText("" + contactUsPhone);
+
+        Map<String, String> map = new HashMap<>();
+        map.put(Manifest.permission.CALL_PHONE, "请打开电话服务，以正常使用应用");
+        manager = new PermissionManager(map, this, this);
     }
 
     @Override
@@ -92,32 +102,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.layout_version_update:
                 presenter.getVersionInfo();
                 DialogUtils.showDialog(this, getResources().getString(R.string.request_newest_version_info), false);
-
                 break;
             case R.id.layout_contact_us:
-                new DialogDoubleButton(this).setContentDesc("拨打电话")
-                        .setLeftButton("取消")
-                        .setRightButton("拨打")
-                        .setContentDesc("" + contactUsPhone)
-                        .setBtnCancelListener(new ButtonCancelListener() {
-                            @Override
-                            public void onClick(BaseDialog dialog) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setBtnOkListener(new ButtonOkListener() {
-                            @Override
-                            public void onClick(BaseDialog dialog) {
-                                TelephoneManager.callImmediate(SettingActivity.this, contactUsPhone);
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
+                manager.checkPermissionList();
                 break;
             case R.id.bt_exit_login:
                 presenterLogin.loginOut();
-
                 break;
         }
     }
@@ -132,12 +122,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else {
             ToastUtil.showLong(this, "当前已是最新版本");
         }
-
     }
 
     private void showUpdateDialog(VersionInformation versionInfomation) {
         final String downloadUrl = versionInfomation.getApk();
-        new DialogDoubleButton(this).setContentDesc("最新版本 LV" + versionInfomation.getVersion())
+        new DialogDoubleButton(this)
+                .setContentDesc("最新版本 LV" + versionInfomation.getVersion())
                 .setLeftButton("暂不")
                 .setRightButton("立即更新")
                 .setBtnCancelListener(new ButtonCancelListener() {
@@ -160,12 +150,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DialogUtils.releaseDialog();
-    }
-
-    @Override
     public void loginResult(boolean result) {
 
     }
@@ -182,5 +166,33 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             UiManager.activityJump(this, LoginActivity.class);
             finish();
         }
+    }
+
+    @Override
+    public void checkOver() {
+        new DialogDoubleButton(this).setContentDesc("拨打电话")
+                .setLeftButton("取消")
+                .setRightButton("拨打")
+                .setContentDesc("" + contactUsPhone)
+                .setBtnCancelListener(new ButtonCancelListener() {
+                    @Override
+                    public void onClick(BaseDialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .setBtnOkListener(new ButtonOkListener() {
+                    @Override
+                    public void onClick(BaseDialog dialog) {
+                        TelephoneManager.callImmediate(SettingActivity.this, contactUsPhone);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DialogUtils.releaseDialog();
     }
 }

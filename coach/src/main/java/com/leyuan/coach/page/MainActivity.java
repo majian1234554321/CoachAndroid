@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
+import com.leyuan.coach.bean.CoachInfo;
 import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.Constant;
@@ -28,7 +29,9 @@ import com.leyuan.coach.page.fragment.CourseScheduleFragment;
 import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
 import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
+import com.leyuan.coach.page.mvp.presenter.MinePresenter;
 import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
+import com.leyuan.coach.page.mvp.view.MineViewListener;
 import com.leyuan.coach.receivers.NewMessageReceiver;
 import com.leyuan.coach.utils.CheckAutoStartUtils;
 import com.leyuan.coach.utils.LogUtil;
@@ -44,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, CourseNotifyViewListener, MineViewListener {
 
     private static final java.lang.String TAG = "MainActivity";
     private static final int GET_NOTIFY = 0;
@@ -129,18 +132,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initFragments();
 
         UserCoach user = App.getInstance().getUser();
-        if (user != null && user.getStatus() > 0) {
-            imgNewMessage.setVisibility(View.VISIBLE);
-        } else {
-            imgNewMessage.setVisibility(View.GONE);
+        if (user != null) {
+            new MinePresenter(this, this).getUserInfo(String.valueOf(user.getId()));
         }
-
 //        LogUtil.i(TAG, "user.getStatus() = " + user.getStatus());
 
         tabCourse.setOnClickListener(this);
         tabTrain.setOnClickListener(this);
         tabMineLayout.setOnClickListener(this);
         handler.sendEmptyMessageDelayed(GET_NOTIFY, 1000);
+
+
     }
 
     private void initFragments() {
@@ -345,6 +347,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         imgNewMessage.setVisibility(visible);
     }
 
+    @Override
+    public void getUserInfo(CoachInfo userInfo) {
+        if (userInfo != null && userInfo.getMsgCou() > 0) {
+            imgNewMessage.setVisibility(View.VISIBLE);
+        } else {
+            imgNewMessage.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     protected void onResume() {

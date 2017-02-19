@@ -1,7 +1,8 @@
 package com.leyuan.commonlibrary.util;
 
 import android.os.Build;
-import android.util.Log;
+
+import com.facebook.stetho.common.LogUtil;
 
 /**
  * Created by user on 2017/2/13.
@@ -14,7 +15,7 @@ public class PhoneManufacturerUtils {
         if (Build.MANUFACTURER == null)
             return "";
 
-        Log.i("phone getManufacturer= ", Build.MANUFACTURER.toString());
+        LogUtil.i("phone getManufacturer= ", Build.MANUFACTURER.toString());
         return Build.MANUFACTURER.trim().toLowerCase();
     }
 

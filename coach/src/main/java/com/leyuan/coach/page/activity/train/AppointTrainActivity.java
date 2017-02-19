@@ -47,16 +47,16 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_appoint_train);
-        campaignPresent = new CampaignPresent(this,this);
+        campaignPresent = new CampaignPresent(this, this);
         coachId = String.valueOf(App.getInstance().getUser().getId());
-        if(getIntent() != null){
+        if (getIntent() != null) {
             detailBean = getIntent().getParcelableExtra("detailBean");
         }
         initView();
         setListener();
     }
 
-    private void initView(){
+    private void initView() {
         titleBar = (SimpleTitleBar) findViewById(R.id.title_bar);
         tvInputName = (TextView) findViewById(R.id.tv_input_name);
         tvInputPhone = (TextView) findViewById(R.id.tv_input_phone);
@@ -74,10 +74,10 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
         dvCover.setImageURI(detailBean.getCamImg());
         tvName.setText(detailBean.getTitle());
         tvShop.setText(detailBean.getBrandName());
-        tvTime.setText(detailBean.getStartDate() + " " + detailBean.getStartTime()+ " - " +
+        tvTime.setText(detailBean.getStartDate() + " " + detailBean.getStartTime() + " - " +
                 detailBean.getEndTime());
         tvAddress.setText(detailBean.getPlace());
-        tvPrice.setText(String.format(getString(R.string.rmb_price),detailBean.getPrice()));
+        tvPrice.setText(String.format(getString(R.string.rmb_price), detailBean.getPrice()));
         campaignId = detailBean.getCampaignId();
         payType = ALI_PAY;
     }
@@ -95,7 +95,12 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
                 finish();
                 break;
             case R.id.tv_pay:
-                campaignPresent.buyCampaign(campaignId,coachId,payType);
+                if (orderId == null) {
+                    campaignPresent.buyCampaign(campaignId, coachId, payType);
+                } else {
+                    campaignPresent.changePayType(orderId, payType);
+                }
+
                 break;
             default:
                 break;
@@ -111,16 +116,21 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
                     : new WeiXinPay(this, payListener);
             payInterface.payOrder(payOrderBean);
         } else {
-            Toast.makeText(AppointTrainActivity.this,"预约成功",Toast.LENGTH_LONG).show();
-            AppointSuccessActivity.start(this,detailBean.getSignStartTime(),payOrderBean.getOrderId());
+            Toast.makeText(AppointTrainActivity.this, "预约成功", Toast.LENGTH_LONG).show();
+            AppointSuccessActivity.start(this, detailBean.getSignStartTime(), payOrderBean.getOrderId());
         }
+    }
+
+    @Override
+    public void setChangePayType(PayOrderBean payOrderBean) {
+        setPayResult(payOrderBean);
     }
 
     private PayInterface.PayListener payListener = new PayInterface.PayListener() {
         @Override
         public void fail(String code, Object object) {
             String tip = "";
-            switch (code){
+            switch (code) {
                 case "4000":
                     tip = "订单支付失败";
                     break;
@@ -138,25 +148,25 @@ public class AppointTrainActivity extends BaseActivity implements AppointTrainLi
                     break;
             }
             Intent i = new Intent();
-            i.putExtra("status",TrainDetailActivity.STATUS_NOT_PAY);
-            i.putExtra("orderId",orderId);
-            setResult(0,i);
-            Toast.makeText(AppointTrainActivity.this,tip,Toast.LENGTH_LONG).show();
+            i.putExtra("status", TrainDetailActivity.STATUS_NOT_PAY);
+            i.putExtra("orderId", orderId);
+            setResult(0, i);
+            Toast.makeText(AppointTrainActivity.this, tip, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void success(String code, Object object) {
             Intent i = new Intent();
-            i.putExtra("status",TrainDetailActivity.STATUS_APPLIED);
-            setResult(0,i);
-            Toast.makeText(AppointTrainActivity.this,"支付成功",Toast.LENGTH_LONG).show();
-            AppointSuccessActivity.start(AppointTrainActivity.this,detailBean.getSignStartTime(),orderId);
+            i.putExtra("status", TrainDetailActivity.STATUS_APPLIED);
+            setResult(0, i);
+            Toast.makeText(AppointTrainActivity.this, "支付成功", Toast.LENGTH_LONG).show();
+            AppointSuccessActivity.start(AppointTrainActivity.this, detailBean.getSignStartTime(), orderId);
         }
     };
 
     @Override
     public void onCheckedChanged(CustomNestRadioGroup group, int checkedId) {
-        switch (checkedId){
+        switch (checkedId) {
             case R.id.cb_alipay:
                 payType = ALI_PAY;
                 break;

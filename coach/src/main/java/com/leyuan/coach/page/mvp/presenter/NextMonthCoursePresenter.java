@@ -104,4 +104,7 @@ public class NextMonthCoursePresenter {
     }
 
 
+    public void refreshLoginStatus() {
+        courseModel.refreshUserId();
+    }
 }

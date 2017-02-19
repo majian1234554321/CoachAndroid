@@ -5,5 +5,7 @@ import com.leyuan.coach.bean.PayOrderBean;
 
 public interface AppointTrainListener {
 
-    void  setPayResult(PayOrderBean payOrderBean);
+    void setPayResult(PayOrderBean payOrderBean);
+
+    void setChangePayType(PayOrderBean payOrderBean);
 }

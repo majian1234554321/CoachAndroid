@@ -17,7 +17,10 @@ import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.http.HEAD;
 
 public class CampaignPresent {
     private Context context;
@@ -28,10 +31,10 @@ public class CampaignPresent {
     private AppointTrainListener appointTrainListener;            //活动预约
     private AppointmentDetailViewListener appointmentDetailViewListener;    //预约详情
 
-    public CampaignPresent(Context context,AppointTrainListener view) {
+    public CampaignPresent(Context context, AppointTrainListener view) {
         this.context = context;
         this.appointTrainListener = view;
-        if(campaignModel == null){
+        if (campaignModel == null) {
             campaignModel = new CampaignModel();
         }
     }
@@ -39,7 +42,7 @@ public class CampaignPresent {
     public CampaignPresent(Context context, TrainChildViewListener view) {
         this.context = context;
         this.trainViewListener = view;
-        if(campaignModel == null){
+        if (campaignModel == null) {
             campaignModel = new CampaignModel();
         }
     }
@@ -47,7 +50,7 @@ public class CampaignPresent {
     public CampaignPresent(Context context, TrainDetailViewListener view) {
         this.context = context;
         this.trainDetailViewListener = view;
-        if(campaignModel == null){
+        if (campaignModel == null) {
             campaignModel = new CampaignModel();
         }
     }
@@ -55,81 +58,86 @@ public class CampaignPresent {
     public CampaignPresent(Context context, AppointmentDetailViewListener view) {
         this.context = context;
         this.appointmentDetailViewListener = view;
-        if(campaignModel == null){
+        if (campaignModel == null) {
             campaignModel = new CampaignModel();
         }
     }
 
     public void commonLoadData(final SwitcherLayout switcherLayout, String type) {
-        campaignModel.getCampaigns(new CommonSubscriber<List<CampaignBean>>(switcherLayout,context) {
+
+        campaignModel.getCampaigns(new CommonSubscriber<List<CampaignBean>>(switcherLayout, context) {
             @Override
             public void onNext(List<CampaignBean> campaignList) {
-                if(campaignList != null && !campaignList.isEmpty()){
+                if (campaignList != null && !campaignList.isEmpty()) {
                     switcherLayout.showContentLayout();
                     trainViewListener.updateRecyclerView(campaignList);
                 }else {
                     trainViewListener.showEmptyView();
                 }
             }
-        },type,1);
+        }, type, 1);
     }
-
 
     public void pullToRefreshData(String type) {
         campaignModel.getCampaigns(new BaseSubscriber<List<CampaignBean>>(context) {
             @Override
             public void onNext(List<CampaignBean> campaignList) {
-                if(campaignList != null && !campaignList.isEmpty()){
+                if (campaignList != null && !campaignList.isEmpty()) {
                     trainViewListener.updateRecyclerView(campaignList);
                 }
             }
-        },type,1);
+        }, type, 1);
     }
 
-
-    public void requestMoreData(String type,RecyclerView recyclerView, final int pageSize, int page) {
-        campaignModel.getCampaigns(new RequestMoreSubscriber<List<CampaignBean>>(context,recyclerView,pageSize) {
+    public void requestMoreData(String type, RecyclerView recyclerView, final int pageSize, int page) {
+        campaignModel.getCampaigns(new RequestMoreSubscriber<List<CampaignBean>>(context, recyclerView, pageSize) {
             @Override
             public void onNext(List<CampaignBean> campaignBeanList) {
-                if(campaignBeanList != null && !campaignBeanList.isEmpty()){
+                if (campaignBeanList != null && !campaignBeanList.isEmpty()) {
                     trainViewListener.updateRecyclerView(campaignBeanList);
                 }
                 //没有更多数据了显示到底提示
-                if( campaignBeanList == null || campaignBeanList.size() < pageSize){
+                if (campaignBeanList == null || campaignBeanList.size() < pageSize) {
                     trainViewListener.showEndFooterView();
                 }
             }
-        },type,page);
+        }, type, page);
     }
 
-    public void getCampaignDetail(final SwitcherLayout switcherLayout, String campaignId, String coachId ){
-        campaignModel.getCampaignDetail(new CommonSubscriber<CampaignDetailBean>(switcherLayout,context) {
+    public void getCampaignDetail(final SwitcherLayout switcherLayout, String campaignId, String coachId) {
+        campaignModel.getCampaignDetail(new CommonSubscriber<CampaignDetailBean>(switcherLayout, context) {
             @Override
             public void onNext(CampaignDetailBean campaignDetailBean) {
-                if(campaignDetailBean != null){
+                if (campaignDetailBean != null) {
                     switcherLayout.showContentLayout();
                     trainDetailViewListener.setCampaignDetail(campaignDetailBean);
                 }
             }
-        },campaignId,coachId);
+        }, campaignId, coachId);
     }
 
 
-   public void buyCampaign(String campaignId,String courseId,String payType){
-       campaignModel.buyCampaign(new ProgressSubscriber<PayOrderBean>(context) {
-           @Override
-           public void onNext(PayOrderBean payOrderBean) {
-               appointTrainListener.setPayResult(payOrderBean);
-           }
-       },campaignId,courseId,payType);
+    public void buyCampaign(String campaignId, String courseId, String payType) {
+        campaignModel.buyCampaign(new ProgressSubscriber<PayOrderBean>(context) {
+            @Override
+            public void onNext(PayOrderBean payOrderBean) {
+                appointTrainListener.setPayResult(payOrderBean);
+            }
+        }, campaignId, courseId, payType);
     }
 
-    public void changePayType(String orderId,String payType){
+    public void changePayType(String orderId, String payType) {
         campaignModel.changePayType(new ProgressSubscriber<PayOrderBean>(context) {
             @Override
             public void onNext(PayOrderBean payOrderBean) {
-                appointmentDetailViewListener.setChangePayType(payOrderBean);
+                if (appointmentDetailViewListener != null) {
+                    appointmentDetailViewListener.setChangePayType(payOrderBean);
+                }
+                if (appointTrainListener != null) {
+                    appointTrainListener.setChangePayType(payOrderBean);
+                }
+
             }
-        },orderId,payType);
+        }, orderId, payType);
     }
 }

@@ -11,6 +11,7 @@ import com.leyuan.coach.bean.PushExtroInfo;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.MainActivity;
+import com.leyuan.coach.page.activity.account.LoginActivity;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.UiManager;
 
@@ -84,10 +85,13 @@ public class PushReceiver extends BroadcastReceiver {
             pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
             if (info.getType() == PushExtroInfo.PushType.NEWS_MESSAGE ||
                     info.getType() == PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED) {
-                UiManager.activityJump(context, pushBundle, MainActivity.class,
-                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                if (App.getInstance().isLogin()) {
+                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                } else {
+                    UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
             }
-
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..

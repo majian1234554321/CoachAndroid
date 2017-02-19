@@ -20,10 +20,10 @@ public class AppointSuccessActivity extends BaseActivity implements View.OnClick
     private String time;
     private String orderId;
 
-    public static void start(Context context,String trainTime,String orderId) {
+    public static void start(Context context, String trainTime, String orderId) {
         Intent starter = new Intent(context, AppointSuccessActivity.class);
-        starter.putExtra("trainTime",trainTime);
-        starter.putExtra("orderId",orderId);
+        starter.putExtra("trainTime", trainTime);
+        starter.putExtra("orderId", orderId);
         context.startActivity(starter);
     }
 
@@ -31,7 +31,7 @@ public class AppointSuccessActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appoint_success);
-        if(getIntent() != null){
+        if (getIntent() != null) {
             time = getIntent().getStringExtra("trainTime");
             orderId = getIntent().getStringExtra("orderId");
         }
@@ -48,17 +48,18 @@ public class AppointSuccessActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.tv_train:
-                Intent intent = new Intent(this,MainActivity.class);
-                intent.putExtra("tag",1);
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("tag", 1);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.tv_appointment:
-                AppointmentDetailActivity.start(this,orderId);
+                AppointmentDetailActivity.start(this, orderId);
                 break;
             default:
                 break;

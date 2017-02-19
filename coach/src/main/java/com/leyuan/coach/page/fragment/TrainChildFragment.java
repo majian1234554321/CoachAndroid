@@ -40,26 +40,26 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     private HeaderAndFooterRecyclerViewAdapter wrapperAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_train_child,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_train_child, container, false);
     }
 
     @Override
-    public void onViewCreated(View view,Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             type = bundle.getString("type");
         }
-        campaignPresent =  new CampaignPresent(getContext(),this);
+        campaignPresent = new CampaignPresent(getContext(), this);
         initSwipeRefreshLayout(view);
         initRecyclerView(view);
-        campaignPresent.commonLoadData(switcherLayout,type);
+        campaignPresent.commonLoadData(switcherLayout, type);
     }
 
-    private void initSwipeRefreshLayout(View view){
-        refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
-        switcherLayout = new SwitcherLayout(getActivity(),refreshLayout);
+    private void initSwipeRefreshLayout(View view) {
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
+        switcherLayout = new SwitcherLayout(getActivity(), refreshLayout);
         setColorSchemeResources(refreshLayout);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -72,7 +72,7 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     }
 
     private void initRecyclerView(View view) {
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv_campaign);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_campaign);
         data = new ArrayList<>();
         campaignAdapter = new CampaignAdapter(getContext());
         wrapperAdapter = new HeaderAndFooterRecyclerViewAdapter(campaignAdapter);
@@ -81,19 +81,19 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
         recyclerView.addOnScrollListener(onScrollListener);
     }
 
-    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener(){
+    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
-            currPage ++;
+            currPage++;
             if (data != null && data.size() >= pageSize) {
-                campaignPresent.requestMoreData(type,recyclerView,pageSize,currPage);
+                campaignPresent.requestMoreData(type, recyclerView, pageSize, currPage);
             }
         }
     };
 
     @Override
     public void updateRecyclerView(List<CampaignBean> campaignList) {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             data.clear();
             refreshLayout.setRefreshing(false);
         }

@@ -13,6 +13,7 @@ import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.bean.CourseResult;
 import com.leyuan.coach.bean.MyCalendar;
 import com.leyuan.coach.config.Constant;
+import com.leyuan.coach.page.App;
 import com.leyuan.coach.page.BaseFragment;
 import com.leyuan.coach.page.activity.course.CalendarActivity;
 import com.leyuan.coach.page.activity.course.MapActivity;
@@ -20,6 +21,7 @@ import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
 import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
 import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
  */
 public class CourseScheduleFragment extends BaseFragment implements CurrentCourseViewListener, ClassScheduleViewListener {
 
+    private static final java.lang.String TAG = "CourseScheduleFragment";
     private CommonTitleLayout titleLayout;
     private FrameLayout layoutContainer;
 
@@ -81,6 +84,15 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
         presenter.getCurrentMonthCalendar();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.i(TAG, "onResume");
+//        presenter.refreshloginUser();
+//        presenter.getCourseList(dateTag);
+//        presenter.getCurrentMonthCalendar();
+//        DialogUtils.showDialog(getActivity(), "", false);
+    }
 
     @Override
     public void onGetCalendar(final ArrayList<MyCalendar> myCalendars) {
@@ -103,9 +115,9 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
 
     @Override
     public void onGetCourseList(CourseResult courseResult) {
-
         DialogUtils.dismissDialog();
         viewManager.onGetCourseListData(courseResult);
+        App.getInstance().startLocation();
     }
 
     @Override
@@ -163,6 +175,7 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.i(TAG, "onActivityResult");
         viewManager.onActivityResult(requestCode, resultCode, data);
     }
 
