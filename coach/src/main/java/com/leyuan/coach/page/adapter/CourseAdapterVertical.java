@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVertical.Viewholder> {
     private LayoutInflater mInflater;
     private Context context;
-    private ArrayList<ClassSchedule> courseArray ;
+    private ArrayList<ClassSchedule> courseArray;
     private OnCourseItemClickListener listener;
 
     public CourseAdapterVertical(Context context, OnCourseItemClickListener listener) {
@@ -43,13 +43,19 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         return new Viewholder(view);
     }
 
+
+
+
     @Override
     public void onBindViewHolder(Viewholder holder, int position) {
         final ClassSchedule course = courseArray.get(position);
+        holder.btSignState.setVisibility(View.VISIBLE);
+        holder.btSignState.setClickable(false);
         switch (course.getCourseType()) {
             case 2:
                 holder.imgCourseState.setVisibility(View.VISIBLE);
                 holder.imgCourseState.setImageResource(R.drawable.exchangeclass);
+                holder.btSignState.setVisibility(View.GONE);
                 break;
             case 3:
                 holder.imgCourseState.setVisibility(View.VISIBLE);
@@ -63,11 +69,6 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 holder.imgCourseState.setVisibility(View.GONE);
 
         }
-
-        holder.btSignState.setVisibility(View.VISIBLE);
-        holder.btSignState.setClickable(false);
-
-
         switch (course.getSignStatus()) {
             case 4:
                 holder.btSignState.setSelected(true);
@@ -113,8 +114,8 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     @Override
     public int getItemCount() {
-        if(courseArray == null)
-            return  0;
+        if (courseArray == null)
+            return 0;
         return courseArray.size();
     }
 

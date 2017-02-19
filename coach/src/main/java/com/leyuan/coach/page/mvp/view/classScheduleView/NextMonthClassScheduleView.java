@@ -24,11 +24,11 @@ public class NextMonthClassScheduleView extends BaseClassScheduleView {
     @Override
     public void setHintCourse(CourseResult courseResult) {
         String hint = null;
-        if(courseResult.getConfirm() == null){
-            hint = courseResult.getDateTime() + " 待确认" +   courseResult.getTdb()
+        if (courseResult.getConfirm() == null) {
+            hint = courseResult.getDateTime() + " 待确认" + courseResult.getTdb()
                     + "节课 " + courseResult.getMinute() + "分钟";
-        }else{
-            hint = courseResult.getDateTime() + " 已确认" +   courseResult.getConfirm()
+        } else {
+            hint = courseResult.getDateTime() + " 已确认" + courseResult.getConfirm()
                     + "节课 " + courseResult.getMinute() + "分钟";
         }
         txtClassNumber.setText(hint);

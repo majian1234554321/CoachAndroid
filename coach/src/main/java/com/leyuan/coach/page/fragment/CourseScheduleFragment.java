@@ -169,7 +169,9 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
 
     @Override
     public void onRefresh() {
+        DialogUtils.showDialog(getActivity(), "", false);
         presenter.getCourseList(dateTag);
+        presenter.getCurrentMonthCalendar();
     }
 
     @Override

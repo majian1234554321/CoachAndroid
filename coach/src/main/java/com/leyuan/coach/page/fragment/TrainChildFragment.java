@@ -66,7 +66,8 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
             public void onRefresh() {
                 currPage = 1;
                 RecyclerViewStateUtils.resetFooterViewState(recyclerView);
-                campaignPresent.pullToRefreshData(type);
+//                campaignPresent.pullToRefreshData(type);
+                campaignPresent.commonLoadData(switcherLayout, type);
             }
         });
     }

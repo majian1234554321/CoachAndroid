@@ -21,6 +21,7 @@ import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager
 import com.leyuan.coach.utils.CourseDateUtils;
 import com.leyuan.commonlibrary.manager.TelephoneManager;
 import com.leyuan.commonlibrary.manager.UiManager;
+import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.MyDateUtils;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
@@ -79,6 +80,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
         findViewById(R.id.bt_know).setOnClickListener(this);
 
 //        presenter.refreshLoginStatus();
+        DialogUtils.showDialog(this, "", false);
         presenter.getNextMonthUnconfirmCalendar();
         UserCoach user = App.getInstance().getUser();
         if (user != null)
@@ -88,11 +90,6 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
     @Override
     protected void onResume() {
         super.onResume();
-//        presenter.refreshLoginStatus();
-//        presenter.getNextMonthUnconfirmCalendar();
-//        UserCoach user = App.getInstance().getUser();
-//        if (user != null)
-//            phoneLeader = user.getMemberPhone();
     }
 
     @Override
@@ -105,6 +102,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
                 findViewById(R.id.confirmed).setSelected(true);
                 findViewById(R.id.bt_unconfirmed).setSelected(false);
                 requestType = RequestType.CONFIRMED;
+                DialogUtils.showDialog(this, "", false);
                 presenter.getNextMonthConfirmedCalendar();
                 layoutBottom.setVisibility(View.GONE);
                 break;
@@ -112,8 +110,9 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
                 findViewById(R.id.confirmed).setSelected(false);
                 findViewById(R.id.bt_unconfirmed).setSelected(true);
                 requestType = RequestType.UNCONFIRM;
+                DialogUtils.showDialog(this, "", false);
                 presenter.getNextMonthUnconfirmCalendar();
-                layoutBottom.setVisibility(View.VISIBLE);
+                layoutBottom.setVisibility(View.GONE);
                 break;
             case R.id.bt_contact:
                 new DialogDoubleButton(this).setCommonTilte("拨打电话")
@@ -136,6 +135,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
                         .show();
                 break;
             case R.id.bt_know:
+                DialogUtils.showDialog(this, "", false);
                 presenter.confirmNextMonthCourse(dateTag);
                 break;
         }
@@ -143,6 +143,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
 
     @Override
     public void onGetNextMonthUnconfirmCalendar(ArrayList<MyCalendar> myCalendars) {
+        DialogUtils.releaseDialog();
         if (myCalendars == null)
             return;
         if (firstRequest) {
@@ -153,35 +154,38 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
         viewManager.onGetCalendarData(myCalendars, currentPosition);
         dateTag = CourseDateUtils.getCalendarDateByPosition(currentPosition
                 , myCalendars);
+        DialogUtils.showDialog(this, "", false);
         presenter.getNextMonthUnconfirmCourseList(dateTag);
     }
 
     @Override
     public void onGetNextMonthconfirmedCalendar(ArrayList<MyCalendar> myCalendars) {
+        DialogUtils.releaseDialog();
         if (myCalendars == null)
             return;
 
         viewManager.onGetCalendarData(myCalendars, currentPosition);
         dateTag = CourseDateUtils.getCalendarDateByPosition(currentPosition
                 , myCalendars);
+        DialogUtils.showDialog(this, "", false);
         presenter.getNextMonthConfirmedCourseList(dateTag);
     }
 
     @Override
     public void onGetNextMonthCourseList(CourseResult courseNextMonthResult) {
+        DialogUtils.releaseDialog();
         viewManager.onGetCourseListData(courseNextMonthResult);
-
         if (requestType == RequestType.UNCONFIRM && courseNextMonthResult != null && courseNextMonthResult.getCoachList() != null
                 && !courseNextMonthResult.getCoachList().isEmpty()) {
             layoutBottom.setVisibility(View.VISIBLE);
         } else {
             layoutBottom.setVisibility(View.GONE);
         }
-
     }
 
     @Override
     public void nextMonthCourseConfirm(boolean success) {
+        DialogUtils.releaseDialog();
         if (success) {
             if (requestType == RequestType.UNCONFIRM) {
                 presenter.getNextMonthUnconfirmCalendar();
@@ -210,6 +214,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
     public void requestCourseData(String currentData, int currentCalendarPosition) {
         currentPosition = currentCalendarPosition;
         dateTag = currentData;
+        DialogUtils.showDialog(this, "", false);
         if (requestType == RequestType.UNCONFIRM) {
             presenter.getNextMonthUnconfirmCourseList(dateTag);
         } else {
@@ -220,6 +225,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
 
     @Override
     public void onRefresh() {
+        DialogUtils.showDialog(this, "", false);
         if (requestType == RequestType.UNCONFIRM) {
             presenter.getNextMonthUnconfirmCourseList(dateTag);
         } else {
@@ -236,6 +242,7 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        DialogUtils.releaseDialog();
         viewManager.onDestroy();
     }
 

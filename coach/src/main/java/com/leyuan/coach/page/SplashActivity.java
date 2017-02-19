@@ -20,6 +20,7 @@ import com.leyuan.coach.page.mvp.view.VersionViewListener;
 import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.manager.VersionManager;
+import com.leyuan.commonlibrary.util.ToastUtil;
 import com.leyuan.commonlibrary.widget.dialog.BaseDialog;
 import com.leyuan.commonlibrary.widget.dialog.ButtonCancelListener;
 import com.leyuan.commonlibrary.widget.dialog.ButtonOkListener;
@@ -88,22 +89,30 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
                             mHandler.removeCallbacksAndMessages(null);
                             mHandler.sendEmptyMessageDelayed(1, 2000);
                         }
-
                         dialog.dismiss();
-
                     }
                 })
                 .setBtnOkListener(new ButtonOkListener() {
                     @Override
                     public void onClick(BaseDialog dialog) {
-                        //start download
-                        Uri uri = Uri.parse(downloadUrl);
-                        Intent i = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(i);
+                        startDownload(downloadUrl);
                     }
                 }).show();
 
 
+    }
+
+    private void startDownload(String downloadUrl) {
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            Uri content_url = Uri.parse(downloadUrl);
+            intent.setData(content_url);
+            startActivity(Intent.createChooser(intent, "请选择浏览器"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.show(SplashActivity.this, "下载地址解析失败");
+        }
     }
 
     private void showForceUpdateDialog(VersionInformation versionInformation) {
@@ -112,10 +121,7 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
                 .setBtnOkListener(new ButtonOkListener() {
                     @Override
                     public void onClick(BaseDialog dialog) {
-                        //start download
-                        Uri uri = Uri.parse(downloadUrl);
-                        Intent i = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(i);
+                        startDownload(downloadUrl);
                     }
                 }).show();
     }
@@ -135,7 +141,6 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
                 case 1:
                     presenter.checkPermission();
 //                    checkAutoStart();
-
 //                    if (firstOpenApp) {
 //                        Bundle bunble = new Bundle();
 //                        bunble.putBoolean(ConstantString.AUTO_LOGIN_RESULT, autoLoginSuccess);

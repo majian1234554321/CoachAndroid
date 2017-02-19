@@ -44,9 +44,9 @@ import cn.iwgang.countdownview.CountdownView;
 import static com.leyuan.coach.page.App.context;
 
 
-public class AppointmentDetailActivity extends BaseActivity implements View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener,AppointmentDetailViewListener, CountdownView.OnCountdownEndListener {
+public class AppointmentDetailActivity extends BaseActivity implements View.OnClickListener, CustomNestRadioGroup.OnCheckedChangeListener, AppointmentDetailViewListener, CountdownView.OnCountdownEndListener {
     private static final String UN_PAID = "0";          //待付款
-    private static final String UN_JOIN= "1";           //待参加
+    private static final String UN_JOIN = "1";           //待参加
     private static final String CLOSE = "2";            //已关闭
     private static final String JOINED = "3";           //已参加
     private static final String REFUNDING = "4";        //退款中
@@ -92,11 +92,12 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
     private CampaignPresent campaignPresent;
     private AppointmentPresent appointmentPresent;
     private String handleType;
+    private TextView txtAppointOrderNo;
 
 
-    public static void start(Context context,String orderId) {
+    public static void start(Context context, String orderId) {
         Intent starter = new Intent(context, AppointmentDetailActivity.class);
-        starter.putExtra("orderId",orderId);
+        starter.putExtra("orderId", orderId);
         context.startActivity(starter);
     }
 
@@ -104,22 +105,24 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_detail);
-        campaignPresent = new CampaignPresent(this,this);
-        appointmentPresent = new AppointmentPresent(this,this);
-        if(getIntent() != null){
+        campaignPresent = new CampaignPresent(this, this);
+        appointmentPresent = new AppointmentPresent(this, this);
+        if (getIntent() != null) {
             orderId = getIntent().getStringExtra("orderId");
         }
         initView();
         setListener();
-        appointmentPresent.getAppointmentDetail(switcherLayout,orderId);
+        appointmentPresent.getAppointmentDetail(switcherLayout, orderId);
     }
 
-    private void initView(){
+    private void initView() {
         titleBar = (SimpleTitleBar) findViewById(R.id.title_bar);
         scrollView = (ScrollView) findViewById(R.id.scroll_view);
-        switcherLayout = new SwitcherLayout(this,scrollView);
+        switcherLayout = new SwitcherLayout(this, scrollView);
         tvState = (TextView) findViewById(R.id.tv_state);
         tvOrderNo = (TextView) findViewById(R.id.tv_order_num);
+        txtAppointOrderNo = (TextView) findViewById(R.id.txt_appoint_order_num);
+
         timerLayout = (LinearLayout) findViewById(R.id.ll_timer);
         timer = (CountdownView) findViewById(R.id.timer);
         rlDetail = (RelativeLayout) findViewById(R.id.rl_detail);
@@ -137,7 +140,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         rbALiPay = (RadioButton) findViewById(R.id.cb_alipay);
         rbWeiXinPay = (RadioButton) findViewById(R.id.cb_weixin);
         payLayout = (LinearLayout) findViewById(R.id.ll_pay);
-        bottomLayout= (LinearLayout) findViewById(R.id.ll_bottom);
+        bottomLayout = (LinearLayout) findViewById(R.id.ll_bottom);
         tvPrice = (TextView) findViewById(R.id.tv_price);
         tvCancel = (TextView) findViewById(R.id.tv_cancel);
         tvPay = (TextView) findViewById(R.id.tv_pay);
@@ -145,7 +148,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         tvDelete = (TextView) findViewById(R.id.tv_delete);
     }
 
-    private void setListener(){
+    private void setListener() {
         titleBar.setOnClickListener(this);
         radioGroup.setOnCheckedChangeListener(this);
         rlDetail.setOnClickListener(this);
@@ -158,12 +161,12 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.rl_detail:
-                TrainDetailActivity.start(this,detailBean.getCampaign().getCampaignId());
+                TrainDetailActivity.start(this, detailBean.getCampaign().getCampaignId());
                 break;
             case R.id.tv_cancel:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -172,7 +175,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                         .setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 handleType = ORDER_CANCEL;
-                                appointmentPresent.updateOrderStatus(orderId,handleType);
+                                appointmentPresent.updateOrderStatus(orderId, handleType);
                             }
                         })
                         .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -184,19 +187,34 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 break;
             case R.id.tv_confirm:
                 handleType = ORDER_CONFIRM;
-                appointmentPresent.updateOrderStatus(orderId,handleType);
+                appointmentPresent.updateOrderStatus(orderId, handleType);
                 break;
             case R.id.tv_delete:
-                handleType = ORDER_DELETE;
-                appointmentPresent.updateOrderStatus(orderId,handleType);
+                AlertDialog.Builder builderDelete = new AlertDialog.Builder(this);
+                builderDelete.setMessage(getString(R.string.un_join_confirm))
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                handleType = ORDER_DELETE;
+                                appointmentPresent.updateOrderStatus(orderId, handleType);
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                builderDelete.show();
+
+
                 break;
             case R.id.tv_pay:
-                if(payType.equals(detailBean.getCampaign().getPayType())) {
+                if (payType.equals(detailBean.getCampaign().getPayType())) {
                     PayInterface payInterface = (PAY_ALI.equals(detailBean.getCampaign().getPayType())) ?
                             new AliPay(this, payListener) : new WeiXinPay(this, payListener);
                     payInterface.payOrder(detailBean.getPayOption());
-                }else {
-                    campaignPresent.changePayType(orderId,payType);
+                } else {
+                    campaignPresent.changePayType(orderId, payType);
                 }
                 break;
             default:
@@ -206,14 +224,14 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void setUpdateOrderStatus(BaseBean baseBean) {
-        if(baseBean.getCode() == 1){
-            if(ORDER_DELETE.equals(handleType)){
+        if (baseBean.getCode() == 1) {
+            if (ORDER_DELETE.equals(handleType)) {
                 finish();
-            }else {
+            } else {
                 appointmentPresent.getAppointmentDetail(orderId);
             }
         }
-        Toast.makeText(this,baseBean.getMessage(),Toast.LENGTH_LONG).show();
+        Toast.makeText(this, baseBean.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -227,7 +245,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         @Override
         public void fail(String code, Object object) {
             String tip = "";
-            switch (code){
+            switch (code) {
                 case "4000":
                     tip = "订单支付失败";
                     break;
@@ -244,12 +262,12 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                     tip = "支付失败";
                     break;
             }
-            Toast.makeText(AppointmentDetailActivity.this,tip,Toast.LENGTH_LONG).show();
+            Toast.makeText(AppointmentDetailActivity.this, tip, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void success(String code, Object object) {
-            Toast.makeText(AppointmentDetailActivity.this,"支付成功",Toast.LENGTH_LONG).show();
+            Toast.makeText(AppointmentDetailActivity.this, "支付成功", Toast.LENGTH_LONG).show();
             AppointSuccessActivity.start(AppointmentDetailActivity.this,
                     detailBean.getCampaign().getStartDate() + detailBean.getCampaign().getStartTime(),
                     detailBean.getPayOption().getOrderId());
@@ -258,7 +276,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onCheckedChanged(CustomNestRadioGroup group, int checkedId) {
-        switch (checkedId){
+        switch (checkedId) {
             case R.id.cb_alipay:
                 payType = PAY_ALI;
                 break;
@@ -275,9 +293,9 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         bottomLayout.setVisibility(View.VISIBLE);
         detailBean = bean;
         payType = bean.getCampaign().getPayType();
-        if(PAY_ALI.equals(payType)){
+        if (PAY_ALI.equals(payType)) {
             rbALiPay.setChecked(true);
-        }else {
+        } else {
             rbWeiXinPay.setChecked(true);
         }
 
@@ -291,7 +309,7 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
         tvCampaignTime.setRightContent(bean.getCampaign().getStartDate() + " " +
                 bean.getCampaign().getStartTime() + " - " + bean.getCampaign().getEndTime());
         tvCampaignAddress.setRightContent(bean.getCampaign().getAddress());
-        tvPrice.setText(String.format(getString(R.string.rmb_price),bean.getCampaign().getPayAmount()));
+        tvPrice.setText(String.format(getString(R.string.rmb_price), bean.getCampaign().getPayAmount()));
 
         //与订单状态有关: 预约状态信息 课程预约信息/活动预约信息 支付方式信息 底部预约操作状态及价格信息
         switch (bean.getCampaign().getStatus()) {
@@ -299,6 +317,8 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 tvState.setText(context.getString(R.string.un_paid));
                 timer.start(Long.parseLong(bean.getCampaign().getLittleTime()) * 1000);
                 timerLayout.setVisibility(View.VISIBLE);
+                txtAppointOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
+                txtAppointOrderNo.setVisibility(View.VISIBLE);
                 tvOrderNo.setVisibility(View.GONE);
                 codeLayout.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.VISIBLE);
@@ -309,8 +329,9 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 break;
             case UN_JOIN:           //待参加
                 tvState.setText(context.getString(R.string.appointment_un_joined));
-                tvOrderNo.setText(String.format(getString(R.string.order_no),bean.getCampaign().getOrderId()));
+                tvOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
                 tvOrderNo.setVisibility(View.VISIBLE);
+                txtAppointOrderNo.setVisibility(View.GONE);
                 timerLayout.setVisibility(View.GONE);
                 tvCancel.setVisibility(FormatUtil.parseDouble(bean.getCampaign().getPayAmount()) == 0 ?
                         View.VISIBLE : View.GONE);
@@ -320,72 +341,76 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
                 codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
                 tvCodeNum.setTextColor(Color.parseColor("#000000"));
-                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this,0xFF000000,bean.getCampaign().getOrderId(),
-                        DensityUtil.dp2px(this,294),DensityUtil.dp2px(this,73),false));
+                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this, 0xFF000000, bean.getCampaign().getOrderId(),
+                        DensityUtil.dp2px(this, 294), DensityUtil.dp2px(this, 73), false));
                 break;
             case JOINED:            //已参加
                 tvState.setText(context.getString(R.string.appointment_joined));
-                tvOrderNo.setText(String.format(getString(R.string.order_no),bean.getCampaign().getOrderId()));
+                tvOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
                 tvOrderNo.setVisibility(View.VISIBLE);
                 timerLayout.setVisibility(View.GONE);
+                txtAppointOrderNo.setVisibility(View.GONE);
                 tvDelete.setVisibility(View.VISIBLE);
                 tvPay.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
                 codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
-                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG );
+                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tvCodeNum.setTextColor(Color.parseColor("#ebebeb"));
-                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this,0xFFebebeb,bean.getCampaign().getOrderId(),
-                        DensityUtil.dp2px(this,294),DensityUtil.dp2px(this,73),false));
+                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this, 0xFFebebeb, bean.getCampaign().getOrderId(),
+                        DensityUtil.dp2px(this, 294), DensityUtil.dp2px(this, 73), false));
                 break;
             case CLOSE:             //已关闭
                 tvState.setText(context.getString(R.string.order_close));
-                tvOrderNo.setText(String.format(getString(R.string.order_no),bean.getCampaign().getOrderId()));
+                tvOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
                 tvOrderNo.setVisibility(View.VISIBLE);
                 timerLayout.setVisibility(View.GONE);
+                txtAppointOrderNo.setVisibility(View.GONE);
                 tvDelete.setVisibility(View.VISIBLE);
                 tvPay.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
                 codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
-                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG );
+                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tvCodeNum.setTextColor(Color.parseColor("#ebebeb"));
-                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this,0xFFebebeb,bean.getCampaign().getOrderId(),
-                        DensityUtil.dp2px(this,294),DensityUtil.dp2px(this,73),false));
+                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this, 0xFFebebeb, bean.getCampaign().getOrderId(),
+                        DensityUtil.dp2px(this, 294), DensityUtil.dp2px(this, 73), false));
                 break;
             case REFUNDING:           //退款中
                 tvState.setText(context.getString(R.string.order_refunding));
-                tvOrderNo.setText(String.format(getString(R.string.order_no),bean.getCampaign().getOrderId()));
+                tvOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
                 tvOrderNo.setVisibility(View.VISIBLE);
                 timerLayout.setVisibility(View.GONE);
+                txtAppointOrderNo.setVisibility(View.GONE);
                 tvDelete.setVisibility(View.VISIBLE);
                 tvPay.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
                 codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
-                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG );
+                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tvCodeNum.setTextColor(Color.parseColor("#ebebeb"));
-                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this,0xFFebebeb,bean.getCampaign().getOrderId(),
-                        DensityUtil.dp2px(this,294),DensityUtil.dp2px(this,73),false));
+                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this, 0xFFebebeb, bean.getCampaign().getOrderId(),
+                        DensityUtil.dp2px(this, 294), DensityUtil.dp2px(this, 73), false));
                 break;
             case REFUNDED:             //已退款
                 tvState.setText(context.getString(R.string.order_refunded));
-                tvOrderNo.setText(String.format(getString(R.string.order_no),bean.getCampaign().getOrderId()));
+                tvOrderNo.setText(String.format(getString(R.string.order_no), bean.getCampaign().getOrderId()));
                 tvOrderNo.setVisibility(View.VISIBLE);
                 timerLayout.setVisibility(View.GONE);
+                txtAppointOrderNo.setVisibility(View.GONE);
                 tvDelete.setVisibility(View.VISIBLE);
                 tvPay.setVisibility(View.GONE);
                 tvCancel.setVisibility(View.GONE);
                 tvConfirm.setVisibility(View.GONE);
                 codeLayout.setVisibility(View.VISIBLE);
                 payLayout.setVisibility(View.GONE);
-                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG );
+                tvCodeNum.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tvCodeNum.setTextColor(Color.parseColor("#ebebeb"));
-                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this,0xFFebebeb,bean.getCampaign().getOrderId(),
-                        DensityUtil.dp2px(this,294),DensityUtil.dp2px(this,73),false));
+                ivCode.setImageBitmap(QRCodeUtil.createBarcode(this, 0xFFebebeb, bean.getCampaign().getOrderId(),
+                        DensityUtil.dp2px(this, 294), DensityUtil.dp2px(this, 73), false));
                 break;
             default:
                 break;
@@ -394,13 +419,13 @@ public class AppointmentDetailActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onEnd(CountdownView cv) {
-        appointmentPresent.getAppointmentDetail(switcherLayout,orderId);
+        appointmentPresent.getAppointmentDetail(switcherLayout, orderId);
     }
 
     @Override
     public void showEmptyView() {
-        View view = View.inflate(this,R.layout.empty_appoint_detail,null);
-        switcherLayout.addCustomView(view,"empty");
+        View view = View.inflate(this, R.layout.empty_appoint_detail, null);
+        switcherLayout.addCustomView(view, "empty");
         switcherLayout.showCustomLayout("empty");
     }
 }

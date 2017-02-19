@@ -171,7 +171,8 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
                 bean.getAlreadyPerson(), bean.getAllowPerson()));
         tvPrice.setText(String.format(getString(R.string.rmb_price), bean.getPrice()));
         tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),
-                bean.getStartDate()) + " " + bean.getStartTime());
+                bean.getSignStartTime()));
+//                bean.getStartDate()) + " " + bean.getStartTime());
         RichText.from(bean.getContents()).into(tvCampaignDesc);
         setBottomStatus();
     }

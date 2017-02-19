@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_state"
@@ -25,43 +25,56 @@
         android:layout_marginTop="10dp"
         android:text="订单号:2252"
         android:textColor="@color/c9"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/ll_timer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="支付时间:"
-            android:textSize="14sp"
-            android:textColor="@color/main_red"/>
+            android:textColor="@color/main_red"
+            android:textSize="14sp" />
 
         <cn.iwgang.countdownview.CountdownView
             android:id="@+id/timer"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             app:isHideTimeBackground="true"
             app:isShowDay="false"
             app:isShowHour="true"
+            app:isShowMillisecond="false"
             app:isShowMinute="true"
             app:isShowSecond="true"
-            app:timeTextSize="14sp"
             app:isTimeTextBold="false"
-            android:layout_gravity="center"
-            app:isShowMillisecond="false"
+            app:suffixTextColor="@color/main_red"
             app:timeTextColor="@color/main_red"
-            app:suffixTextColor="@color/main_red"/>
+            app:timeTextSize="14sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_appoint_order_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="-5dp"
+        android:text="订单号:2252"
+        android:textColor="@color/c9"
+        android:textSize="13sp"
+        android:visibility="gone" />
 
     <include layout="@layout/inc_line_black" />
 
@@ -69,9 +82,9 @@
         android:id="@+id/rl_detail"
         android:layout_width="match_parent"
         android:layout_height="84dp"
+        android:background="?selectableItemBackground"
         android:paddingLeft="@dimen/left_margin"
-        android:paddingRight="@dimen/right_margin"
-        android:background="?selectableItemBackground">
+        android:paddingRight="@dimen/right_margin">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/dv_goods_cover"
@@ -108,15 +121,15 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_right_arrow"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:src="@drawable/icon_right_arrow" />
     </RelativeLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_line"/>
+        android:src="@drawable/icon_line" />
 
     <!--二维码布局-->
     <RelativeLayout
@@ -129,10 +142,10 @@
             android:id="@+id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="88777"
-            android:layout_centerHorizontal="true"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -140,15 +153,15 @@
             android:id="@+id/iv_code"
             android:layout_width="294dp"
             android:layout_height="73dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
             android:layout_below="@+id/tv_num"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_line"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/icon_line" />
     </RelativeLayout>
 </LinearLayout>
