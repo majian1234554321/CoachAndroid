@@ -68,7 +68,7 @@ public class CampaignPresent {
                     switcherLayout.showContentLayout();
                     trainViewListener.updateRecyclerView(campaignList);
                 }else {
-                    switcherLayout.showEmptyLayout();
+                    trainViewListener.showEmptyView();
                 }
             }
         },type,1);

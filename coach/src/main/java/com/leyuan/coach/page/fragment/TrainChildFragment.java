@@ -106,4 +106,11 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     public void showEndFooterView() {
         RecyclerViewStateUtils.setFooterViewState(recyclerView, LoadingFooter.State.TheEnd);
     }
+
+    @Override
+    public void showEmptyView() {
+        View view = View.inflate(getContext(),R.layout.empty_train_child,null);
+        switcherLayout.addCustomView(view,"empty");
+        switcherLayout.showCustomLayout("empty");
+    }
 }
