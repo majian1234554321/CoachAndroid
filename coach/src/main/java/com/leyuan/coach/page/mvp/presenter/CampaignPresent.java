@@ -17,10 +17,7 @@ import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.http.HEAD;
 
 public class CampaignPresent {
     private Context context;
@@ -73,6 +70,7 @@ public class CampaignPresent {
                     trainViewListener.updateRecyclerView(campaignList);
                 }else {
                     trainViewListener.showEmptyView();
+                    trainViewListener.updateRecyclerView(campaignList);
                 }
             }
         }, type, 1);

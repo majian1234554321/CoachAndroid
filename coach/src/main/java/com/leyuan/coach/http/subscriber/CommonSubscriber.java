@@ -1,6 +1,7 @@
 package com.leyuan.coach.http.subscriber;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.leyuan.coach.widget.SwitcherLayout;
 
@@ -27,6 +28,15 @@ public abstract class CommonSubscriber<T> extends BaseSubscriber<T> {
         switcherLayout.showLoadingLayout();
     }
 
+
+    /**
+     * 显示错误提示界面
+     * @param e 异常信息
+     */
+    @Override
+    public void onError(Throwable e) {
+        switcherLayout.showExceptionLayout();
+    }
 
     /**
      * 将onNext方法中的返回结果交给Activity或Fragment自己处理
