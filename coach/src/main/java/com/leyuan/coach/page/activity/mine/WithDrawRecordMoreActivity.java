@@ -12,6 +12,7 @@ import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.EarningDetailAdapter;
 import com.leyuan.coach.page.mvp.presenter.WithDrawRecordPresenter;
 import com.leyuan.coach.page.mvp.view.WithDrawRecordMoreListener;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
 
@@ -28,6 +29,7 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
     private WithDrawRecordPresenter presenter;
     private EarningDetailAdapter adapter;
     private int page = 1;
+    private CommonEmptyLayout empty_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
         presenter = new WithDrawRecordPresenter(this);
         presenter.setWithDrawRecordMoreListener(this);
 
+        empty_view = (CommonEmptyLayout) findViewById(R.id.empty_view);
         titleLayout = (CommonTitleLayout) findViewById(R.id.title_layout);
         titleLayout.setLeftIconListener(new View.OnClickListener() {
             @Override
@@ -58,6 +61,13 @@ public class WithDrawRecordMoreActivity extends BaseActivity implements WithDraw
     public void onGetMoreWithDrawRecord(ArrayList<RecentEarningResult> earningDetails, int page) {
         if (page == 1) {
             adapter.refreshData(earningDetails);
+            if (earningDetails != null && !earningDetails.isEmpty()) {
+                empty_view.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            } else {
+                empty_view.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
         } else {
             adapter.addMoreData(earningDetails);
         }

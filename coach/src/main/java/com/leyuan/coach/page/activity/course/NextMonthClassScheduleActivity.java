@@ -202,7 +202,10 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
 
     @Override
     public void onItemClick(ClassSchedule course) {
-
+        Bundle bunble = new Bundle();
+        bunble.putString(Constant.CURRENT_DATE, dateTag);
+        bunble.putParcelable(Constant.CLASS_SCHEDULE, course);
+        UiManager.activityJump(this, bunble, MapActivity.class);
     }
 
     @Override

@@ -26,89 +26,92 @@ import cn.jpush.android.api.JPushInterface;
  * Created by user on 2016/12/15.
  */
 
-public class PushReceiver extends BroadcastReceiver {
+public class JPushReceiver extends BroadcastReceiver {
     private static final String TAG = "JPush";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-
         LogUtil.i(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
+
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            //send the Registration Id to your server...
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 接收Registration Id : " + regId);
+            LogUtil.i(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             App.getInstance().setJPushID(regId);
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-
             String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
-
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE) + ", bike id = " + value);
-
+            LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " +
+                    bundle.getString(JPushInterface.EXTRA_MESSAGE) + ", bike id = " + value);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-
             String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
-
-            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的通知 notifactionId: " + notifactionId + ",extra = " + value);
-
-            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
-            Bundle pushBundle = new Bundle();
-            pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
-            pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
-            if (info.getType() == PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE ||
-                    info.getType() == PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE) {
-                if (!App.mActivities.isEmpty())
-
-                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            } else if (info.getType() == PushExtroInfo.PushType.NEWS_MESSAGE) {
-                context.sendBroadcast(new Intent(NewMessageReceiver.ACTION));
-            }
+            LogUtil.i(TAG, "[MyReceiver] 接收到推送下来的通知  value = " + value);
+            dispatchReceiverValue(context, value);
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知  1111111111111");
-
+            LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知");
             for (Activity activity : App.mActivities) {
                 LogUtil.i(TAG, " activity =  " + activity.getClass().getSimpleName());
             }
-
-
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户点击打开了通知");
             String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
-            Bundle pushBundle = new Bundle();
-            pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
-            pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
-            if (info.getType() == PushExtroInfo.PushType.NEWS_MESSAGE ||
-                    info.getType() == PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED) {
-                if (!App.mActivities.isEmpty())
-                    return;
-                if (App.getInstance().isLogin()) {
-                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                } else {
-                    UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
-                }
-            } else if (info.getType() == PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE ||
-                    info.getType() == PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE) {
-                if (!App.mActivities.isEmpty())
-                    return;
-                UiManager.activityJump(context, pushBundle, MainActivity.class,
-                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            }
+            dispatchReceiverValueWhenClick(context, value);
+
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+            LogUtil.i(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
 
         } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             LogUtil.w(TAG, "[MyReceiver]" + intent.getAction() + " connected state change to " + connected);
         } else {
-            com.leyuan.coach.utils.LogUtil.i(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
+            LogUtil.i(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
+        }
+    }
+
+    private void dispatchReceiverValueWhenClick(Context context, String value) {
+        if (!App.mActivities.isEmpty())
+            return;
+        PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
+        Bundle pushBundle = new Bundle();
+        pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
+        pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
+
+        switch (info.getType()) {
+            case PushExtroInfo.PushType.NEWS_MESSAGE:
+            case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
+                if (App.getInstance().isLogin()) {
+                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                } else {
+                    UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                break;
+            case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
+            case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+                UiManager.activityJump(context, pushBundle, MainActivity.class,
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                break;
+        }
+    }
+
+    private void dispatchReceiverValue(Context context, String value) {
+        PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
+        Bundle pushBundle = new Bundle();
+        pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
+        pushBundle.putInt(ConstantString.PUSH_TYPE, info.getType());
+
+        switch (info.getType()) {
+            case PushExtroInfo.PushType.NEWS_MESSAGE:
+                context.sendBroadcast(new Intent(NewMessageReceiver.ACTION));
+                break;
+            case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
+            case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+                if (!App.mActivities.isEmpty())
+                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                break;
         }
     }
 

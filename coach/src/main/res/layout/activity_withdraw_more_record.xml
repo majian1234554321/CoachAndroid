@@ -11,12 +11,24 @@
         android:layout_height="45dp"
         app:txtTitle="@string/more_detail" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:scrollbars="none" />
+        android:layout_height="match_parent">
 
+        <com.leyuan.coach.widget.CommonEmptyLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:imgEmpty="@drawable/icon_mingxi"
+            app:txtEmpty="暂无更多明细" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scrollbars="none" />
+
+    </FrameLayout>
 </LinearLayout>

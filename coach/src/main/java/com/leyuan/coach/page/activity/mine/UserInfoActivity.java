@@ -18,7 +18,7 @@ import com.leyuan.coach.widget.CommonTitleLayout;
 /**
  * Created by user on 2016/12/20.
  */
-public class UserInfoActivity extends BaseActivity{
+public class UserInfoActivity extends BaseActivity {
 
     private CommonTitleLayout titleLayout;
     private SimpleDraweeView imgAvatar;
@@ -35,10 +35,8 @@ public class UserInfoActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-
-        initView( );
+        initView();
         initData();
-
     }
 
     private void initView() {
@@ -61,20 +59,19 @@ public class UserInfoActivity extends BaseActivity{
             }
         });
         UserCoach user = App.getInstance().getUser();
-        if(user == null){
+        if (user == null) {
             return;
         }
         imgAvatar.setImageURI(user.getAvatar());
-        txtName.setText(""+user.getName());
-        txtGender.setText("" +user.getAge());
-        txtLevel.setText("LV"+user.getLevel());
-        txtServiceType.setText(""+user.getKindName());
-        txtBirthday.setText(""+user.getBirthday());
-        txtNumber.setText(""+user.getCarded());
-        txtPhone.setText(""+user.getContact());
+        txtName.setText("" + user.getName());
+        txtGender.setText("" + user.getGender());
+        txtLevel.setText("LV" + user.getLevel());
+        txtServiceType.setText("" + user.getKindName());
+        txtBirthday.setText(user.getBirthday() == null ? "" : user.getBirthday());
+        txtNumber.setText("" + user.getCarded());
+        txtPhone.setText("" + user.getContact());
 
     }
-
 
     @Override
     protected void onDestroy() {

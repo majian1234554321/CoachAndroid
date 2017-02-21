@@ -17,7 +17,6 @@ import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CampaignPresent {
@@ -70,8 +69,8 @@ public class CampaignPresent {
                     switcherLayout.showContentLayout();
                     trainViewListener.updateRecyclerView(campaignList);
                 } else {
-                    switcherLayout.showEmptyLayout();
-                    trainViewListener.updateRecyclerView(new ArrayList<CampaignBean>());
+                    trainViewListener.showEmptyView();
+                    trainViewListener.updateRecyclerView(campaignList);
                 }
             }
         }, type, 1);

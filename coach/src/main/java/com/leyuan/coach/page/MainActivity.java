@@ -29,6 +29,7 @@ import com.leyuan.coach.page.fragment.CourseScheduleFragment;
 import com.leyuan.coach.page.fragment.MineFragment;
 import com.leyuan.coach.page.fragment.TrainFragment;
 import com.leyuan.coach.page.mvp.presenter.CourseNotifyPresenter;
+import com.leyuan.coach.page.mvp.presenter.MessagePresenter;
 import com.leyuan.coach.page.mvp.presenter.MinePresenter;
 import com.leyuan.coach.page.mvp.view.CourseNotifyViewListener;
 import com.leyuan.coach.page.mvp.view.MineViewListener;
@@ -54,12 +55,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private RelativeLayout tabCourse;
     private RelativeLayout tabTrain;
     private RelativeLayout tabMineLayout;
+    private ImageView imgNewMessage;
 
     private List<Fragment> mFragments = new ArrayList<>();
     private FragmentManager fm;
     private FragmentTransaction ft;
     private CourseNotifyPresenter courseNotifyPresenter;
-    private ImageView imgNewMessage;
+    private MessagePresenter messagePresenter;
+
     private PopupWindowTakeOverCourseNotify popupTackOver;
     private PopupWindowSuspendCourseNotify popupSuspend;
     private int tag = 0;
@@ -91,8 +94,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (type == PushExtroInfo.PushType.NEWS_MESSAGE) {
                 tag = 2;
                 String backup = bundle.getString(ConstantString.PUSH_BACKUP, "0");
-
+                if (messagePresenter == null)
+                    messagePresenter = new MessagePresenter(null, this);
+                messagePresenter.updateMsgStatus(backup);
                 LogUtil.i(TAG, "backup =  " + backup);
+
                 int value = 0;
                 try {
                     value = Integer.parseInt(backup.trim());
@@ -100,6 +106,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     e.printStackTrace();
                 }
                 LogUtil.i(TAG, "value =  " + value);
+
                 Bundle b = new Bundle();
                 b.putInt(Constant.MESSAGE_ID, value);
                 UiManager.activityJump(this, b, MessageDetailActivity.class);

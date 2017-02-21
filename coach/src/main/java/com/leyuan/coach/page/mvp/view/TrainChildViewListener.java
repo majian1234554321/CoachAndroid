@@ -16,4 +16,6 @@ public interface TrainChildViewListener {
      * 显示FooterView，提示没有任何内容了
      */
     void showEndFooterView();
+
+    void showEmptyView();
 }

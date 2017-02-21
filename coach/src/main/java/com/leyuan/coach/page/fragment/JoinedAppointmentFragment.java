@@ -44,11 +44,11 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
 
     @Override
     public View initView() {
-        present = new AppointmentPresent(getContext(),this);
+        present = new AppointmentPresent(getContext(), this);
         coachId = String.valueOf(App.getInstance().getUser().getId());
-        view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_appointment,null);
+        view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_appointment, null);
         emptyLayout = (LinearLayout) view.findViewById(R.id.ll_empty);
-        if(emptyLayout.getVisibility() == View.VISIBLE){
+        if (emptyLayout.getVisibility() == View.VISIBLE) {
             emptyLayout.setVisibility(View.GONE);
         }
         initSwipeRefreshLayout();
@@ -65,20 +65,20 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
         present.pullToRefreshData(coachId, JOINED);
     }
 
-    private void initSwipeRefreshLayout( ) {
-        refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refreshLayout);
+    private void initSwipeRefreshLayout() {
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
         setColorSchemeResources(refreshLayout);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 currPage = 1;
                 RecyclerViewStateUtils.resetFooterViewState(recyclerView);
-                present.pullToRefreshData(coachId,JOINED);
+                present.pullToRefreshData(coachId, JOINED);
             }
         });
     }
 
-    private void initRecyclerView( ) {
+    private void initRecyclerView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_appointment);
         data = new ArrayList<>();
         appointmentAdapter = new AppointmentAdapter(getContext());
@@ -89,19 +89,19 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
         recyclerView.addOnScrollListener(onScrollListener);
     }
 
-    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener(){
+    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener() {
         @Override
         public void onLoadNextPage(View view) {
-            currPage ++;
+            currPage++;
             if (data != null && data.size() >= pageSize) {
-                present.requestMoreData(recyclerView,coachId,JOINED,pageSize,currPage);
+                present.requestMoreData(recyclerView, coachId, JOINED, pageSize, currPage);
             }
         }
     };
 
     @Override
     public void updateRecyclerView(List<AppointmentBean> appointmentBeanList) {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             data.clear();
             refreshLayout.setRefreshing(false);
         }
@@ -112,7 +112,7 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
 
     @Override
     public void showEmptyView() {
-        if(refreshLayout.isRefreshing()){
+        if (refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
         emptyLayout.setVisibility(View.VISIBLE);
@@ -126,13 +126,13 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
 
     @Override
     public void setUpdateOrderStatus(BaseBean baseBean) {
-        if(baseBean.getCode() == 1){
+        if (baseBean.getCode() == 1) {
             initData();
         }
-        Toast.makeText(getContext(),baseBean.getMessage(),Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), baseBean.getMessage(), Toast.LENGTH_LONG).show();
     }
 
-    private class MySimpleOrderHandleListener extends AppointmentAdapter.SimpleOrderHandleListener{
+    private class MySimpleOrderHandleListener extends AppointmentAdapter.SimpleOrderHandleListener {
         @Override
         public void onRefreshOrderStatus() {
             initData();
@@ -140,7 +140,7 @@ public class JoinedAppointmentFragment extends BaseLazyFragment implements Appoi
 
         @Override
         public void onDeleteOrder(String orderId) {
-            present.updateOrderStatus(orderId,ORDER_DELETE);
+            present.updateOrderStatus(orderId, ORDER_DELETE);
         }
     }
 }

@@ -35,10 +35,10 @@ public class MapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        Bundle bundle =  getIntent().getExtras();
-        if(bundle!= null){
-            classSchedule =bundle.getParcelable(Constant.CLASS_SCHEDULE);
-            currentDate =  bundle.getString(Constant.CURRENT_DATE);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            classSchedule = bundle.getParcelable(Constant.CLASS_SCHEDULE);
+            currentDate = bundle.getString(Constant.CURRENT_DATE);
         }
 
 
@@ -81,8 +81,8 @@ public class MapActivity extends BaseActivity {
             }
         });
 
-        txtDate.setText(currentDate+"");
-        txtTime.setText(classSchedule.getBeginTime()+"-"+classSchedule.getEndTime());
+        txtDate.setText(currentDate + "");
+        txtTime.setText(classSchedule.getBeginTime() + "-" + classSchedule.getEndTime());
     }
 
     @Override

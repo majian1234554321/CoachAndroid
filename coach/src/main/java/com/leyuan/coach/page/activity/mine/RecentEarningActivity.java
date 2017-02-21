@@ -12,6 +12,7 @@ import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.RecentEarningAdapter;
 import com.leyuan.coach.page.mvp.presenter.AccountBalancePresenter;
 import com.leyuan.coach.page.mvp.view.RecentEarningViewListener;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -27,6 +28,7 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
     private RecentEarningAdapter adapter;
     private AccountBalancePresenter presenter;
     private String month;
+    private CommonEmptyLayout empty_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,14 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             month = bundle.getString(ConstantString.MONTHS, MyDateUtils.getLastMonth());
-        } else {
-            month = MyDateUtils.getLastMonth();
         }
+//        else {
+//            month = MyDateUtils.getLastMonth();
+//        }
 
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        empty_view = (CommonEmptyLayout) findViewById(R.id.empty_view);
 
         initView();
         initData();
@@ -80,6 +84,11 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
     public void onGetRecentEarning(RecentEarningResult recentEaringResult) {
         if (recentEaringResult != null) {
             adapter.refreshData(recentEaringResult);
+            empty_view.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            empty_view.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         }
     }
 }

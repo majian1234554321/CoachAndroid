@@ -28,6 +28,7 @@ public class UserCoach {
     String introduce;
     String birthday;
     String age;
+    String gender;
     String carded;
     int status;
     String contactUs;
@@ -80,6 +81,14 @@ public class UserCoach {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getCarded() {

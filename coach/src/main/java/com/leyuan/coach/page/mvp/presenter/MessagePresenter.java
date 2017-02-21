@@ -29,7 +29,8 @@ public class MessagePresenter {
         model.getMsgList(new BaseSubscriber<ArrayList<MessageInfo>>(context) {
             @Override
             public void onNext(ArrayList<MessageInfo> messageInfos) {
-                listener.onGetMsgListResult(messageInfos);
+                if (listener != null)
+                    listener.onGetMsgListResult(messageInfos);
             }
         });
     }

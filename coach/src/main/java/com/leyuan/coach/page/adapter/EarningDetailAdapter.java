@@ -30,8 +30,7 @@ public class EarningDetailAdapter extends RecyclerView.Adapter<EarningDetailAdap
     }
 
     public void refreshData(ArrayList<RecentEarningResult> withdrawDetails) {
-        this.withdrawDetails.clear();
-        this.withdrawDetails.addAll(withdrawDetails);
+        this.withdrawDetails = withdrawDetails;
         notifyDataSetChanged();
     }
 
@@ -73,6 +72,8 @@ public class EarningDetailAdapter extends RecyclerView.Adapter<EarningDetailAdap
 
     @Override
     public int getItemCount() {
+        if (withdrawDetails == null)
+            return 0;
         return withdrawDetails.size();
     }
 

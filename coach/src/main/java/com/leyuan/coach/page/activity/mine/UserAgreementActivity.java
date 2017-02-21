@@ -81,7 +81,7 @@ public class UserAgreementActivity extends BaseActivity {
             }
 
         });
-        mWebView.loadUrl(ConstantUrl.MESSAGE);
+        mWebView.loadUrl(ConstantUrl.USER_AGREEMENT);
 
     }
 

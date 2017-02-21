@@ -15,6 +15,7 @@ import com.leyuan.coach.page.BaseFragment;
 import com.leyuan.coach.page.adapter.CampaignAdapter;
 import com.leyuan.coach.page.mvp.presenter.CampaignPresent;
 import com.leyuan.coach.page.mvp.view.TrainChildViewListener;
+import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.coach.widget.SwitcherLayout;
 import com.leyuan.coach.widget.endlessrecyclerview.EndlessRecyclerOnScrollListener;
 import com.leyuan.coach.widget.endlessrecyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -38,6 +39,7 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     private List<CampaignBean> data;
     private CampaignAdapter campaignAdapter;
     private HeaderAndFooterRecyclerViewAdapter wrapperAdapter;
+    private CommonEmptyLayout emptyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     }
 
     private void initSwipeRefreshLayout(View view) {
+        emptyView = (CommonEmptyLayout) view.findViewById(R.id.empty_view);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
         switcherLayout = new SwitcherLayout(getActivity(), refreshLayout);
         setColorSchemeResources(refreshLayout);
@@ -98,6 +101,15 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
             data.clear();
             refreshLayout.setRefreshing(false);
         }
+//        if (campaignList == null) {
+//            emptyView.setVisibility(View.VISIBLE);
+//            data.addAll(campaignList);
+//        } else {
+//            emptyView.setVisibility(View.GONE);
+//            data.addAll(campaignList);
+//        }
+        if (emptyView.getVisibility() == View.VISIBLE)
+            emptyView.setVisibility(View.GONE);
         data.addAll(campaignList);
         campaignAdapter.setData(data);
         wrapperAdapter.notifyDataSetChanged();
@@ -106,5 +118,13 @@ public class TrainChildFragment extends BaseFragment implements TrainChildViewLi
     @Override
     public void showEndFooterView() {
         RecyclerViewStateUtils.setFooterViewState(recyclerView, LoadingFooter.State.TheEnd);
+    }
+
+    @Override
+    public void showEmptyView() {
+        View view = View.inflate(getContext(), R.layout.empty_train_child, null);
+        switcherLayout.addCustomView(view, "empty");
+        switcherLayout.showCustomLayout("empty");
+//        emptyView.setVisibility(View.VISIBLE);
     }
 }

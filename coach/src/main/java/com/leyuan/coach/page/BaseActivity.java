@@ -16,7 +16,7 @@ import static com.leyuan.coach.page.App.mActivities;
 
 
 public class BaseActivity extends AppCompatActivity {
-    protected int pageSize = 5;
+    protected int pageSize = 20;
 //    public final static List<BaseActivity> mActivities = new LinkedList<>();
 
     @Override
