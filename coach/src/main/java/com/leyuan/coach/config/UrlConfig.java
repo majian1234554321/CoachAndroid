@@ -6,7 +6,7 @@ package com.leyuan.coach.config;
 
 public class UrlConfig {
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     private static String urlHtml;
     private static String urlHost;
@@ -18,7 +18,7 @@ public class UrlConfig {
             urlHost = "http://m1.aidong.me/coach/";
         } else {
             urlHtml = "http://open.aidong.me/";
-            urlHost = "http://m1.aidong.me/coach/";
+            urlHost = "http://coach.aidong.me/coach/";
         }
     }
 

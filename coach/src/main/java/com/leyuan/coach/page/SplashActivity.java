@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.leyuan.coach.R;
 import com.leyuan.coach.bean.VersionInformation;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.activity.GuideActivity;
@@ -40,7 +39,7 @@ public class SplashActivity extends BaseActivity implements AutoLoginViewListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+//        setContentView(R.layout.activity_splash);
         versionPresenter = new VersionPresenter(this, this);
         presenter = new SplashPresenter(this, this);
         firstOpenApp = SharePrefUtils.getIsFirstOpenApp(this);

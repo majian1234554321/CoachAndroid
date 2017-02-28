@@ -62,17 +62,17 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         ultimateList.setHasFixedSize(true);
         ultimateList.setLayoutManager(new LinearLayoutManager(this));
 
-        View view = View.inflate(this, R.layout.custom_bottom_progressbar, null);
+//        View view = View.inflate(this, R.layout.custom_bottom_progressbar, null);
         adapter = new SignRecordAdapter(this);
 //        adapter.setCustomLoadMoreView(view);
         ultimateList.setAdapter(adapter);
 
         ultimateList.setDefaultOnRefreshListener(refreshListener);
-        ultimateList.setLoadMoreView(view);
+//        ultimateList.setLoadMoreView(view);
         ultimateList.reenableLoadmore();
         ultimateList.setOnLoadMoreListener(loadMoreListener);
 
-//        ultimateList.setEmptyView(R.layout.empty_view,UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        ultimateList.setEmptyView(R.layout.empty_view,UltimateRecyclerView.EMPTY_CLEAR_ALL);
 //        ultimateList.reenableLoadmore();
     }
 

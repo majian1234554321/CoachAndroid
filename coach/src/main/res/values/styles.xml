@@ -26,6 +26,10 @@
 
     </style>
 
+    <style name="SplashBackgroundTheme" parent="AppTheme.FullScreen">
+        <item name="android:windowBackground">@drawable/star_page</item>
+    </style>
+
     <style name="AnimationActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/push_left_in</item>
         <item name="android:activityOpenExitAnimation">@anim/push_left_out</item>
@@ -382,15 +386,15 @@
 
 
     <!--<style name="selectorDialog" parent="@android:style/Theme.Dialog">-->
-        <!--<item name="android:windowFrame">@null</item>-->
-        <!--&lt;!&ndash;边框&ndash;&gt;-->
-        <!--<item name="android:windowIsFloating">true</item>-->
-        <!--&lt;!&ndash;半透明&ndash;&gt;-->
-        <!--<item name="android:windowNoTitle">true</item>-->
-        <!--&lt;!&ndash;无标题&ndash;&gt;-->
-        <!--<item name="android:windowBackground">@color/transpance</item>-->
-        <!--&lt;!&ndash;模糊&ndash;&gt;-->
-        <!--<item name="android:backgroundDimAmount">0.6</item>-->
+    <!--<item name="android:windowFrame">@null</item>-->
+    <!--&lt;!&ndash;边框&ndash;&gt;-->
+    <!--<item name="android:windowIsFloating">true</item>-->
+    <!--&lt;!&ndash;半透明&ndash;&gt;-->
+    <!--<item name="android:windowNoTitle">true</item>-->
+    <!--&lt;!&ndash;无标题&ndash;&gt;-->
+    <!--<item name="android:windowBackground">@color/transpance</item>-->
+    <!--&lt;!&ndash;模糊&ndash;&gt;-->
+    <!--<item name="android:backgroundDimAmount">0.6</item>-->
     <!--</style>-->
 
     <style name="baseButtonStyle">

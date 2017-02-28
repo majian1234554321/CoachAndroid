@@ -71,7 +71,8 @@ public class JPushReceiver extends BroadcastReceiver {
     }
 
     private void dispatchReceiverValueWhenClick(Context context, String value) {
-        if (!App.mActivities.isEmpty())
+//        if (!App.mActivities.isEmpty())
+        if (App.getInstance().isForeground)
             return;
         PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
         Bundle pushBundle = new Bundle();
@@ -83,7 +84,7 @@ public class JPushReceiver extends BroadcastReceiver {
             case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
                 if (App.getInstance().isLogin()) {
                     UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 } else {
                     UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
@@ -108,7 +109,8 @@ public class JPushReceiver extends BroadcastReceiver {
                 break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
-                if (!App.mActivities.isEmpty())
+//                if (!App.mActivities.isEmpty())
+                if (App.getInstance().isForeground)
                     UiManager.activityJump(context, pushBundle, MainActivity.class,
                             Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;

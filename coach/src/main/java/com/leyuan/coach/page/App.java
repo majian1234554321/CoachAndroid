@@ -12,6 +12,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.leyuan.coach.bean.UserCoach;
 import com.leyuan.coach.config.Constant;
+import com.leyuan.coach.utils.ForegroundCallbacks;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.utils.SharePrefUtils;
 import com.leyuan.commonlibrary.manager.VersionManager;
@@ -25,6 +26,7 @@ public class App extends Application {
 
     private static App mInstance;
     public static Context context;
+    public boolean isForeground;
     private String jpushId;
     private UserCoach user;
     private String token;
@@ -49,6 +51,9 @@ public class App extends Application {
     }
 
     private void initConfig() {
+        ForegroundCallbacks foregroundCallbacks = ForegroundCallbacks.init(this);
+        foregroundCallbacks.addListener(foregroundListener);
+
         SDKInitializer.initialize(this);
         Fresco.initialize(this);
         initBaiduLoc();
@@ -58,6 +63,17 @@ public class App extends Application {
         JPushInterface.init(this);
     }
 
+    private ForegroundCallbacks.Listener foregroundListener = new ForegroundCallbacks.Listener() {
+        @Override
+        public void onBecameForeground() {
+            isForeground = true;
+        }
+
+        @Override
+        public void onBecameBackground() {
+            isForeground = false;
+        }
+    };
 
     private void initBaiduLoc() {
         mLocationClient = new LocationClient(getApplicationContext());

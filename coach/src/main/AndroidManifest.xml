@@ -82,6 +82,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen">
         <activity
+            android:theme="@style/SplashBackgroundTheme"
             android:name="com.leyuan.coach.page.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

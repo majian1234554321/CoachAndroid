@@ -59,6 +59,7 @@
                     android:background="@drawable/selector_identify"
                     android:gravity="center"
                     android:inputType="text"
+                    android:textColor="@color/black"
                     android:maxLength="1" />
 
                 <EditText
@@ -68,6 +69,7 @@
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/selector_identify"
                     android:gravity="center"
+                    android:textColor="@color/black"
                     android:inputType="text"
                     android:maxLength="1" />
 
@@ -79,6 +81,7 @@
                     android:background="@drawable/selector_identify"
                     android:gravity="center"
                     android:inputType="text"
+                    android:textColor="@color/black"
                     android:maxLength="1" />
 
                 <EditText
@@ -89,6 +92,7 @@
                     android:background="@drawable/selector_identify"
                     android:gravity="center"
                     android:inputType="text"
+                    android:textColor="@color/black"
                     android:maxLength="1" />
 
 
