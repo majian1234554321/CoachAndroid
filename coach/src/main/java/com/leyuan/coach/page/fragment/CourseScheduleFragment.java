@@ -133,6 +133,8 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
             DialogUtils.showDialog(getActivity(), "", false);
             presenter.getCourseList(dateTag);
             ToastUtil.show(getActivity(), "签到成功");
+        }else{
+            App.getInstance().startLocation();
         }
     }
 
