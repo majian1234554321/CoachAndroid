@@ -75,6 +75,9 @@ public class PagerAdapterTakeCourse extends PagerAdapter {
             case ClassSchedule.CourseStatus.SUSPEND:
                 imgCourseType.setImageResource(R.drawable.tingke);
                 break;
+            case ClassSchedule.CourseStatus.NEWLY_INCREASE:
+                imgCourseType.setImageResource(R.drawable.tingke);
+                break;
         }
 
         txtCourseName.setText(course.getCourseName());

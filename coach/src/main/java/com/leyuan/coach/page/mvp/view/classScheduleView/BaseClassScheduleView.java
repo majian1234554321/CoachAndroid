@@ -176,6 +176,11 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
         public void onItemClick(ClassSchedule course) {
             listener.onItemClick(course);
         }
+
+        @Override
+        public void onEditCourseJoinNum(ClassSchedule course) {
+            listener.onEditCourseJoinNum(course);
+        }
     };
 
     private void refreshPreNextState() {

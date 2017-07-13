@@ -89,6 +89,17 @@ public class CourseModel {
                     .subscribe(subscriber);
     }
 
+    public void getNewlyIncreaseCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber) {
+        getNewlyIncreaseCourseList(subscriber, id);
+    }
+
+    public void getNewlyIncreaseCourseList(Subscriber<ArrayList<ClassSchedule>> subscriber, String id) {
+        if (id != null)
+            classService.getNewlyIncreaseCourseList(id)
+                    .compose(RxHelper.<ArrayList<ClassSchedule>>transform())
+                    .subscribe(subscriber);
+    }
+
     public void takeOverClassAgree(Subscriber<Object> subscriber, String timetableId) {
         takeOverClassConfirm(subscriber, id, timetableId, "1");
     }
@@ -150,5 +161,11 @@ public class CourseModel {
         if (App.getInstance().isLogin()) {
             id = String.valueOf(App.getInstance().getUser().getId());
         }
+    }
+
+    public void registerCourseNum(Subscriber<Object> subscriber, String id, String attendance) {
+        classService.registerCourseNum(id, attendance)
+                .compose(transform())
+                .subscribe(subscriber);
     }
 }

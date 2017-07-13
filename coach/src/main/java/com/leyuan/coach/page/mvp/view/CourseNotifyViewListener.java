@@ -11,4 +11,6 @@ public interface CourseNotifyViewListener {
     void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList);
 
     void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList);
+
+    void onGetNewlyIncreaseCourseListResult(ArrayList<ClassSchedule> arrayList);
 }

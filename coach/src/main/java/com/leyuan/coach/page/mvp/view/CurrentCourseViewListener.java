@@ -21,4 +21,6 @@ public interface CurrentCourseViewListener {
     void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList);
 
     void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList);
+
+    void onRegisterCourseNumResult(boolean success);
 }

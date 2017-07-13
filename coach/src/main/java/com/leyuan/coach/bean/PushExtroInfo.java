@@ -29,6 +29,7 @@ public class PushExtroInfo {
         public static final int CURRENT_TAKE_OVER_COURSE = 2;
         public static final int MEXT_MONTH_UNCONFIRMED = 3;
         public static final int NOTIFY_SUSPEND_COURSE = 4;
+        public static final int NEWLY_INCREASE_COURSE = 5;
 
     }
 

@@ -8,7 +8,7 @@
     <color name="gray">#808080</color><!--灰色 -->
     <color name="red">#FF0000</color><!--红色 -->
 
-    <color name="red_origin">#FF5000</color>
+    <color name="red_origin">#d51121</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#000000</color>
     <color name="color_red">#ff0000</color>
@@ -43,8 +43,9 @@
     <color name="c9">#999999</color>
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#747474</color>
-    <color name="main_red">#FF5000</color>
+    <color name="main_red">#d51121</color>
     <color name="line_color">#ebebeb</color>
     <color name="gray_normal">#666667</color>
+    <color name="red_theme">#d51121</color>
 
 </resources>

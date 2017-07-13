@@ -45,7 +45,7 @@ public class CurrentCoursePresenter {
         });
     }
 
-    public void refreshloginUser(){
+    public void refreshloginUser() {
         courseModel.refreshUserId();
     }
 
@@ -80,6 +80,7 @@ public class CurrentCoursePresenter {
         }, timetableId);
     }
 
+    @Deprecated
     public void getReplaceCourseList() {
         courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
@@ -96,6 +97,7 @@ public class CurrentCoursePresenter {
         });
     }
 
+    @Deprecated
     public void getSuspendCourseList() {
         courseModel.getSuspendCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override
@@ -111,4 +113,18 @@ public class CurrentCoursePresenter {
         });
     }
 
+    public void registerCourseNum(String id, String attendance) {
+        courseModel.registerCourseNum(new BaseSubscriber<Object>(context) {
+            @Override
+            public void onNext(Object o) {
+                viewListener.onRegisterCourseNumResult(true);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onRegisterCourseNumResult(false);
+            }
+        }, id, attendance);
+    }
 }

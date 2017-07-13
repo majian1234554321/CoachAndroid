@@ -23,6 +23,9 @@ public class ClassSchedule implements Parcelable {
     double lat; // 维度
     int signStatus;//签到类型(4：未签到，5：已签到，6：迟到，7：旷课)
     int courseType;//:课程类型(1:正常课程；2：换课，3代课，4停课)
+    int appointed;//预约人数,#新增
+    double price; //課程價格,＃新增
+    int attendance;//"上课人数",#新增
 
     public String getCourseTime() {
         return courseTime;
@@ -56,6 +59,9 @@ public class ClassSchedule implements Parcelable {
         lat = in.readDouble();
         signStatus = in.readInt();
         courseType = in.readInt();
+        appointed = in.readInt();
+        price = in.readDouble();
+        attendance = in.readInt();
     }
 
     public static final Creator<ClassSchedule> CREATOR = new Creator<ClassSchedule>() {
@@ -174,6 +180,30 @@ public class ClassSchedule implements Parcelable {
         this.courseType = courseType;
     }
 
+    public int getAppointed() {
+        return appointed;
+    }
+
+    public void setAppointed(int appointed) {
+        this.appointed = appointed;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(int attendance) {
+        this.attendance = attendance;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -196,6 +226,9 @@ public class ClassSchedule implements Parcelable {
         dest.writeDouble(lat);
         dest.writeInt(signStatus);
         dest.writeInt(courseType);
+        dest.writeInt(appointed);
+        dest.writeDouble(price);
+        dest.writeInt(attendance);
     }
 
     public static class SignStatus {
@@ -210,5 +243,6 @@ public class ClassSchedule implements Parcelable {
         public static final int CHANGE = 2;
         public static final int TAKE_OVER = 3;
         public static final int SUSPEND = 4;
+        public static final int NEWLY_INCREASE = 5;
     }
 }

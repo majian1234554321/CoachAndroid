@@ -11,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -32,6 +33,11 @@ public interface ClassService {
 
     @GET("course/getReplaceCourseList.json")
     Observable<BaseBean<ArrayList<ClassSchedule>>> getReplaceCourseList(@Query("coachId") String id);
+
+
+    //新增的课程列表
+    @GET("course/addedCourseList.json")
+    Observable<BaseBean<ArrayList<ClassSchedule>>> getNewlyIncreaseCourseList(@Query("coachId") String id);
 
     //coachId：教练ID timetableId 课程ID；status：（1：同意，7拒绝）
     @FormUrlEncoded
@@ -61,5 +67,10 @@ public interface ClassService {
     @FormUrlEncoded
     @POST("course/updateNextCourseStatus.json")
     Observable<BaseBean<Object>> nextMonthCourseConfirm(@Field("coachId") String coachId, @Field("courseTime") String courseTime);
+
+
+    @FormUrlEncoded
+    @POST("course/{id}.json")
+    Observable<BaseBean<Object>> registerCourseNum(@Path("id") String id, @Field("attendance") String attendance);
 
 }

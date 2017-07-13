@@ -168,28 +168,31 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
 
     @Override
     public void onAgreeResult(boolean success, int currentItem) {
-        if (success) {
-            arrayList.remove(currentItem);
-            llPointGroup.removeViewAt(currentItem);
-            adapter.notifyDataSetChanged();
-            ToastUtil.showLong(context, "已接受");
-            if (arrayList.isEmpty())
-                this.dismiss();
-        }
+
+//新版改成无论成功还是失败 都给关掉
+//        if (success) {
+        arrayList.remove(currentItem);
+        llPointGroup.removeViewAt(currentItem);
+        adapter.notifyDataSetChanged();
+        ToastUtil.showLong(context, "已接受");
+        if (arrayList.isEmpty())
+            this.dismiss();
+//        }
         DialogUtils.dismissDialog();
 
     }
 
     @Override
     public void onRefuseResult(boolean success, int currentItem) {
-        if (success) {
-            arrayList.remove(currentItem);
-            llPointGroup.removeViewAt(currentItem);
-            adapter.notifyDataSetChanged();
-            ToastUtil.showLong(context, "已拒绝");
-            if (arrayList.isEmpty())
-                this.dismiss();
-        }
+        //新版改成无论成功还是失败 都给关掉
+//        if (success) {
+        arrayList.remove(currentItem);
+        llPointGroup.removeViewAt(currentItem);
+        adapter.notifyDataSetChanged();
+        ToastUtil.showLong(context, "已拒绝");
+        if (arrayList.isEmpty())
+            this.dismiss();
+//        }
         DialogUtils.dismissDialog();
     }
 

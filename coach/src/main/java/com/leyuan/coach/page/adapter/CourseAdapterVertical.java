@@ -2,6 +2,7 @@ package com.leyuan.coach.page.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,8 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
     public CourseAdapterVertical(Context context, OnCourseItemClickListener listener) {
         this.context = context;
         this.listener = listener;
-        mInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = LayoutInflater.from(context);
+//        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -39,11 +40,9 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     @Override
     public Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.from(context).inflate(R.layout.item_course, parent, false);
+        View view = mInflater.inflate(R.layout.item_course_new, parent, false);
         return new Viewholder(view);
     }
-
-
 
 
     @Override
@@ -98,10 +97,14 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 break;
         }
 
-        holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
-        holder.txtCourseName.setText(course.getCourseName() + "");
-        holder.txtStoreName.setText(course.getStoreName() + "");
-        holder.txtCourseAddress.setText(course.getAddress());
+//        holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
+
+        holder.txtCourseName.setText(course.getCourseName());
+        holder.txtStoreName.setText("场馆: " + course.getStoreName());
+        holder.txtCourseAddress.setText("地址: " + course.getAddress());
+        holder.txtCourseStartTime.setText(Html.fromHtml("开始: <font color='#d51121'>" + course.getBeginTime() + "</font>"));
+        holder.txtCourseEndTime.setText(Html.fromHtml("结束: <font color='#d51121'>" + course.getEndTime() + "</font>"));
+        holder.txtCourseJoinNum.setText("人数:  " + course.getAppointed());
 
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +112,22 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 listener.onItemClick(course);
             }
         });
+//        holder.txtCourseJoinNum.setVisibility(View.VISIBLE);
+        if (course.getPrice() <= 0 && course.getAttendance() <= 0) {
+            holder.txtCourseJoinNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onEditCourseJoinNum(course);
+                }
+            });
+        } else {
+            holder.txtCourseJoinNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
 
     }
 
@@ -121,6 +140,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
     class Viewholder extends RecyclerView.ViewHolder {
 
+        private TextView txtCourseStartTime, txtCourseEndTime, txtCourseJoinNum;
         private ImageView imgCourseState;
         private TextView txtCourseTime;
         private TextView txtCourseName;
@@ -138,6 +158,9 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
             txtCourseAddress = (TextView) view.findViewById(R.id.txt_course_address);
             btSignState = (Button) view.findViewById(R.id.bt_sign_state);
             layoutRoot = (RelativeLayout) view.findViewById(R.id.layout_root);
+            txtCourseStartTime = (TextView) view.findViewById(R.id.txt_course_start_time);
+            txtCourseEndTime = (TextView) view.findViewById(R.id.txt_course_end_time);
+            txtCourseJoinNum = (TextView) view.findViewById(R.id.txt_course_join_num);
         }
     }
 
@@ -146,5 +169,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         void onRightButtonClick(int id);
 
         void onItemClick(ClassSchedule course);
+
+        void onEditCourseJoinNum(ClassSchedule course);
     }
 }

@@ -17,4 +17,6 @@ public interface ClassScheduleViewListener {
     void requestCourseData(String currentData, int currentCalendarPosition);
 
     void onRefresh();
+
+    void onEditCourseJoinNum(ClassSchedule course);
 }

@@ -39,6 +39,22 @@ public class CourseNotifyPresenter {
         });
     }
 
+    public void getNewlyIncreaseCourseList() {
+        courseModel.getNewlyIncreaseCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
+            @Override
+            public void onNext(ArrayList<ClassSchedule> arrayList) {
+                viewListener.onGetNewlyIncreaseCourseListResult(arrayList);
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                viewListener.onGetNewlyIncreaseCourseListResult(null);
+            }
+        });
+    }
+
     public void getSuspendCourseList() {
         courseModel.getSuspendCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
             @Override

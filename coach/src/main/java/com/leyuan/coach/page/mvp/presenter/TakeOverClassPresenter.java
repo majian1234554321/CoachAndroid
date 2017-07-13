@@ -2,11 +2,8 @@ package com.leyuan.coach.page.mvp.presenter;
 
 import android.content.Context;
 
-import com.leyuan.coach.bean.ClassSchedule;
 import com.leyuan.coach.http.subscriber.BaseSubscriber;
 import com.leyuan.coach.page.mvp.view.ClassNotifyViewListener;
-
-import java.util.ArrayList;
 
 /**
  * Created by user on 2016/12/27.
@@ -18,14 +15,15 @@ public class TakeOverClassPresenter extends ClassNotifyPresenter {
         super(viewListener, context);
     }
 
-    public void getReplaceCourseList() {
-        courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
-            @Override
-            public void onNext(ArrayList<ClassSchedule> arrayList) {
-//                viewListener.onGetRepalceCourseList(arrayList);
-            }
-        });
-    }
+//    @Deprecated
+//    public void getReplaceCourseList() {
+//        courseModel.getReplaceCourseList(new BaseSubscriber<ArrayList<ClassSchedule>>(context) {
+//            @Override
+//            public void onNext(ArrayList<ClassSchedule> arrayList) {
+////                viewListener.onGetRepalceCourseList(arrayList);
+//            }
+//        });
+//    }
 
     public void courseAgree(String timetableId, final int currentItem) {
         courseModel.takeOverClassAgree(new BaseSubscriber<Object>(context) {

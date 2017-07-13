@@ -280,6 +280,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
                 courseNotifyPresenter.getSuspendCourseList();
                 break;
+            case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
+                courseNotifyPresenter.getNewlyIncreaseCourseList();
+                break;
         }
 
     }
@@ -298,6 +301,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (msg.what == GET_NOTIFY) {
                 courseNotifyPresenter.getReplaceCourseList();
                 courseNotifyPresenter.getSuspendCourseList();
+                courseNotifyPresenter.getNewlyIncreaseCourseList();
             }
         }
     };
@@ -332,6 +336,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 popupSuspend.setOnDismissListener(popupDismissListener);
             }
             popupSuspend.showAtBottom(arrayList);
+        }
+    }
+
+    @Override
+    public void onGetNewlyIncreaseCourseListResult(ArrayList<ClassSchedule> arrayList) {
+        if (arrayList != null && !arrayList.isEmpty()) {
+            if (popupTackOver == null) {
+                popupTackOver = new PopupWindowTakeOverCourseNotify(this);
+                popupTackOver.setOnDismissListener(popupDismissListener);
+            }
+            popupTackOver.showAtBottom(arrayList);
         }
     }
 

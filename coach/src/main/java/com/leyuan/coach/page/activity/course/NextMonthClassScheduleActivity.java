@@ -200,6 +200,13 @@ public class NextMonthClassScheduleActivity extends BaseActivity implements View
 
     }
 
+
+    @Override
+    public void onEditCourseJoinNum(ClassSchedule course) {
+
+    }
+
+
     @Override
     public void onItemClick(ClassSchedule course) {
         Bundle bunble = new Bundle();

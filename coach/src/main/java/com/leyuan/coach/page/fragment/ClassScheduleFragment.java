@@ -35,6 +35,8 @@ import com.leyuan.commonlibrary.util.ToastUtil;
 import java.util.ArrayList;
 
 
+
+@Deprecated
 /**
  * Created by user on 2016/12/19.
  */
@@ -256,11 +258,21 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
     }
 
     @Override
+    public void onRegisterCourseNumResult(boolean success) {
+
+    }
+
+    @Override
     public void onItemClick(ClassSchedule course) {
         Bundle bunble = new Bundle();
         bunble.putString(Constant.CURRENT_DATE, currentDate);
         bunble.putParcelable(Constant.CLASS_SCHEDULE, course);
         UiManager.activityJump(getActivity(), bunble, MapActivity.class);
+    }
+
+    @Override
+    public void onEditCourseJoinNum(ClassSchedule course) {
+
     }
 
     @Override

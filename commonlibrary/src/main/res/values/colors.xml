@@ -2,7 +2,7 @@
 <resources>
 
 
-    <color name="red_origin">#FF5000</color>
+    <color name="red_origin">#d51121</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#000000</color>
     <color name="color_red">#ff0000</color>

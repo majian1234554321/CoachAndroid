@@ -22,7 +22,9 @@ import com.leyuan.coach.page.mvp.view.ClassScheduleViewListener;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
 import com.leyuan.coach.page.mvp.view.classScheduleView.ClassScheduleViewManager;
 import com.leyuan.coach.utils.LogUtil;
+import com.leyuan.coach.utils.ToastGlobal;
 import com.leyuan.coach.widget.CommonTitleLayout;
+import com.leyuan.coach.widget.DialogEditCourseNumIdentify;
 import com.leyuan.commonlibrary.manager.UiManager;
 import com.leyuan.commonlibrary.util.DialogUtils;
 import com.leyuan.commonlibrary.util.MyDateUtils;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Created by user on 2016/12/19.
  */
-public class CourseScheduleFragment extends BaseFragment implements CurrentCourseViewListener, ClassScheduleViewListener {
+public class CourseScheduleFragment extends BaseFragment implements CurrentCourseViewListener, ClassScheduleViewListener, DialogEditCourseNumIdentify.OnCourseJoinNumListner {
 
     private static final java.lang.String TAG = "CourseScheduleFragment";
     private CommonTitleLayout titleLayout;
@@ -133,7 +135,7 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
             DialogUtils.showDialog(getActivity(), "", false);
             presenter.getCourseList(dateTag);
             ToastUtil.show(getActivity(), "签到成功");
-        }else{
+        } else {
             App.getInstance().startLocation();
         }
     }
@@ -148,13 +150,34 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
 
     }
 
-
     @Override
     public void onItemClick(ClassSchedule course) {
         Bundle bunble = new Bundle();
         bunble.putString(Constant.CURRENT_DATE, dateTag);
         bunble.putParcelable(Constant.CLASS_SCHEDULE, course);
         UiManager.activityJump(getActivity(), bunble, MapActivity.class);
+    }
+
+    @Override
+    public void onEditCourseJoinNum(ClassSchedule course) {
+        course.setCourseTime(dateTag);
+        new DialogEditCourseNumIdentify(getActivity(),course)
+                .setOnCourseJoinNumListner(this)
+                .show();
+    }
+
+    @Override
+    public void onConfirmNum(String id, String attendance) {
+        presenter.registerCourseNum(id, attendance);
+    }
+
+    @Override
+    public void onRegisterCourseNumResult(boolean success) {
+        if (success) {
+            ToastGlobal.showShortConsecutive("登记成功");
+        } else {
+            ToastGlobal.showShortConsecutive("登记失败");
+        }
     }
 
     @Override
@@ -194,5 +217,6 @@ public class CourseScheduleFragment extends BaseFragment implements CurrentCours
         DialogUtils.releaseDialog();
         viewManager.onDestroy();
     }
+
 
 }
