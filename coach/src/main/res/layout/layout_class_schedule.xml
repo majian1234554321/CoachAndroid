@@ -8,17 +8,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="75dp"
         android:background="@color/base_theme">
 
+        <LinearLayout
+            android:layout_width="152dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerHan"
             android:layout_width="152dp"
             android:layout_height="41dp"
-            android:layout_centerInParent="true"
             android:background="@drawable/shape_radius_white"
             android:scrollbars="none" />
 
+            <TextView
+                android:id="@+id/txt_class_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-12 444444"
+                android:textColor="@color/black"
+                android:textSize="13dp"
+                android:layout_marginTop="8dp"
+
+                />
+        </LinearLayout>
         <!--android:nestedScrollingEnabled="false"-->
         <LinearLayout
             android:id="@+id/layout_pre_month"
@@ -122,15 +138,15 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txt_class_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2016-12 444444"
-                android:textColor="@color/black"
-                android:textSize="13dp"
+            <!--<TextView-->
+                <!--android:id="@+id/txt_class_number"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="2016-12 444444"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="13dp"-->
 
-                />
+                <!--/>-->
 
             <TextView
                 android:id="@+id/txt_sign_hint"
@@ -138,14 +154,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/please_sign_in_fifteen_minute"
-                android:textColor="@color/sixsixsix"
-                android:textSize="11dp"
+                android:textColor="@color/c9"
+                android:textSize="12dp"
                 android:visibility="visible" />
         </LinearLayout>
 
     </FrameLayout>
 
     <FrameLayout
+        android:background="@color/base_theme"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -50,6 +50,12 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         final ClassSchedule course = courseArray.get(position);
         holder.btSignState.setVisibility(View.VISIBLE);
         holder.btSignState.setClickable(false);
+
+        if (course.getCourseType() <= 0) {
+            holder.txtCourseJoinNum.setVisibility(View.GONE);
+        } else {
+            holder.txtCourseJoinNum.setVisibility(View.VISIBLE);
+        }
         switch (course.getCourseType()) {
             case 2:
                 holder.imgCourseState.setVisibility(View.VISIBLE);
@@ -66,7 +72,6 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
                 break;
             default:
                 holder.imgCourseState.setVisibility(View.GONE);
-
         }
         switch (course.getSignStatus()) {
             case 4:

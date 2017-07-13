@@ -31,12 +31,12 @@ public class NextMonthClassScheduleView extends BaseClassScheduleView {
             hint = courseResult.getDateTime() + " 已确认" + courseResult.getConfirm()
                     + "节课 " + courseResult.getMinute() + "分钟";
         }
-        txtClassNumber.setText(hint);
+        txtSignHint.setText(hint);
     }
 
     @Override
     public void setHintLayout(View txtSignHint) {
-        txtSignHint.setVisibility(View.GONE);
+        txtClassNumber.setVisibility(View.GONE);
     }
 
 

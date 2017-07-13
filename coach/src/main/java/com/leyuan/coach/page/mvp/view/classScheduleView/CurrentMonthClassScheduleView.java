@@ -17,7 +17,7 @@ public class CurrentMonthClassScheduleView extends BaseClassScheduleView {
 
     @Override
     public void setHintCourse(CourseResult courseResult) {
-        txtClassNumber.setText(courseResult.getDateTime() + " 本月共" + courseResult.getCourseSize() + "节课");
+        txtClassNumber.setText( "本月共" + courseResult.getCourseSize() + "节课");
         if (courseResult.getNormalCou() == 0 && courseResult.getAbnormalCou() == 0) {
             txtSignHint.setText("注:请于课前15分钟内签到");
         } else {

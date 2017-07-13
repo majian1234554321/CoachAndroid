@@ -342,6 +342,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onGetNewlyIncreaseCourseListResult(ArrayList<ClassSchedule> arrayList) {
         if (arrayList != null && !arrayList.isEmpty()) {
+            for(ClassSchedule course : arrayList){
+                course.setCourseType(ClassSchedule.CourseStatus.NEWLY_INCREASE);
+            }
+
             if (popupTackOver == null) {
                 popupTackOver = new PopupWindowTakeOverCourseNotify(this);
                 popupTackOver.setOnDismissListener(popupDismissListener);
