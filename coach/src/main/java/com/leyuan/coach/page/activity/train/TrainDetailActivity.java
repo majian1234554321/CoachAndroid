@@ -22,6 +22,7 @@ import com.leyuan.coach.page.adapter.ApplicantAdapter;
 import com.leyuan.coach.page.mvp.presenter.CampaignPresent;
 import com.leyuan.coach.page.mvp.view.TrainDetailViewListener;
 import com.leyuan.coach.widget.SwitcherLayout;
+import com.leyuan.commonlibrary.util.StringUtils;
 import com.zzhoujay.richtext.RichText;
 
 public class TrainDetailActivity extends BaseActivity implements View.OnClickListener, TrainDetailViewListener {
@@ -170,6 +171,9 @@ public class TrainDetailActivity extends BaseActivity implements View.OnClickLis
         tvCount.setText(String.format(getString(R.string.applicant_count),
                 bean.getAlreadyPerson(), bean.getAllowPerson()));
         tvPrice.setText(String.format(getString(R.string.rmb_price), bean.getPrice()));
+        if(StringUtils.isZeroString(bean.getPrice())){
+            tvPrice.setText(R.string.free);
+        }
         tvStartTimeTip.setText(String.format(getString(R.string.appoint_time),
                 bean.getSignStartTime()));
 //                bean.getStartDate()) + " " + bean.getStartTime());

@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MessagePresenter messagePresenter;
 
     private PopupWindowTakeOverCourseNotify popupTackOver;
+    private PopupWindowTakeOverCourseNotify popupNewLyCourse;
     private PopupWindowSuspendCourseNotify popupSuspend;
     private int tag = 0;
     //    private PermissionManager permissionManager;
@@ -346,11 +347,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 course.setCourseType(ClassSchedule.CourseStatus.NEWLY_INCREASE);
             }
 
-            if (popupTackOver == null) {
-                popupTackOver = new PopupWindowTakeOverCourseNotify(this);
-                popupTackOver.setOnDismissListener(popupDismissListener);
+            if (popupNewLyCourse == null) {
+                popupNewLyCourse = new PopupWindowTakeOverCourseNotify(this);
+                popupNewLyCourse.setOnDismissListener(popupDismissListener);
             }
-            popupTackOver.showAtBottom(arrayList);
+            popupNewLyCourse.showAtBottom(arrayList);
         }
     }
 

@@ -166,6 +166,27 @@ public abstract class PopupWindowClassNotify extends BaseCommonPopupWindow imple
         showAtBottom();
     }
 
+    public void showAtBottomAddData(ArrayList<ClassSchedule> arrayList){
+        if (arrayList == null) return;
+        this.arrayList.addAll(arrayList);
+        adapter = new PagerAdapterTakeCourse(context, this.arrayList);
+        viewPager.setAdapter(adapter);
+        llPointGroup.removeAllViews();
+        for (int i = 0; i < arrayList.size(); i++) {
+            View point = new View(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(widthPoint, widthPoint);
+            if (i > 0) {
+                params.leftMargin = pointMargin;
+                point.setBackgroundResource(R.drawable.shape_point_indicator_normal);
+            } else {
+                point.setBackgroundResource(R.drawable.shape_point_indicator_selector);
+            }
+            point.setLayoutParams(params);
+            llPointGroup.addView(point);
+        }
+        showAtBottom();
+    }
+
     @Override
     public void onAgreeResult(boolean success, int currentItem) {
 

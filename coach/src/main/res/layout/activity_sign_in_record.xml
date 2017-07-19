@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:imgEmpty="@drawable/icon_qiandao"
+            app:imgEmpty="@drawable/empty_sign_record"
             app:txtEmpty="@string/no_sign_record" />
 
         <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView

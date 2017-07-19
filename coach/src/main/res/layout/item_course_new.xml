@@ -46,9 +46,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxLength="10"
                     android:singleLine="true"
-                    android:text="@string/class_schedule"
+                    android:text="1111"
                     android:textColor="@color/c3"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -59,7 +58,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:ellipsize="end"
-                    android:maxLength="14"
                     android:singleLine="true"
                     android:text="11111111111111111"
                     android:textColor="@color/c3"
@@ -73,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:singleLine="true"
-                    android:text="222222222222222222"
+                    android:text="33"
                     android:textColor="@color/c9"
                     android:textSize="13dp" />
 
@@ -126,7 +124,7 @@
 
                 <Button
                     android:id="@+id/bt_sign_state"
-                    android:layout_width="50dp"
+                    android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="8dp"

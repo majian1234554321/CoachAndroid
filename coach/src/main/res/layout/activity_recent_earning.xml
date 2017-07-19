@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:imgEmpty="@drawable/icon_shouyi"
+            app:imgEmpty="@drawable/empty_i_mi"
             app:txtEmpty="暂无近期收益" />
 
         <android.support.v7.widget.RecyclerView

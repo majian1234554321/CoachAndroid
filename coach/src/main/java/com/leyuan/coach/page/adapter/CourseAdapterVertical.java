@@ -3,6 +3,7 @@ package com.leyuan.coach.page.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 
 import com.leyuan.coach.R;
 import com.leyuan.coach.bean.ClassSchedule;
+import com.leyuan.coach.utils.LogUtil;
+import com.leyuan.commonlibrary.util.MyDateUtils;
+import com.leyuan.commonlibrary.util.StringUtils;
 
 import java.util.ArrayList;
 
@@ -24,18 +28,25 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
     private Context context;
     private ArrayList<ClassSchedule> courseArray;
     private OnCourseItemClickListener listener;
+    private String cuurentDataTag;
 
     public CourseAdapterVertical(Context context, OnCourseItemClickListener listener) {
         this.context = context;
         this.listener = listener;
         mInflater = LayoutInflater.from(context);
+        cuurentDataTag = MyDateUtils.getCurrentDay();
 //        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
-    public void refreshData(ArrayList<ClassSchedule> courseArray) {
+    public void refreshData(ArrayList<ClassSchedule> courseArray, String calendarDateByPosition) {
         this.courseArray = courseArray;
         this.notifyDataSetChanged();
+        if(!TextUtils.isEmpty(calendarDateByPosition)){
+            cuurentDataTag = calendarDateByPosition;
+        }
+        LogUtil.i("CourseAdapterVertical refreshData  cuurentDataTag = " +  cuurentDataTag
+                +" MyDateUtils.isValidDya" +  MyDateUtils.isValidDya(cuurentDataTag));
     }
 
     @Override
@@ -50,6 +61,7 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
         final ClassSchedule course = courseArray.get(position);
         holder.btSignState.setVisibility(View.VISIBLE);
         holder.btSignState.setClickable(false);
+        holder.btSignState.setOnClickListener(null);
 
         if (course.getCourseType() <= 0) {
             holder.txtCourseJoinNum.setVisibility(View.GONE);
@@ -88,10 +100,31 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
             case 5:
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.singed));
+                if (course.getPrice() <= 0 && course.getAttendance() <= 0 && MyDateUtils.isValidDya(cuurentDataTag)) {
+                    holder.btSignState.setSelected(true);
+                    holder.btSignState.setText(context.getString(R.string.course_num));
+                    holder.btSignState.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onEditCourseJoinNum(course);
+                        }
+                    });
+                }
                 break;
             case 6:
                 holder.btSignState.setSelected(false);
                 holder.btSignState.setText(context.getString(R.string.beLate));
+                if (course.getPrice() <= 0 && course.getAttendance() <= 0&& MyDateUtils.isValidDya(cuurentDataTag)) {
+                    holder.btSignState.setSelected(true);
+                    holder.btSignState.setText(context.getString(R.string.course_num));
+                    holder.btSignState.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onEditCourseJoinNum(course);
+                        }
+                    });
+                }
+
                 break;
             case 7:
                 holder.btSignState.setSelected(false);
@@ -104,35 +137,21 @@ public class CourseAdapterVertical extends RecyclerView.Adapter<CourseAdapterVer
 
 //        holder.txtCourseTime.setText(course.getBeginTime() + "-" + course.getEndTime());
 
-        holder.txtCourseName.setText(course.getCourseName());
+        holder.txtCourseName.setText(StringUtils.endSubString(course.getCourseName(),12));
         holder.txtStoreName.setText("场馆: " + course.getStoreName());
         holder.txtCourseAddress.setText("地址: " + course.getAddress());
         holder.txtCourseStartTime.setText(Html.fromHtml("开始: <font color='#d51121'>" + course.getBeginTime() + "</font>"));
         holder.txtCourseEndTime.setText(Html.fromHtml("结束: <font color='#d51121'>" + course.getEndTime() + "</font>"));
         holder.txtCourseJoinNum.setText("人数:  " + course.getAppointed());
 
+        //注册监听的位置
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onItemClick(course);
             }
         });
-//        holder.txtCourseJoinNum.setVisibility(View.VISIBLE);
-        if (course.getPrice() <= 0 && course.getAttendance() <= 0) {
-            holder.txtCourseJoinNum.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onEditCourseJoinNum(course);
-                }
-            });
-        } else {
-            holder.txtCourseJoinNum.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
-        }
 
     }
 

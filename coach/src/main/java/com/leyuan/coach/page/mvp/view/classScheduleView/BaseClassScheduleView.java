@@ -162,7 +162,6 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
             bundle.putParcelableArrayList(ConstantString.ARRAY, myCalendars);
 
             listener.startActivityForResult(currentCalendarPosition, bundle);
-
         }
     };
 
@@ -240,11 +239,11 @@ public abstract class BaseClassScheduleView implements View.OnClickListener, Swi
     public void setCourseList(CourseResult courseResult) {
         swipeRefreshLayout.setRefreshing(false);
         if (courseResult == null) {
-            courseAdapterVertical.refreshData(null);
+            courseAdapterVertical.refreshData(null, CourseDateUtils.getCalendarDateByPosition(currentCalendarPosition, myCalendars));
             return;
         }
         setHintCourse(courseResult);
-        courseAdapterVertical.refreshData(courseResult.getCoachList());
+        courseAdapterVertical.refreshData(courseResult.getCoachList(),CourseDateUtils.getCalendarDateByPosition(currentCalendarPosition, myCalendars));
         if (courseResult.getCoachList() == null || courseResult.getCoachList().isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
         } else {

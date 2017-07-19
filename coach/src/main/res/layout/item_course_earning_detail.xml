@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="+1680"
+        android:layout_marginLeft="80dp"
+        android:text="门店/节"
         android:textColor="@color/black_gray"
         android:textSize="15sp" />
 

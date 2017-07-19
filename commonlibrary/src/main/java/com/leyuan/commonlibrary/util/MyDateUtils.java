@@ -186,6 +186,34 @@ public class MyDateUtils {
         return -1;
     }
 
+    public static boolean isValidDya(String dateTag) {
+
+
+        Calendar currentCalendar = Calendar.getInstance();
+
+        Calendar inCalendar = Calendar.getInstance();
+
+
+        try {
+            inCalendar.setTime(yearMonthDayFormat.parse(dateTag));
+//            inCalendar.add(Calendar.DAY_OF_MONTH,-1);
+//            Log.i("Calendar", "dateTag = " + dateTag+ ", inCalendar day " +inCalendar.get(Calendar
+// .DAY_OF_MONTH)+", currentCalendar.compareTo(inCalendar)  =  " + currentCalendar.compareTo(inCalendar));
+            if (currentCalendar.get(Calendar.DAY_OF_MONTH) == inCalendar.get(Calendar.DAY_OF_MONTH)) {
+                return true;
+            } else {
+                currentCalendar.add(Calendar.DAY_OF_MONTH, -1);
+                if (currentCalendar.get(Calendar.DAY_OF_MONTH) == inCalendar.get(Calendar.DAY_OF_MONTH)) {
+                    return true;
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public enum MonthIndex {
         MONTH_PRE, MONTH_CURRENT, MONTH_NEXT;
     }

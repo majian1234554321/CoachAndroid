@@ -25,6 +25,7 @@ import com.leyuan.coach.page.adapter.CourseAdapterHorizontal;
 import com.leyuan.coach.page.adapter.CourseAdapterVertical;
 import com.leyuan.coach.page.mvp.presenter.CurrentCoursePresenter;
 import com.leyuan.coach.page.mvp.view.CurrentCourseViewListener;
+import com.leyuan.coach.utils.CourseDateUtils;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.LinearLayoutManagerNoScroll;
 import com.leyuan.commonlibrary.manager.UiManager;
@@ -209,7 +210,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
         DialogUtils.dismissDialog();
 
         if (courseResult == null) {
-            courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>());
+            courseAdapterVertical.refreshData(new ArrayList<ClassSchedule>(), CourseDateUtils.getCalendarDateByPosition(currentCalendarPosition, myCalendars));
             return;
         }
         txtClassNumber.setText(courseResult.getDateTime() + " 本月共" + courseResult.getCourseSize() + "节课");
@@ -219,7 +220,7 @@ public class ClassScheduleFragment extends BaseFragment implements CourseAdapter
             txtSignAll.setText("正常签到" + courseResult.getNormalCou() + "节 " + "异常签到" + courseResult.getAbnormalCou() + "节");
         }
 
-        courseAdapterVertical.refreshData(courseResult.getCoachList());
+        courseAdapterVertical.refreshData(courseResult.getCoachList(), CourseDateUtils.getCalendarDateByPosition(currentCalendarPosition, myCalendars));
 
     }
 

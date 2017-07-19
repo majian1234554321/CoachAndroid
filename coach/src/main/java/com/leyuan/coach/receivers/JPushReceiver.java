@@ -91,6 +91,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+            case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
                 UiManager.activityJump(context, pushBundle, MainActivity.class,
                         Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;
@@ -109,6 +110,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+            case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
 //                if (!App.mActivities.isEmpty())
                 if (App.getInstance().isForeground)
                     UiManager.activityJump(context, pushBundle, MainActivity.class,

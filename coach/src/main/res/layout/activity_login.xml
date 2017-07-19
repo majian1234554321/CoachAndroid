@@ -34,7 +34,7 @@
        <ImageView
            android:layout_width="0.5dp"
            android:layout_height="25dp"
-            android:src="@color/white"
+            android:src="@color/black_gray"
            />
          <EditText
              android:id="@+id/edit_input_phone"
@@ -77,7 +77,7 @@
         <ImageView
             android:layout_width="0.5dp"
             android:layout_height="25dp"
-            android:src="@color/white"
+            android:src="@color/black_gray"
             />
         <EditText
 

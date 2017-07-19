@@ -1,5 +1,7 @@
 package com.leyuan.commonlibrary.util;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,5 +55,16 @@ public class StringUtils {
             return true;
         }
         return false;
+    }
+
+    public static String endSubString(String content, int limit) {
+        if (content.length() <= limit)
+            return content;
+        else
+            return content.substring(0, limit) + "...";
+    }
+
+    public static boolean isZeroString(String price) {
+        return TextUtils.equals("0", price) || TextUtils.equals("0.0", price) || TextUtils.equals("0.00", price);
     }
 }

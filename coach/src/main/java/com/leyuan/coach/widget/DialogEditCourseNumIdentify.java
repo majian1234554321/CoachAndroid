@@ -2,9 +2,11 @@ package com.leyuan.coach.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.leyuan.coach.utils.ToastGlobal;
 public class DialogEditCourseNumIdentify extends Dialog implements View.OnClickListener {
 
 
+    private  Context context;
     private ClassSchedule course;
     private TextView txtCourseName;
     private TextView txtCourseTime;
@@ -25,6 +28,7 @@ public class DialogEditCourseNumIdentify extends Dialog implements View.OnClickL
     public DialogEditCourseNumIdentify(Context context, ClassSchedule course) {
         super(context, R.style.MyDialog);
         this.course = course;
+        this.context = context;
     }
 
     @Override
@@ -50,7 +54,17 @@ public class DialogEditCourseNumIdentify extends Dialog implements View.OnClickL
     private void initData() {
         txtCourseName.setText(course.getCourseName());
         txtCourseTime.setText(course.getCourseTime());
-        getEditNum().setText(course.getAppointed()+"");
+        setOnShowListener(new OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                getEditNum().setFocusable(true);
+                getEditNum().setFocusableInTouchMode(true);
+                getEditNum().requestFocus();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(getEditNum(), InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+//        getEditNum().setText(course.getAppointed()+"");
     }
 //
 //    public DialogEditCourseNumIdentify setData(String courseName, String courseTime, String id) {

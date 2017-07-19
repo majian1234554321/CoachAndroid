@@ -26,7 +26,7 @@
     <color name="text_gray">#999999</color>
     <color name="txt_black">#333333</color>
     <color name="text_color_common">#999999</color>
-    <color name="common_divider_color">#cccccc</color>
+    <color name="common_divider_color">#dfe0e6</color>
     <color name="light_black">#333333</color>
     <color name="transpance">#00000000</color>
     <color name="light_white">#e6e6e6</color>
@@ -47,5 +47,7 @@
     <color name="line_color">#ebebeb</color>
     <color name="gray_normal">#666667</color>
     <color name="red_theme">#d51121</color>
+    <color name="ccc">#ccc</color>
+    <color name="base_backgroud">#e5e5e5</color>
 
 </resources>

@@ -3,6 +3,7 @@ package com.leyuan.coach.page.activity.mine;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.leyuan.coach.R;
@@ -12,6 +13,7 @@ import com.leyuan.coach.page.BaseActivity;
 import com.leyuan.coach.page.adapter.RecentEarningAdapter;
 import com.leyuan.coach.page.mvp.presenter.AccountBalancePresenter;
 import com.leyuan.coach.page.mvp.view.RecentEarningViewListener;
+import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.coach.widget.CommonEmptyLayout;
 import com.leyuan.coach.widget.CommonTitleLayout;
 import com.leyuan.commonlibrary.manager.UiManager;
@@ -39,10 +41,12 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             month = bundle.getString(ConstantString.MONTHS, MyDateUtils.getLastMonth());
+
+            LogUtil.i("RecentEarningActivity "," month = " + month);
         }
-//        else {
-//            month = MyDateUtils.getLastMonth();
-//        }
+        if(TextUtils.isEmpty(month)){
+            month = MyDateUtils.getLastMonth();
+        }
 
         layoutTitle = (CommonTitleLayout) findViewById(R.id.layout_title);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -77,7 +81,6 @@ public class RecentEarningActivity extends BaseActivity implements RecentEarning
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         presenter.getRecentEarning(month);
-
     }
 
     @Override

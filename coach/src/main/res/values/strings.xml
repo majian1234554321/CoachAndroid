@@ -1115,6 +1115,8 @@
     <string name="coach_date">Copyright @2015-2017</string>
     <string name="company_name">乐渊网络科技  (上海)  有限公司</string>
     <string name="train_empty">暂无培训</string>
+    <string name="course_num">上课人数</string>
+    <string name="free">免费</string>
 
 
 </resources>
