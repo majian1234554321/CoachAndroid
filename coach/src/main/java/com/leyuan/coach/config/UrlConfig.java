@@ -6,7 +6,7 @@ package com.leyuan.coach.config;
 
 public class UrlConfig {
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     private static String urlHtml;
     private static String urlHost;
