@@ -96,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:maxEms="6"
-                    android:text="1111111111111111111111111111"
+                    android:ellipsize="end"
+                    android:text="11111111"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 

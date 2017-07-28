@@ -72,7 +72,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
         ultimateList.reenableLoadmore();
         ultimateList.setOnLoadMoreListener(loadMoreListener);
 
-        ultimateList.setEmptyView(R.layout.empty_view,UltimateRecyclerView.EMPTY_CLEAR_ALL);
+        ultimateList.setEmptyView(R.layout.empty_view, UltimateRecyclerView.EMPTY_CLEAR_ALL);
 //        ultimateList.reenableLoadmore();
     }
 
@@ -83,6 +83,7 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
 
         imgLeft.setOnClickListener(this);
         txtTitle.setOnClickListener(this);
+        imgChoose.setOnClickListener(this);
 
     }
 
@@ -108,12 +109,10 @@ public class SignInRecordActivity extends BaseActivity implements View.OnClickLi
             case R.id.img_left:
                 finish();
                 break;
+            case R.id.img_choose:
             case txt_title:
                 popup.showAsDropDown(layoutTitle);
                 break;
-            case R.id.img_choose:
-                break;
-
         }
     }
 

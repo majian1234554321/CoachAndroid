@@ -321,6 +321,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onGetReplaceCourseListResult(ArrayList<ClassSchedule> arrayList) {
         if (arrayList != null && !arrayList.isEmpty()) {
+
+            for(ClassSchedule course : arrayList){
+                course.setCourseType(ClassSchedule.CourseStatus.TAKE_OVER);
+            }
+
             if (popupTackOver == null) {
                 popupTackOver = new PopupWindowTakeOverCourseNotify(this);
                 popupTackOver.setOnDismissListener(popupDismissListener);
@@ -333,6 +338,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onGetSuspendCourseList(ArrayList<ClassSchedule> arrayList) {
         if (arrayList != null && !arrayList.isEmpty()) {
             if (popupSuspend == null) {
+                for(ClassSchedule course : arrayList){
+                    course.setCourseType(ClassSchedule.CourseStatus.SUSPEND);
+                }
                 popupSuspend = new PopupWindowSuspendCourseNotify(this);
                 popupSuspend.setOnDismissListener(popupDismissListener);
             }
