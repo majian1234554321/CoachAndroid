@@ -53,6 +53,7 @@ public class SplashPresenter {
         Map<String, String> map = new HashMap<>();
         map.put(Manifest.permission.ACCESS_FINE_LOCATION, "请打开定位服务，以免造成上课无法正常签到");
         map.put(Manifest.permission.CALL_PHONE, "请打开电话服务，以正常使用应用");
+        map.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, "请打开存储服务，以正常使用应用");
 
         permissionManager = new PermissionManager(map, context, viewListener);
         permissionManager.checkPermissionList();

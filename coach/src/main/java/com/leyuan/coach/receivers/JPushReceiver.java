@@ -5,13 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
 import com.leyuan.coach.bean.PushExtroInfo;
+import com.leyuan.coach.config.Constant;
 import com.leyuan.coach.config.ConstantString;
 import com.leyuan.coach.page.App;
-import com.leyuan.coach.page.MainActivity;
-import com.leyuan.coach.page.activity.account.LoginActivity;
+import com.leyuan.coach.page.HtmlFiveActivity;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.UiManager;
 
@@ -39,6 +40,7 @@ public class JPushReceiver extends BroadcastReceiver {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             LogUtil.i(TAG, "[MyReceiver] 接收Registration Id : " + regId);
             App.getInstance().setJPushID(regId);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_SAVE_JPUSHID));
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             String value = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -74,6 +76,7 @@ public class JPushReceiver extends BroadcastReceiver {
 //        if (!App.mActivities.isEmpty())
         if (App.getInstance().isForeground)
             return;
+
         PushExtroInfo info = new Gson().fromJson(value, PushExtroInfo.class);
         Bundle pushBundle = new Bundle();
         pushBundle.putString(ConstantString.PUSH_BACKUP, info.getBackup());
@@ -82,18 +85,18 @@ public class JPushReceiver extends BroadcastReceiver {
         switch (info.getType()) {
             case PushExtroInfo.PushType.NEWS_MESSAGE:
             case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
-                if (App.getInstance().isLogin()) {
-                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                } else {
-                    UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
-                }
-                break;
+//                if (App.getInstance().isLogin()) {
+//                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                } else {
+//                    UiManager.activityJump(context, pushBundle, LoginActivity.class, Intent.FLAG_ACTIVITY_NEW_TASK);
+//                }
+//                break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
             case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
-                UiManager.activityJump(context, pushBundle, MainActivity.class,
-                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                UiManager.activityJump(context, pushBundle, HtmlFiveActivity.class,
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
                 break;
         }
     }
@@ -106,15 +109,31 @@ public class JPushReceiver extends BroadcastReceiver {
 
         switch (info.getType()) {
             case PushExtroInfo.PushType.NEWS_MESSAGE:
-                context.sendBroadcast(new Intent(NewMessageReceiver.ACTION));
+//                context.sendBroadcast(new Intent(NewMessageReceiver.ACTION));
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_NEWS_NESSAGE));
+
                 break;
             case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_CURRENT_TAKE_OVER_COURSE));
+
+                break;
             case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_SUSPEND_COURSE));
+                break;
             case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
 //                if (!App.mActivities.isEmpty())
-                if (App.getInstance().isForeground)
-                    UiManager.activityJump(context, pushBundle, MainActivity.class,
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_NEWLY_INCREASE_COURSE));
+
+//                if (App.getInstance().isForeground){
+//                    Intent intent = new Intent("");
+//                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+//
+//                }
+////                    UiManager.activityJump(context, pushBundle, MainActivity.class,
+//                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                break;
+            case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constant.BROADCAST_NOTIFY_NEXT_MONTH_COURSE));
                 break;
         }
     }
