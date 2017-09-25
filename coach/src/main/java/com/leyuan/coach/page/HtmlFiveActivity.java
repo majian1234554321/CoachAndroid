@@ -1,7 +1,6 @@
 package com.leyuan.coach.page;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -127,20 +126,25 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         mWebView.setWebViewClient(new WebViewClient() {
             @SuppressLint("AddJavascriptInterface")
-            @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                LogUtil.i(TAG, "mWebView.loadUrl onPageFinished");
+
                 mWebView.addJavascriptInterface(new MyJSInterface(HtmlFiveActivity.this), "android");
+
                 if (isFirst) {
                     isFirst = false;
-                    mWebView.evaluateJavascript("javascript:jpushId('" + App.getInstance().getJPushId() + "')", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String value) {
-                            LogUtil.i(TAG, "jpushId onReceiveValue = " + value);
-                        }
-                    });
-//                  mWebView.loadUrl("javascript:jpushId('" + App.getInstance().getJPushId() + "')");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        mWebView.evaluateJavascript("javascript:jpushId('" + App.getInstance().getJPushId() + "')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
+                                LogUtil.i(TAG, "jpushId onReceiveValue = " + value);
+                            }
+                        });
+                    }else {
+                        mWebView.loadUrl("javascript:jpushId('" + App.getInstance().getJPushId() + "')");
+                    }
                 }
 
                 Bundle bundle = getIntent().getExtras();
@@ -176,6 +180,8 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.bt_confirm).setOnClickListener(this);
         findViewById(R.id.bt_confirm).setVisibility(View.GONE);
 
+        LogUtil.i(TAG, "mWebView.loadUrl start");
+
         mWebView.loadUrl("http://m1.aidong.me/html/course.html#a?device=android&version=" +
                 App.getInstance().getVersionName() + "&deviceName=" + DeviceManager.getPhoneBrand());
 
@@ -204,14 +210,14 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
     // 5、覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //按下返回键并且webview界面可以返回
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack() ) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
 
-          String currentUrl = mWebView.copyBackForwardList().getCurrentItem().getUrl();
-            LogUtil.i(TAG,"current url = " +  currentUrl);
+            String currentUrl = mWebView.copyBackForwardList().getCurrentItem().getUrl();
+            LogUtil.i(TAG, "current url = " + currentUrl);
 
-            if(currentUrl!=null && currentUrl.contains("http://m1.aidong.me/html/course.html")){
+            if (currentUrl != null && currentUrl.contains("http://m1.aidong.me/html/course.html")) {
                 onBackPressed();
-            }else {
+            } else {
                 mWebView.goBack();
             }
 
@@ -232,7 +238,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        LogUtil.i(TAG,"onBackPressed");
+        LogUtil.i(TAG, "onBackPressed");
         long mNowTime = System.currentTimeMillis();//获取第一次按键时间
         if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -257,7 +263,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         @JavascriptInterface
         public void exitApplication() {
-            LogUtil.i(TAG,"invoke my exitApp");
+            LogUtil.i(TAG, "invoke my exitApp");
             exitApp();
         }
 
