@@ -29,6 +29,7 @@ import com.leyuan.coach.pay.PayInterface;
 import com.leyuan.coach.pay.WeiXinPay;
 import com.leyuan.coach.utils.LogUtil;
 import com.leyuan.commonlibrary.manager.DeviceManager;
+import com.leyuan.commonlibrary.manager.TelephoneManager;
 
 import static com.leyuan.coach.R.id.webView;
 
@@ -182,8 +183,9 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         LogUtil.i(TAG, "mWebView.loadUrl start");
 
-        mWebView.loadUrl("http://m1.aidong.me/html/course.html#a?device=android&version=" +
-                App.getInstance().getVersionName() + "&deviceName=" + DeviceManager.getPhoneBrand());
+//        ?device=android&version=" +
+//        App.getInstance().getVersionName() + "&deviceName=" + DeviceManager.getPhoneBrand()
+        mWebView.loadUrl("http://m1.aidong.me/html/course.html#a");
 
     }
 
@@ -316,6 +318,15 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
             return "return fitnessPay from android ";
         }
+
+        @JavascriptInterface
+        public void callTelephone(String phoneNumber) {
+            LogUtil.i("html js : callTelephone invoked-----" + phoneNumber);
+
+            TelephoneManager.callImmediate(HtmlFiveActivity.this, phoneNumber);
+        }
+
+
     }
 
 
