@@ -95,7 +95,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
     private void initWebView() {
         mWebView = (WebView) findViewById(webView);
 
-        mWebView.clearCache(true);
+//        mWebView.clearCache(true);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -132,10 +132,9 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
                 super.onPageFinished(view, url);
                 LogUtil.i(TAG, "mWebView.loadUrl onPageFinished");
 
-                mWebView.addJavascriptInterface(new MyJSInterface(HtmlFiveActivity.this), "android");
-
                 if (isFirst) {
                     isFirst = false;
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         mWebView.evaluateJavascript("javascript:jpushId('" + App.getInstance().getJPushId() + "')", new ValueCallback<String>() {
                             @Override
@@ -146,26 +145,26 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
                     }else {
                         mWebView.loadUrl("javascript:jpushId('" + App.getInstance().getJPushId() + "')");
                     }
-                }
 
-                Bundle bundle = getIntent().getExtras();
-                if (bundle == null) return;
-                String backup = bundle.getString(ConstantString.PUSH_BACKUP, "0");
-                int type = bundle.getInt(ConstantString.PUSH_TYPE, 0);
-                LogUtil.i(TAG, "backup = " + backup + ", type = " + type);
-                switch (type) {
-                    case PushExtroInfo.PushType.NEWS_MESSAGE:
-                        mWebView.loadUrl("javascript:sendMessage('" + backup + "')");
-                        break;
-                    case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
-                        mWebView.loadUrl("javascript:nextMonthCourse('" + backup + "')");
-                        break;
-                    case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
-                        break;
-                    case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
-                        break;
-                    case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
-                        break;
+                    Bundle bundle = getIntent().getExtras();
+                    if (bundle == null) return;
+                    String backup = bundle.getString(ConstantString.PUSH_BACKUP, "0");
+                    int type = bundle.getInt(ConstantString.PUSH_TYPE, 0);
+                    LogUtil.i(TAG, "backup = " + backup + ", type = " + type);
+                    switch (type) {
+                        case PushExtroInfo.PushType.NEWS_MESSAGE:
+                            mWebView.loadUrl("javascript:sendMessage('" + backup + "')");
+                            break;
+                        case PushExtroInfo.PushType.MEXT_MONTH_UNCONFIRMED:
+                            mWebView.loadUrl("javascript:nextMonthCourse('" + backup + "')");
+                            break;
+                        case PushExtroInfo.PushType.CURRENT_TAKE_OVER_COURSE:
+                            break;
+                        case PushExtroInfo.PushType.NOTIFY_SUSPEND_COURSE:
+                            break;
+                        case PushExtroInfo.PushType.NEWLY_INCREASE_COURSE:
+                            break;
+                    }
                 }
             }
 
@@ -182,9 +181,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.bt_confirm).setVisibility(View.GONE);
 
         LogUtil.i(TAG, "mWebView.loadUrl start");
-
-//        ?device=android&version=" +
-//        App.getInstance().getVersionName() + "&deviceName=" + DeviceManager.getPhoneBrand()
+        mWebView.addJavascriptInterface(new MyJSInterface(HtmlFiveActivity.this), "android");
         mWebView.loadUrl("http://m1.aidong.me/html/course.html#a");
 
     }
