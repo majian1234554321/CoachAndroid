@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.tencent.tinker.patch'
 
 android {
     signingConfigs {
@@ -49,6 +50,12 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     compile project(path: ':commonlibrary')
+
+    //可选，用于生成application类
+//    provided('com.tencent.tinker:tinker-android-anno:1.8.0')
+//    //tinker的核心库
+//    compile('com.tencent.tinker:tinker-android-lib:1.8.0')
+
 //    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
