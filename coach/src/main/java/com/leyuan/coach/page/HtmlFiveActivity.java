@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -42,6 +43,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
     private static final java.lang.String TAG = "HtmlFiveActivity";
     private WebView mWebView;
     private Gson gson = new Gson();
+    private String currentCourseId;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -66,6 +68,11 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
                 case Constant.BROADCAST_NOTIFY_SAVE_JPUSHID:
                     mWebView.loadUrl("javascript:jpushId('" + App.getInstance().getJPushId() + "')");
                     break;
+                case Constant.BROADCAST_LOCATION_SUCCESS:
+                    if (currentCourseId != null)
+                        mWebView.loadUrl("javascript:getlnla('" + App.lat + "','" + App.lon + "','" + currentCourseId + "')");
+                    currentCourseId = null;
+                    break;
             }
         }
     };
@@ -88,6 +95,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
         filter.addAction(Constant.BROADCAST_NOTIFY_NEWS_NESSAGE);
         filter.addAction(Constant.BROADCAST_NOTIFY_NEXT_MONTH_COURSE);
         filter.addAction(Constant.BROADCAST_NOTIFY_SAVE_JPUSHID);
+        filter.addAction(Constant.BROADCAST_LOCATION_SUCCESS);
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
     }
 
@@ -142,7 +150,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
                                 LogUtil.i(TAG, "jpushId onReceiveValue = " + value);
                             }
                         });
-                    }else {
+                    } else {
                         mWebView.loadUrl("javascript:jpushId('" + App.getInstance().getJPushId() + "')");
                     }
 
@@ -182,7 +190,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         LogUtil.i(TAG, "mWebView.loadUrl start");
         mWebView.addJavascriptInterface(new MyJSInterface(HtmlFiveActivity.this), "android");
-        mWebView.loadUrl("http://m1.aidong.me/html/course.html#a");
+        mWebView.loadUrl("http://m1.aidong.me/html/course.jsp#a");
 
     }
 
@@ -214,7 +222,11 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
             String currentUrl = mWebView.copyBackForwardList().getCurrentItem().getUrl();
             LogUtil.i(TAG, "current url = " + currentUrl);
 
-            if (currentUrl != null && currentUrl.contains("http://m1.aidong.me/html/course.html")) {
+            if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#d", currentUrl)) {
+                mWebView.loadUrl("javascript:colseDate()");
+            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#m", currentUrl)) {
+                mWebView.loadUrl("javascript: colseMap()");
+            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#a", currentUrl)) {
                 onBackPressed();
             } else {
                 mWebView.goBack();
@@ -323,7 +335,25 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
             TelephoneManager.callImmediate(HtmlFiveActivity.this, phoneNumber);
         }
 
+        @JavascriptInterface
+        public void locationService(String id) {
+            currentCourseId = id;
+            App.getInstance().startLocation();
+            LogUtil.i("h5 invoke locationService method");
 
+        }
+
+        @JavascriptInterface
+        public void startLocation() {
+            App.getInstance().startLocation();
+            mWebView.loadUrl("javascript:getlnla('" + App.lat + "','" + App.lon + "')");
+        }
+
+        @JavascriptInterface
+        public String getLocation() {
+//            return new double[]{App.lat, App.lon};
+            return App.lat + "#" + App.lon;
+        }
     }
 
 
