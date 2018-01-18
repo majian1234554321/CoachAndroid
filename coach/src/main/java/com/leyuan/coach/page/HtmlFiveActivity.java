@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -223,22 +222,17 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
             String currentUrl = mWebView.copyBackForwardList().getCurrentItem().getUrl();
             LogUtil.i(TAG, "current url = " + currentUrl + ",  call upperlevel");
 
-            if (TextUtils.equals("http://m1.aidong.me/dist/#/couse", currentUrl)
-                    || TextUtils.equals("http://m1.aidong.me/dist/#/login", currentUrl)
-                    || TextUtils.equals("http://m1.aidong.me/dist/#/train", currentUrl)
-                    || TextUtils.equals("http://m1.aidong.me/dist/#/mypage", currentUrl)
-                    ) {
-                onBackPressed();
-            }else {
-                mWebView.goBack();
-            }
-
-
-//            if( mWebView.canGoBack()){
+//            if (TextUtils.equals("http://m1.aidong.me/dist/#/couse", currentUrl)
+//                    || TextUtils.equals("http://m1.aidong.me/dist/#/login", currentUrl)
+//                    || TextUtils.equals("http://m1.aidong.me/dist/#/train", currentUrl)
+//                    || TextUtils.equals("http://m1.aidong.me/dist/#/mypage", currentUrl)
+//                    ) {
+//                onBackPressed();
+//            }else {
 //                mWebView.goBack();
-//            }else{
-//                mWebView.loadUrl("javascript:upperlevel()");
 //            }
+
+            mWebView.loadUrl("javascript:upperlevel()");
 
 
 //            if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#d", currentUrl)) {
