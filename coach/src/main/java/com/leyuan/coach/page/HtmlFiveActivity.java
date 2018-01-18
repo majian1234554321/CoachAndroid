@@ -51,13 +51,13 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
             LogUtil.i(TAG, "onReceive action = " + intent.getAction());
             switch (intent.getAction()) {
                 case Constant.BROADCAST_NOTIFY_CURRENT_TAKE_OVER_COURSE:
-                    mWebView.loadUrl("javascript:daiCourse()");
+                    mWebView.loadUrl("javascript:daike()");
                     break;
                 case Constant.BROADCAST_NOTIFY_SUSPEND_COURSE:
-                    mWebView.loadUrl("javascript:closedCourse()");
+                    mWebView.loadUrl("javascript:tingke()");
                     break;
                 case Constant.BROADCAST_NOTIFY_NEWLY_INCREASE_COURSE:
-                    mWebView.loadUrl("javascript:addCourse()");
+                    mWebView.loadUrl("javascript:addke()");
                     break;
                 case Constant.BROADCAST_NOTIFY_NEWS_NESSAGE:
                     mWebView.loadUrl("javascript:sendMessageTip()");
@@ -111,13 +111,14 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         webSettings.setAllowFileAccess(true);// 设置允许访问文件数据 v
 
-        webSettings.setSupportZoom(true);
+        webSettings.setSupportZoom(false);
 
-        webSettings.setBuiltInZoomControls(true);
+        webSettings.setBuiltInZoomControls(false);
         //        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         //        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         webSettings.setDomStorageEnabled(true);
+
 
         webSettings.setDatabaseEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient() {
@@ -190,7 +191,8 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         LogUtil.i(TAG, "mWebView.loadUrl start");
         mWebView.addJavascriptInterface(new MyJSInterface(HtmlFiveActivity.this), "android");
-        mWebView.loadUrl("http://m1.aidong.me/html/course.jsp#a");
+//        mWebView.loadUrl("http://m1.aidong.me/html/course.jsp#a");
+        mWebView.loadUrl("http://m1.aidong.me/dist/#/couse");
 
     }
 
@@ -218,19 +220,36 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //按下返回键并且webview界面可以返回
         if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
-
             String currentUrl = mWebView.copyBackForwardList().getCurrentItem().getUrl();
-            LogUtil.i(TAG, "current url = " + currentUrl);
+            LogUtil.i(TAG, "current url = " + currentUrl + ",  call upperlevel");
 
-            if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#d", currentUrl)) {
-                mWebView.loadUrl("javascript:colseDate()");
-            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#m", currentUrl)) {
-                mWebView.loadUrl("javascript: colseMap()");
-            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#a", currentUrl)) {
+            if (TextUtils.equals("http://m1.aidong.me/dist/#/couse", currentUrl)
+                    || TextUtils.equals("http://m1.aidong.me/dist/#/login", currentUrl)
+                    || TextUtils.equals("http://m1.aidong.me/dist/#/train", currentUrl)
+                    || TextUtils.equals("http://m1.aidong.me/dist/#/mypage", currentUrl)
+                    ) {
                 onBackPressed();
-            } else {
+            }else {
                 mWebView.goBack();
             }
+
+
+//            if( mWebView.canGoBack()){
+//                mWebView.goBack();
+//            }else{
+//                mWebView.loadUrl("javascript:upperlevel()");
+//            }
+
+
+//            if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#d", currentUrl)) {
+//                mWebView.loadUrl("javascript:colseDate()");
+//            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#m", currentUrl)) {
+//                mWebView.loadUrl("javascript: colseMap()");
+//            } else if (TextUtils.equals("http://m1.aidong.me/html/course.jsp#a", currentUrl)) {
+//                onBackPressed();
+//            } else {
+//
+//            }
 
 //            if(!urlsLoded.isEmpty()){
 //                LogUtil.i(TAG,"mWebView.canGoBack()");
@@ -239,6 +258,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 //                LogUtil.i(TAG,"mWebView.canGoBack false exitApp" );
 //                exitApp();
 //            }
+
 
             return true;
         }
@@ -250,6 +270,17 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         LogUtil.i(TAG, "onBackPressed");
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        } else {//退出程序
+            exitApp();
+        }
+    }
+
+    public void onMineBackPressed() {
+        LogUtil.i(TAG, "onMineBackPressed");
         long mNowTime = System.currentTimeMillis();//获取第一次按键时间
         if ((mNowTime - mPressedTime) > 2000) {//比较两次按键时间差
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -275,7 +306,7 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
         @JavascriptInterface
         public void exitApplication() {
             LogUtil.i(TAG, "invoke my exitApp");
-            exitApp();
+            onMineBackPressed();
         }
 
         @JavascriptInterface
@@ -291,7 +322,6 @@ public class HtmlFiveActivity extends BaseActivity implements View.OnClickListen
 
         @JavascriptInterface
         public String getVersion() {
-
             return App.getInstance().getVersionName();
         }
 
