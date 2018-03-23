@@ -311,6 +311,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden">
 
         </activity>
+
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
